@@ -10,15 +10,29 @@ namespace MtgApiManager.Lib.Dto.Cards
     [DataContract]
     public class Ruling
     {
-        [DataMember(Name = "date")]
-        public DateTime Date
+        [IgnoreDataMember]
+        public DateTime? Date
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.DateString))
+                {
+                    return null;
+                }
+
+                return DateTime.Parse(this.DateString);
+            }
+        }
+
+        [DataMember(Name = "text")]
+        public string Text
         {
             get;
             set;
         }
 
-        [DataMember(Name = "text")]
-        public string Text
+        [DataMember(Name = "date")]
+        private string DateString
         {
             get;
             set;

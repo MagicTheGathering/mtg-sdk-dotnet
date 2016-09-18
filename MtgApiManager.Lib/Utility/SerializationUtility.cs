@@ -10,9 +10,9 @@ namespace MtgApiManager.Lib.Utility
     using System.Text;
 
     /// <summary>
-    /// Utility class related to web.
+    /// Utility class related to serialization.
     /// </summary>
-    public class WebUtility
+    public class SerializationUtility
     {
         /// <summary>
         /// Deserialize the JSON content string into the given type.
@@ -20,7 +20,7 @@ namespace MtgApiManager.Lib.Utility
         /// <typeparam name="T">The type of object to deserialize into.</typeparam>
         /// <param name="content">The string content to deserialize</param>
         /// <returns>A <see cref="{DeSerializeJson<T>}"/> filled with the content of the json string.</returns>
-        public static T DeserializeJson<T>(string content)
+        public static T DeserializeDataContractJson<T>(string content)
         {
             if (string.IsNullOrWhiteSpace(content))
             {

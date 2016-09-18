@@ -7,16 +7,16 @@ namespace MtgApiManager.Lib.Test.Utility
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Tests the functionality of the <see cref="WebUtility"/> class.
+    /// Tests the functionality of the <see cref="SerializationUtility"/> class.
     /// </summary>
     [TestClass]
-    public class WebUtilityTest
+    public class SerializationUtilityTest
     {
         /// <summary>
-        /// Tests the <see cref="WebUtility.DeserializeJson{T}(string)"/> method.
+        /// Tests the <see cref="SerializationUtilityTest.DeserializeDataContractJson{T}(string)"/> method.
         /// </summary>
         [TestMethod]
-        public void DeserializeJsonTest()
+        public void DeserializeDataContractJsonTest()
         {
         }
     }

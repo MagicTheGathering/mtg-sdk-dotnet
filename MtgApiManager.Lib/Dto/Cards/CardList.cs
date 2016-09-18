@@ -11,7 +11,7 @@ namespace MtgApiManager.Lib.Dto.Cards
     /// Object representing a list of cards.
     /// </summary>
     [DataContract]
-    public class CardList
+    public class CardList : MtgResponseBase
     {
         [DataMember(Name = "cards")]
         public List<Card> Cards

@@ -8,7 +8,7 @@ namespace MtgApiManager.Lib.Dto.Cards
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class Card
+    public class Card : MtgResponseBase
     {
         [DataMember(Name = "artist")]
         public string Artist
@@ -171,11 +171,18 @@ namespace MtgApiManager.Lib.Dto.Cards
             set;
         }
 
-        [DataMember(Name = "releaseDate")]
+        [IgnoreDataMember]
         public DateTime? ReleaseDate
         {
-            get;
-            set;
+            get
+            {
+                if (string.IsNullOrWhiteSpace(this.ReleaseDateString))
+                {
+                    return null;
+                }
+
+                return DateTime.Parse(this.ReleaseDateString);
+            }
         }
 
         [DataMember(Name = "reserved")]
@@ -278,6 +285,13 @@ namespace MtgApiManager.Lib.Dto.Cards
 
         [DataMember(Name = "watermark")]
         public string Watermark
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = "releaseDate")]
+        private string ReleaseDateString
         {
             get;
             set;
