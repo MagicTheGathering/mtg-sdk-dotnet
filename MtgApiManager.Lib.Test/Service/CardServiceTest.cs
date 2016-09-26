@@ -18,8 +18,6 @@ namespace MtgApiManager.Lib.Test.Service
         [TestMethod]
         public void ContructorTest()
         {
-            var service = new CardService();
-            var result = service.Find(1212121212);
         }
     }
 }
