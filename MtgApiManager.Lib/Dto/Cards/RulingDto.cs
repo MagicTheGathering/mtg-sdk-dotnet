@@ -5,12 +5,11 @@
 namespace MtgApiManager.Lib.Dto.Cards
 {
     using System;
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    [DataContract]
-    public class Ruling
+    public class RulingDto
     {
-        [IgnoreDataMember]
+        [JsonIgnore]
         public DateTime? Date
         {
             get
@@ -24,14 +23,14 @@ namespace MtgApiManager.Lib.Dto.Cards
             }
         }
 
-        [DataMember(Name = "text")]
+        [JsonProperty(PropertyName = "text")]
         public string Text
         {
             get;
             set;
         }
 
-        [DataMember(Name = "date")]
+        [JsonProperty(PropertyName = "date")]
         private string DateString
         {
             get;

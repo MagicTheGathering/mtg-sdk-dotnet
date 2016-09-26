@@ -9,12 +9,12 @@ namespace MtgApiManager.Lib.Core
     /// <summary>
     /// Represents the api versions.
     /// </summary>
-    public enum ApiVersions
+    public enum ApiVersion
     {
         /// <summary>
         /// No api version.
         /// </summary>
-        [Description("None")]
+        [Description("none")]
         None = 0,
 
         /// <summary>

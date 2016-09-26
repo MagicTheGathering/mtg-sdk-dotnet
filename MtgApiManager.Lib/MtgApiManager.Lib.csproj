@@ -30,9 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ApiEndPoints.cs" />
-    <Compile Include="Core\ApiVersions.cs" />
+    <Compile Include="Core\ApiEndPoint.cs" />
+    <Compile Include="Core\ApiVersion.cs" />
     <Compile Include="Core\Exceptions\BadRequestException.cs" />
     <Compile Include="Core\Exceptions\ForbiddenException.cs" />
     <Compile Include="Core\Exceptions\InternalServerErrorException.cs" />
@@ -52,12 +57,14 @@
     <Compile Include="Core\IMtgApiServiceAdapter.cs" />
     <Compile Include="Core\MtgApiError.cs" />
     <Compile Include="Core\MtgApiException.cs" />
+    <Compile Include="Core\MtgApiController.cs" />
     <Compile Include="Core\MtgApiServiceAdapter.cs" />
-    <Compile Include="Dto\Cards\Card.cs" />
-    <Compile Include="Dto\Cards\CardList.cs" />
-    <Compile Include="Dto\Cards\ForeignName.cs" />
-    <Compile Include="Dto\Cards\Legality.cs" />
-    <Compile Include="Dto\Cards\Ruling.cs" />
+    <Compile Include="Dto\Cards\CardDto.cs" />
+    <Compile Include="Dto\Cards\RootCardDto.cs" />
+    <Compile Include="Dto\Cards\RootCardListDto.cs" />
+    <Compile Include="Dto\Cards\ForeignNameDto.cs" />
+    <Compile Include="Dto\Cards\LegalityDto.cs" />
+    <Compile Include="Dto\Cards\RulingDto.cs" />
     <Compile Include="Dto\MtgResponseBase.cs" />
     <Compile Include="Model\Card\Card.cs" />
     <Compile Include="Model\Card\ForeignName.cs" />
@@ -69,7 +76,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utility\SerializationUtility.cs" />
+    <Compile Include="Service\CardService.cs" />
+    <Compile Include="Service\IMtgQueryable.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Service\ServiceBase.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Utility\Extensions.cs" />
+    <Compile Include="Utility\QueryUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -77,7 +92,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

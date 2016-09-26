@@ -4,26 +4,25 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto.Cards
 {
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    [DataContract]
-    public class ForeignName
+    public class ForeignNameDto
     {
-        [DataMember(Name = "language")]
+        [JsonProperty(PropertyName = "language")]
         public string Language
         {
             get;
             set;
         }
 
-        [DataMember(Name = "multiverseid")]
+        [JsonProperty(PropertyName = "multiverseid")]
         public int MultiverseId
         {
             get;
             set;
         }
 
-        [DataMember(Name = "name")]
+        [JsonProperty(PropertyName = "name")]
         public string Name
         {
             get;

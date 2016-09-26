@@ -4,19 +4,18 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto.Cards
 {
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    [DataContract]
-    public class Legality
+    public class LegalityDto
     {
-        [DataMember(Name = "format")]
+        [JsonProperty(PropertyName = "format")]
         public string Format
         {
             get;
             set;
         }
 
-        [DataMember(Name = "legality")]
+        [JsonProperty(PropertyName = "legality")]
         public string LegalityName
         {
             get;

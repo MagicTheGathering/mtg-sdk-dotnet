@@ -21,9 +21,6 @@ namespace MtgApiManager.Lib.Test.Core
         [TestMethod]
         public void WebGetAsyncTest()
         {
-            MtgApiServiceAdapter adapter = new MtgApiServiceAdapter();
-
-            var result = adapter.WebGetAsync<CardList>(new System.Uri("https://api.magicthegathering.io/v1/cards")).Result;
         }
     }
 }

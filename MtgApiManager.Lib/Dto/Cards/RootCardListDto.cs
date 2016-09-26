@@ -5,16 +5,15 @@
 namespace MtgApiManager.Lib.Dto.Cards
 {
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// Object representing a list of cards.
+    /// Object representing a the root wrapper to read a list of cards.
     /// </summary>
-    [DataContract]
-    public class CardList : MtgResponseBase
+    public class RootCardListDto : MtgResponseBase
     {
-        [DataMember(Name = "cards")]
-        public List<Card> Cards
+        [JsonProperty(PropertyName = "cards")]
+        public List<CardDto> Cards
         {
             get;
             set;

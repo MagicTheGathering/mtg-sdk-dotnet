@@ -5,361 +5,440 @@
 namespace MtgApiManager.Lib.Model.Card
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Dto.Cards;
 
     /// <summary>
-    /// Object representing a mtg card.
+    /// Object representing a MTG card.
     /// </summary>
     public class Card
     {
         /// <summary>
-        /// Gets or sets the artist of the card.
+        /// Gets the artist of the card.
         /// </summary>
         public string Artist
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the border of the card. If the border for this specific card is DIFFERENT than the border specified in the top level set JSON, then it will be specified here. (Example: Unglued has silver borders, except for the lands which are black bordered)
+        /// Gets the border of the card. If the border for this specific card is DIFFERENT than the border specified in the top level set JSON, then it will be specified here. (Example: Unglued has silver borders, except for the lands which are black bordered)
         /// </summary>
         public string Border
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the converted mana cost.
+        /// Gets the converted mana cost.
         /// </summary>
         public int? Cmc
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the card colors. Usually this is derived from the casting cost, but some cards are special (like the back of dual sided cards and Ghostfire).
+        /// Gets the card colors. Usually this is derived from the casting cost, but some cards are special (like the back of dual sided cards and Ghostfire).
         /// </summary>
         public string[] Colors
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the flavor text of the card.
+        /// Gets the flavor text of the card.
         /// </summary>
         public string Flavor
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Get or sets the foreign language names for the card, if this card in this set was printed in another language. Not available for all sets.
+        /// Gets the foreign language names for the card, if this card in this set was printed in another language. Not available for all sets.
         /// </summary>
-        public ForeignName[] ForeignNames
+        public List<ForeignName> ForeignNames
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the maximum hand size modifier. Only exists for Vanguard cards.
+        /// Gets the maximum hand size modifier. Only exists for Vanguard cards.
         /// </summary>
         public int? Hand
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the identifier of the card.
+        /// Gets the identifier of the card.
         /// </summary>
         public string Id
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the image URL for a card. Only exists if the card has a multiverse id.
+        /// Gets the image URL for a card. Only exists if the card has a multiverse id.
         /// </summary>
         public Uri ImageUrl
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard
+        /// Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard
         /// </summary>
         public string Layout
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Get or sets which formats this card is legal, restricted or banned
+        /// Gets which formats this card is legal, restricted or banned
         /// </summary>
-        public Legality[] Legalities
+        public List<Legality> Legalities
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Get or sets the starting life total modifier. Only exists for Vanguard cards.
+        /// Gets the starting life total modifier. Only exists for Vanguard cards.
         /// </summary>
         public int? Life
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the loyalty of the card. This is only present for planeswalkers.
+        /// Gets the loyalty of the card. This is only present for planeswalkers.
         /// </summary>
         public string Loyalty
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the mana cost of this card. Consists of one or more mana symbols.
+        /// Gets the mana cost of this card. Consists of one or more mana symbols.
         /// </summary>
         public string ManaCost
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
+        /// Gets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
         /// </summary>
         public int? MultiverseId
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the card name. For split, double-faced and flip cards, just the name of one side of the card. Basically each ‘sub-card’ has its own record.
+        /// Gets the card name. For split, double-faced and flip cards, just the name of one side of the card. Basically each ‘sub-card’ has its own record.
         /// </summary>
         public string Name
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the names of the card. Only used for split, flip and dual cards. Will contain all the names on this card, front or back.
+        /// Gets the names of the card. Only used for split, flip and dual cards. Will contain all the names on this card, front or back.
         /// </summary>
         public string[] Names
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the card number. This is printed at the bottom-center of the card in small text..
+        /// Gets the card number. This is printed at the bottom-center of the card in small text..
         /// </summary>
         public string Number
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the original text on the card at the time it was printed. This field is not available for promo cards.
+        /// Gets the original text on the card at the time it was printed. This field is not available for promo cards.
         /// </summary>
         public string OriginalText
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the original type on the card at the time it was printed. This field is not available for promo cards.
+        /// Gets the original type on the card at the time it was printed. This field is not available for promo cards.
         /// </summary>
         public string OriginalType
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the power of the card. This is only present for creatures.
+        /// Gets the power of the card. This is only present for creatures.
         /// </summary>
         public string Power
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the sets that this card was printed in, expressed as an array of set codes.
+        /// Gets the sets that this card was printed in, expressed as an array of set codes.
         /// </summary>
         public string[] Printings
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the rarity of the card. Examples: Common, Uncommon, Rare, Mythic Rare, Special, Basic Land
+        /// Gets the rarity of the card. Examples: Common, Uncommon, Rare, Mythic Rare, Special, Basic Land
         /// </summary>
         public string Rarity
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the date this card was released. This is only set for promo cards. The date may not be accurate to an exact day and month, thus only a partial date may be set (YYYY-MM-DD or YYYY-MM or YYYY). Some promo cards do not have a known release date.
+        /// Gets the date this card was released. This is only set for promo cards. The date may not be accurate to an exact day and month, thus only a partial date may be set (YYYY-MM-DD or YYYY-MM or YYYY). Some promo cards do not have a known release date.
         /// </summary>
         public DateTime? ReleaseDate
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this card is reserved by Wizards Official Reprint Policy.
+        /// Gets a value indicating whether this card is reserved by Wizards Official Reprint Policy.
         /// </summary>
         public bool? Reserved
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the rulings for the card.
+        /// Gets the rulings for the card.
         /// </summary>
-        public Ruling[] Rulings
+        public List<Ruling> Rulings
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the set the card belongs to (set code).
+        /// Gets the set the card belongs to (set code).
         /// </summary>
         public string Set
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the set the card belongs to.
+        /// Gets the set the card belongs to.
         /// </summary>
         public string SetName
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets where this card was originally obtained for promo cards. For box sets that are theme decks, this is which theme deck the card is from.
+        /// Gets where this card was originally obtained for promo cards. For box sets that are theme decks, this is which theme deck the card is from.
         /// </summary>
         public string Source
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this card was only released as part of a core box set. These are technically part of the core sets and are tournament legal despite not being available in boosters.
+        /// Gets a value indicating whether this card was only released as part of a core box set. These are technically part of the core sets and are tournament legal despite not being available in boosters.
         /// </summary>
         public bool? Starter
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the he subtypes of the card. These appear to the right of the dash in a card type. Usually each word is its own subtype. Example values: Trap, Arcane, Equipment, Aura, Human, Rat, Squirrel, etc.
+        /// Gets the he subtypes of the card. These appear to the right of the dash in a card type. Usually each word is its own subtype. Example values: Trap, Arcane, Equipment, Aura, Human, Rat, Squirrel, etc.
         /// </summary>
         public string[] SubTypes
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the super types of the card. These appear to the far left of the card type. Example values: Basic, Legendary, Snow, World, Ongoing
+        /// Gets the super types of the card. These appear to the far left of the card type. Example values: Basic, Legendary, Snow, World, Ongoing
         /// </summary>
         public string[] SuperTypes
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the oracle text of the card. May contain mana symbols and other symbols.
+        /// Gets the oracle text of the card. May contain mana symbols and other symbols.
         /// </summary>
         public string Text
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether this card was a time shifted card in the set.
+        /// Gets the a value indicating whether this card was a time shifted card in the set.
         /// </summary>
         public bool? Timeshifted
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the toughness of the card. This is only present for creatures.
+        /// Gets the toughness of the card. This is only present for creatures.
         /// </summary>
         public string Toughness
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the card type. This is the type you would see on the card if printed today. Note: The dash is a UTF8 'long dash’ as per the MTG rules
+        /// Gets the card type. This is the type you would see on the card if printed today. Note: The dash is a UTF8 'long dash’ as per the MTG rules
         /// </summary>
         public string Type
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the types of the card. These appear to the left of the dash in a card type. Example values: Instant, Sorcery, Artifact, Creature, Enchantment, Land, Planeswalker
+        /// Gets the types of the card. These appear to the left of the dash in a card type. Example values: Instant, Sorcery, Artifact, Creature, Enchantment, Land, Planeswalker
         /// </summary>
         public string[] Types
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets if a card has alternate art (for example, 4 different Forests, or the 2 Brothers Yamazaki) then each other variation’s multiverseid will be listed here, NOT including the current card’s multiverseid.
+        /// Gets if a card has alternate art (for example, 4 different Forests, or the 2 Brothers Yamazaki) then each other variation’s multiverseid will be listed here, NOT including the current card’s multiverseid.
         /// </summary>
         public int[] Variations
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets the watermark on the card. Note: Split cards don’t currently have this field set, despite having a watermark on each side of the split card.
+        /// Gets the watermark on the card. Note: Split cards don’t currently have this field set, despite having a watermark on each side of the split card.
         /// </summary>
         public string Watermark
         {
             get;
-            set;
+            private set;
+        }
+
+        /// <summary>
+        /// Maps a single card dto to the card model.
+        /// </summary>
+        /// <param name="item">The card dto object.</param>
+        /// <returns>A card model.</returns>
+        public void MapCard(CardDto item)
+        {
+            this.Artist = item.Artist;
+            this.Border = item.Border;
+            this.Cmc = item.Cmc;
+            this.Colors = item.Colors;
+            this.Flavor = item.Flavor;
+            if (item.ForeignNames != null)
+            {
+                this.ForeignNames = item.ForeignNames
+                        .Select(x => new Model.Card.ForeignName()
+                        {
+                            Language = x.Language,
+                            MultiverseId = x.MultiverseId,
+                            Name = x.Name
+                        }).ToList();
+            }
+
+            this.Hand = item.Hand;
+            this.Id = item.Id;
+            this.ImageUrl = item.ImageUrl;
+            this.Layout = item.Layout;
+            if (item.Legalities != null)
+            {
+                this.Legalities = item.Legalities
+                        .Select(x => new Model.Card.Legality()
+                        {
+                            Format = x.Format,
+                            LegalityName = x.LegalityName
+                        }).ToList();
+            }
+
+            this.Life = item.Life;
+            this.Loyalty = item.Loyalty;
+            this.ManaCost = item.ManaCost;
+            this.MultiverseId = item.MultiverseId;
+            this.Name = item.Name;
+            this.Names = item.Names;
+            this.Number = item.Number;
+            this.OriginalText = item.OriginalText;
+            this.OriginalType = item.OriginalType;
+            this.Power = item.Power;
+            this.Printings = item.Printings;
+            this.Rarity = item.Rarity;
+            this.ReleaseDate = item.ReleaseDate;
+            this.Reserved = item.Reserved;
+            if (item.Rulings != null)
+            {
+                this.Rulings = item.Rulings
+                      .Select(x => new Model.Card.Ruling()
+                      {
+                          Date = x.Date,
+                          Text = x.Text
+                      }).ToList();
+            }
+
+            this.Set = item.Set;
+            this.SetName = item.SetName;
+            this.Source = item.Source;
+            this.Starter = item.Starter;
+            this.SubTypes = item.SubTypes;
+            this.SuperTypes = item.SuperTypes;
+            this.Text = item.Text;
+            this.Timeshifted = item.Timeshifted;
+            this.Toughness = item.Toughness;
+            this.Type = item.Type;
+            this.Types = item.Types;
+            this.Variations = item.Variations;
+            this.Watermark = item.Watermark;
         }
     }
 }

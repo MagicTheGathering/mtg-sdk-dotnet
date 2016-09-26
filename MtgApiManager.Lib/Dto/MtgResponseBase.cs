@@ -4,12 +4,9 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto
 {
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// Base class for an myg response.
     /// </summary>
-    [DataContract]
     public class MtgResponseBase
     {
     }

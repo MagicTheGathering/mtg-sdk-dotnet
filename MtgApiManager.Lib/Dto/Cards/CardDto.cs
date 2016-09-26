@@ -5,173 +5,172 @@
 namespace MtgApiManager.Lib.Dto.Cards
 {
     using System;
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    [DataContract]
-    public class Card : MtgResponseBase
+    public class CardDto
     {
-        [DataMember(Name = "artist")]
+        [JsonProperty(PropertyName = "artist")]
         public string Artist
         {
             get;
             set;
         }
 
-        [DataMember(Name = "border")]
+        [JsonProperty(PropertyName = "border")]
         public string Border
         {
             get;
             set;
         }
 
-        [DataMember(Name = "cmc")]
+        [JsonProperty(PropertyName = "cmc")]
         public int? Cmc
         {
             get;
             set;
         }
 
-        [DataMember(Name = "colors")]
+        [JsonProperty(PropertyName = "colors")]
         public string[] Colors
         {
             get;
             set;
         }
 
-        [DataMember(Name = "flavor")]
+        [JsonProperty(PropertyName = "flavor")]
         public string Flavor
         {
             get;
             set;
         }
 
-        [DataMember(Name = "foreignNames")]
-        public ForeignName[] ForeignNames
+        [JsonProperty(PropertyName = "foreignNames")]
+        public ForeignNameDto[] ForeignNames
         {
             get;
             set;
         }
 
-        [DataMember(Name = "hand")]
+        [JsonProperty(PropertyName = "hand")]
         public int? Hand
         {
             get;
             set;
         }
 
-        [DataMember(Name = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string Id
         {
             get;
             set;
         }
 
-        [DataMember(Name = "imageUrl")]
+        [JsonProperty(PropertyName = "imageUrl")]
         public Uri ImageUrl
         {
             get;
             set;
         }
 
-        [DataMember(Name = "layout")]
+        [JsonProperty(PropertyName = "layout")]
         public string Layout
         {
             get;
             set;
         }
 
-        [DataMember(Name = "legalities")]
-        public Legality[] Legalities
+        [JsonProperty(PropertyName = "legalities")]
+        public LegalityDto[] Legalities
         {
             get;
             set;
         }
 
-        [DataMember(Name = "life")]
+        [JsonProperty(PropertyName = "life")]
         public int? Life
         {
             get;
             set;
         }
 
-        [DataMember(Name = "loyalty")]
+        [JsonProperty(PropertyName = "loyalty")]
         public string Loyalty
         {
             get;
             set;
         }
 
-        [DataMember(Name = "manaCost")]
+        [JsonProperty(PropertyName = "manaCost")]
         public string ManaCost
         {
             get;
             set;
         }
 
-        [DataMember(Name = "multiverseid")]
+        [JsonProperty(PropertyName = "multiverseid")]
         public int? MultiverseId
         {
             get;
             set;
         }
 
-        [DataMember(Name = "name")]
+        [JsonProperty(PropertyName = "name")]
         public string Name
         {
             get;
             set;
         }
 
-        [DataMember(Name = "names")]
+        [JsonProperty(PropertyName = "names")]
         public string[] Names
         {
             get;
             set;
         }
 
-        [DataMember(Name = "number")]
+        [JsonProperty(PropertyName = "number")]
         public string Number
         {
             get;
             set;
         }
 
-        [DataMember(Name = "originalText")]
+        [JsonProperty(PropertyName = "originalText")]
         public string OriginalText
         {
             get;
             set;
         }
 
-        [DataMember(Name = "originalType")]
+        [JsonProperty(PropertyName = "originalType")]
         public string OriginalType
         {
             get;
             set;
         }
 
-        [DataMember(Name = "power")]
+        [JsonProperty(PropertyName = "power")]
         public string Power
         {
             get;
             set;
         }
 
-        [DataMember(Name = "printings")]
+        [JsonProperty(PropertyName = "printings")]
         public string[] Printings
         {
             get;
             set;
         }
 
-        [DataMember(Name = "rarity")]
+        [JsonProperty(PropertyName = "rarity")]
         public string Rarity
         {
             get;
             set;
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public DateTime? ReleaseDate
         {
             get
@@ -181,116 +180,116 @@ namespace MtgApiManager.Lib.Dto.Cards
                     return null;
                 }
 
-                return DateTime.Parse(this.ReleaseDateString);
+                return DateTime.Parse(this.ReleaseDateString); // TODO: change date to parse straight up since json.net can do that.
             }
         }
 
-        [DataMember(Name = "reserved")]
+        [JsonProperty(PropertyName = "reserved")]
         public bool? Reserved
         {
             get;
             set;
         }
 
-        [DataMember(Name = "rulings")]
-        public Ruling[] Rulings
+        [JsonProperty(PropertyName = "rulings")]
+        public RulingDto[] Rulings
         {
             get;
             set;
         }
 
-        [DataMember(Name = "set")]
+        [JsonProperty(PropertyName = "set")]
         public string Set
         {
             get;
             set;
         }
 
-        [DataMember(Name = "setName")]
+        [JsonProperty(PropertyName = "setName")]
         public string SetName
         {
             get;
             set;
         }
 
-        [DataMember(Name = "source")]
+        [JsonProperty(PropertyName = "source")]
         public string Source
         {
             get;
             set;
         }
 
-        [DataMember(Name = "starter")]
+        [JsonProperty(PropertyName = "starter")]
         public bool? Starter
         {
             get;
             set;
         }
 
-        [DataMember(Name = "subtypes")]
+        [JsonProperty(PropertyName = "subtypes")]
         public string[] SubTypes
         {
             get;
             set;
         }
 
-        [DataMember(Name = "supertypes")]
+        [JsonProperty(PropertyName = "supertypes")]
         public string[] SuperTypes
         {
             get;
             set;
         }
 
-        [DataMember(Name = "text")]
+        [JsonProperty(PropertyName = "text")]
         public string Text
         {
             get;
             set;
         }
 
-        [DataMember(Name = "timeshifted")]
+        [JsonProperty(PropertyName = "timeshifted")]
         public bool? Timeshifted
         {
             get;
             set;
         }
 
-        [DataMember(Name = "toughness")]
+        [JsonProperty(PropertyName = "toughness")]
         public string Toughness
         {
             get;
             set;
         }
 
-        [DataMember(Name = "type")]
+        [JsonProperty(PropertyName = "type")]
         public string Type
         {
             get;
             set;
         }
 
-        [DataMember(Name = "types")]
+        [JsonProperty(PropertyName = "types")]
         public string[] Types
         {
             get;
             set;
         }
 
-        [DataMember(Name = "variations")]
+        [JsonProperty(PropertyName = "variations")]
         public int[] Variations
         {
             get;
             set;
         }
 
-        [DataMember(Name = "watermark")]
+        [JsonProperty(PropertyName = "watermark")]
         public string Watermark
         {
             get;
             set;
         }
 
-        [DataMember(Name = "releaseDate")]
+        [JsonProperty(PropertyName = "releaseDate")]
         private string ReleaseDateString
         {
             get;

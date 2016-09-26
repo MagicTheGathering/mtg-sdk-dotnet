@@ -7,32 +7,44 @@ namespace MtgApiManager.Lib.Core
     using System.ComponentModel;
 
     /// <summary>
-    /// The mtg api endpoints.
+    /// The MTG API endpoints.
     /// </summary>
-    public enum ApiEndPoints
+    public enum ApiEndPoint
     {
         /// <summary>
         /// No end point.
         /// </summary>
-        [Description("None")]
+        [Description("none")]
         None = 0,
 
         /// <summary>
         /// The endpoint which handles the cards.
         /// </summary>
         [Description("cards")]
-        Cards = 0,
+        Cards = 1,
 
         /// <summary>
         /// The endpoint which handles the sets.
         /// </summary>
         [Description("sets")]
-        Sets = 1,
+        Sets = 2,
 
         /// <summary>
         /// The endpoint which handles the card types.
         /// </summary>
         [Description("types")]
-        CardTypes = 2,
+        CardTypes = 3,
+
+        /// <summary>
+        /// The endpoint which handles the card super types.
+        /// </summary>
+        [Description("supertypes")]
+        CardSuperTypes = 4,
+
+        /// <summary>
+        /// The endpoint which handles the card sub types.
+        /// </summary>
+        [Description("subtypes")]
+        CardSubTypes = 5,
     }
 }

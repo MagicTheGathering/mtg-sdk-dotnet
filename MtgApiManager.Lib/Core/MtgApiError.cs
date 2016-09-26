@@ -14,7 +14,7 @@ namespace MtgApiManager.Lib.Core
         /// <summary>
         /// No error.
         /// </summary>
-        [Description("None")]
+        [Description("none")]
         None = 0,
 
         /// <summary>
