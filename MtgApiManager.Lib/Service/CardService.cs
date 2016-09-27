@@ -1,4 +1,4 @@
-﻿// <copyright file="Card.cs" company="Team7 Productions">
+﻿// <copyright file="CardService.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,13 +10,14 @@ namespace MtgApiManager.Lib.Service
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Core.Exceptions;
     using Dto.Cards;
     using Model.Card;
     using MtgApiManager.Lib.Core;
     using Utility;
 
     /// <summary>
-    /// Object representing a mtg card.
+    /// Object representing a MTG card.
     /// </summary>
     public class CardService
         : ServiceBase<CardService, Card>, IMtgQueryable<CardService, CardDto>
@@ -27,16 +28,16 @@ namespace MtgApiManager.Lib.Service
         private NameValueCollection _whereQueries = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the api.
+        /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
-        /// <param name="serviceAdapter">The service adapter used to interact with the mtg api.</param>
+        /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
         public CardService(IMtgApiServiceAdapter serviceAdapter)
             : this(serviceAdapter, ApiVersion.V1_0)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the api.
+        /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
         public CardService()
             : this(new MtgApiServiceAdapter(), ApiVersion.V1_0)
@@ -46,8 +47,8 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="CardService"/> class.
         /// </summary>
-        /// <param name="serviceAdapter"></param>
-        /// <param name="version"></param>
+        /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+        /// <param name="version">The version of the API</param>
         public CardService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version)
             : base(serviceAdapter, version, ApiEndPoint.Cards)
         {
@@ -57,41 +58,81 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="Card"/> representing all the items.</returns>
-        public override List<Card> All()
+        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing all the items.</returns>
+        public override Exceptional<List<Card>> All()
         {
-            // TODO: Add result return.
-            var query = this.BuildUri(this._whereQueries);
-            var rootCardList = this.CallWebServiceGet<RootCardListDto>(query).Result;
-            return this.MapCardsList(rootCardList);
+            try
+            {
+                var query = this.BuildUri(this._whereQueries);
+                var rootCardList = this.CallWebServiceGet<RootCardListDto>(query).Result;
+
+                return Exceptional<List<Card>>.Success(this.MapCardsList(rootCardList));
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<Card>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Gets all the <see cref="TModel"/> defined by the query parameters.
+        /// </summary>
+        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing all the items.</returns>
+        public async override Task<Exceptional<List<Card>>> AllAsync()
+        {
+            try
+            {
+                var query = this.BuildUri(this._whereQueries);
+                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(query);
+
+                return Exceptional<List<Card>>.Success(this.MapCardsList(rootCardList));
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<Card>>.Failure(ex.Flatten().InnerException);
+            }
         }
 
         /// <summary>
         /// Find a specific card by its multi verse identifier.
         /// </summary>
         /// <param name="multiverseId">The identifier to query for.</param>
-        /// <returns>A <see cref="CardService"/> belonging to the specified identifier.</returns>
-        public Card Find(int multiverseId)
+        /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
+        public Exceptional<Card> Find(int multiverseId)
         {
-            var rootCard = this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString())).Result;
-            var model = new Card();
-            model.MapCard(rootCard.Card);
+            try
+            {
+                var rootCard = this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString())).Result;
+                var model = new Card();
+                model.MapCard(rootCard.Card);
 
-            return model;
+                return Exceptional<Card>.Success(model);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<Card>.Failure(ex.Flatten().InnerException);               
+            }
         }
 
         /// <summary>
         /// Find a specific card by its multi verse identifier.
         /// </summary>
         /// <param name="multiverseId">The identifier to query for.</param>
-        /// <returns>A <see cref="CardService"/> belonging to the specified identifier.</returns>
-        public async Task<Card> FindAsync(int multiverseId)
+        /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
+        public async Task<Exceptional<Card>> FindAsync(int multiverseId)
         {
-            var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString()));
-            var model = new Card();
-            model.MapCard(rootCard.Card);
+            try
+            {
+                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString()));
+                var model = new Card();
+                model.MapCard(rootCard.Card);
 
-            return model;
+                return Exceptional<Card>.Success(model);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<Card>.Failure(ex.Flatten().InnerException);
+            }
         }
 
         /// <summary>
@@ -108,16 +149,16 @@ namespace MtgApiManager.Lib.Service
 
             if (!string.IsNullOrWhiteSpace(queryName))
             {
-                _whereQueries[queryName] = value;
+                this._whereQueries[queryName] = value;
             }
 
             return this;
         }
 
         /// <summary>
-        /// Maps a collection of card dto objects to the card model.
+        /// Maps a collection of card DTO objects to the card model.
         /// </summary>
-        /// <param name="cardListDto">The list of cards dto objects.</param>
+        /// <param name="cardListDto">The list of cards DTO objects.</param>
         /// <returns>A list of card models.</returns>
         private List<Card> MapCardsList(RootCardListDto cardListDto)
         {

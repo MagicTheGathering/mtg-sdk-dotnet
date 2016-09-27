@@ -1,8 +1,11 @@
-﻿
-
+﻿// <copyright file="CardServiceTest.cs">
+//     Copyright (c) 2014. All rights reserved.
+// </copyright>
+// <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Service
 {
     using System;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Service;
 
@@ -18,6 +21,9 @@ namespace MtgApiManager.Lib.Test.Service
         [TestMethod]
         public void ContructorTest()
         {
+            var service = new CardService();
+            var result = service.Find(12121212);
+            var result2 = service.All().Value.Where(t => t.Rulings != null);
         }
     }
 }

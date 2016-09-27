@@ -1,4 +1,4 @@
-﻿// <copyright file="MtgApiErrorTest.cs" company="Team7 Productions">
+﻿// <copyright file="MtgApiErrorTest.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

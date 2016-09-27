@@ -1,4 +1,4 @@
-﻿// <copyright file="ApiEndPointsTest.cs" company="Team7 Productions">
+﻿// <copyright file="ApiEndPointsTest.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

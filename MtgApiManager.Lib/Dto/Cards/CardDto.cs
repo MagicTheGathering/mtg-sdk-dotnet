@@ -1,4 +1,4 @@
-﻿// <copyright file="Card.cs" company="Team7 Productions">
+﻿// <copyright file="CardDto.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -170,18 +170,11 @@ namespace MtgApiManager.Lib.Dto.Cards
             set;
         }
 
-        [JsonIgnore]
+        [JsonProperty(PropertyName = "releaseDate")]
         public DateTime? ReleaseDate
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(this.ReleaseDateString))
-                {
-                    return null;
-                }
-
-                return DateTime.Parse(this.ReleaseDateString); // TODO: change date to parse straight up since json.net can do that.
-            }
+            get;
+            set;
         }
 
         [JsonProperty(PropertyName = "reserved")]
@@ -284,13 +277,6 @@ namespace MtgApiManager.Lib.Dto.Cards
 
         [JsonProperty(PropertyName = "watermark")]
         public string Watermark
-        {
-            get;
-            set;
-        }
-
-        [JsonProperty(PropertyName = "releaseDate")]
-        private string ReleaseDateString
         {
             get;
             set;

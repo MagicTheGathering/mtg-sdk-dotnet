@@ -1,11 +1,11 @@
-﻿// <copyright file="MtgResponseBase.cs" company="Team7 Productions">
+﻿// <copyright file="MtgResponseBase.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto
 {
     /// <summary>
-    /// Base class for an myg response.
+    /// Base class for an MTG response.
     /// </summary>
     public class MtgResponseBase
     {

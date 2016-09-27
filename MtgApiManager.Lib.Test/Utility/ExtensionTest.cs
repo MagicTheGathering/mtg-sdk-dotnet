@@ -1,4 +1,4 @@
-﻿// <copyright file="ExtensionTest.cs" company="Team7 Productions">
+﻿// <copyright file="ExtensionTest.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

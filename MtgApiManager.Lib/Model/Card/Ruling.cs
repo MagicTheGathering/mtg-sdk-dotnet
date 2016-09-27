@@ -1,4 +1,4 @@
-﻿// <copyright file="Ruling.cs" company="Team7 Productions">
+﻿// <copyright file="Ruling.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

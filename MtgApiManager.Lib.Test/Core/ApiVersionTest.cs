@@ -1,4 +1,4 @@
-﻿// <copyright file="ApiVersionTest.cs" company="Team7 Productions">
+﻿// <copyright file="ApiVersionTest.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

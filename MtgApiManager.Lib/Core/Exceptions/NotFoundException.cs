@@ -1,4 +1,4 @@
-﻿// <copyright file="NotFoundException.cs" company="Team7 Productions">
+﻿// <copyright file="NotFoundException.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// An exception representing a not found request.
     /// </summary>
     [DataContract]
-    public class NotFoundException : MtgException
+    public class NotFoundException : MtgExceptionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NotFoundException"/> class.

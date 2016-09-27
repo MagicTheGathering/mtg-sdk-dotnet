@@ -1,4 +1,4 @@
-﻿// <copyright file="ServiceBase.cs" company="Team7 Productions">
+﻿// <copyright file="ServiceBase.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -121,17 +121,14 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="List{T}"/> representing all the items.</returns>
-        public abstract List<TModel> All();
+        /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
+        public abstract Exceptional<List<TModel>> All();
 
         /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters asynchronously.
+        /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="List{T}"/> representing all the items.</returns>
-        public async Task<List<TModel>> AllAsync()
-        {
-            return await Task.Run(() => this.All());
-        }
+        /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
+        public abstract Task<Exceptional<List<TModel>>> AllAsync();
 
         /// <summary>
         /// Builds the URL to call the web service.
@@ -174,7 +171,6 @@ namespace MtgApiManager.Lib.Service
             where T : Dto.MtgResponseBase
         {
             var response = await this._adapter.WebGetAsync(requestUri);
-            var jsonString = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
@@ -182,7 +178,7 @@ namespace MtgApiManager.Lib.Service
                 this.ParseHeaders(response.Headers);
 
                 // De serialize the response.
-                T obj = JsonConvert.DeserializeObject<T>(jsonString);
+                T obj = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
 
                 return obj;
             }
@@ -191,15 +187,15 @@ namespace MtgApiManager.Lib.Service
                 switch ((int)response.StatusCode)
                 {
                     case (int)MtgApiError.BadRequest:
-                        throw new MtgApiException<BadRequestException>(jsonString);
+                        throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.GetDescription());
                     case (int)MtgApiError.Forbidden:
-                        throw new MtgApiException<ForbiddenException>(jsonString);
+                        throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.GetDescription());
                     case (int)MtgApiError.InternalServerError:
-                        throw new MtgApiException<InternalServerErrorException>(jsonString);
+                        throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.GetDescription());
                     case (int)MtgApiError.NotFound:
-                        throw new MtgApiException<NotFoundException>(jsonString);
+                        throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.GetDescription());
                     case (int)MtgApiError.ServiceUnavailable:
-                        throw new MtgApiException<ServiceUnavailableException>(jsonString);
+                        throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
                     default:
                         response.EnsureSuccessStatusCode();
                         return null;

@@ -1,4 +1,4 @@
-﻿// <copyright file="MtgApiServiceAdapter.cs" company="Team7 Productions">
+﻿// <copyright file="MtgApiServiceAdapter.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -26,10 +26,9 @@ namespace MtgApiManager.Lib.Core
             }
 
             using (var client = new HttpClient())
-            using (var response = await client.GetAsync(requestUri))
             {
-                return response;
-            }
+                return await client.GetAsync(requestUri);
+            }                
         }
     }
 }

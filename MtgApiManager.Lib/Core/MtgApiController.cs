@@ -1,4 +1,4 @@
-﻿// <copyright file="MtgApiController.cs" company="Team7 Productions">
+﻿// <copyright file="MtgApiController.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core
     internal static class MtgApiController
     {
         /// <summary>
-        /// Gets the headers with previous, last, next, first links (when appropriate).
+        /// Gets or sets the headers with previous, last, next, first links (when appropriate).
         /// </summary>
         public static string Link
         {
@@ -19,7 +19,7 @@ namespace MtgApiManager.Lib.Core
         }
 
         /// <summary>
-        /// Gets the rate limit for a given user.
+        /// Gets or sets the rate limit for a given user.
         /// </summary>
         public static int RatelimitLimit
         {
@@ -28,7 +28,7 @@ namespace MtgApiManager.Lib.Core
         }
 
         /// <summary>
-        /// Gets the number of requests left before the rate limit is exceeded.
+        /// Gets or sets the number of requests left before the rate limit is exceeded.
         /// </summary>
         public static int RatelimitRemaining
         {

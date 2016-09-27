@@ -1,4 +1,4 @@
-﻿// <copyright file="BadRequestException.cs" company="Team7 Productions">
+﻿// <copyright file="BadRequestException.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// An exception representing a bad request.
     /// </summary>
     [DataContract]
-    public class BadRequestException : MtgException
+    public class BadRequestException : MtgExceptionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BadRequestException"/> class.

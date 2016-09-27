@@ -1,4 +1,4 @@
-﻿// <copyright file="InternalServerErrorException.cs" company="Team7 Productions">
+﻿// <copyright file="InternalServerErrorException.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// An exception representing an internal server error.
     /// </summary>
     [DataContract]
-    public class InternalServerErrorException : MtgException
+    public class InternalServerErrorException : MtgExceptionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InternalServerErrorException"/> class.

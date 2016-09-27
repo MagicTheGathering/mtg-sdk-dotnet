@@ -1,4 +1,4 @@
-﻿// <copyright file="ServiceUnavailableException.cs" company="Team7 Productions">
+﻿// <copyright file="ServiceUnavailableException.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// An exception representing that the service is unavailable.
     /// </summary>
     [DataContract]
-    public class ServiceUnavailableException : MtgException
+    public class ServiceUnavailableException : MtgExceptionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceUnavailableException"/> class.

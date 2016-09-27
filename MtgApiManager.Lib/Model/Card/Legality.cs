@@ -1,4 +1,4 @@
-﻿// <copyright file="Legality.cs" company="Team7 Productions">
+﻿// <copyright file="Legality.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

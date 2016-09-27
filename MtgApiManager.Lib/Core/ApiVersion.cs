@@ -1,4 +1,4 @@
-﻿// <copyright file="ApiVersions.cs" company="Team7 Productions">
+﻿// <copyright file="ApiVersion.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -7,12 +7,12 @@ namespace MtgApiManager.Lib.Core
     using System.ComponentModel;
 
     /// <summary>
-    /// Represents the api versions.
+    /// Represents the API versions.
     /// </summary>
     public enum ApiVersion
     {
         /// <summary>
-        /// No api version.
+        /// No API version.
         /// </summary>
         [Description("none")]
         None = 0,

@@ -48,10 +48,11 @@
   <ItemGroup>
     <Compile Include="Core\ApiEndPoint.cs" />
     <Compile Include="Core\ApiVersion.cs" />
+    <Compile Include="Core\Exceptional.cs" />
     <Compile Include="Core\Exceptions\BadRequestException.cs" />
     <Compile Include="Core\Exceptions\ForbiddenException.cs" />
     <Compile Include="Core\Exceptions\InternalServerErrorException.cs" />
-    <Compile Include="Core\Exceptions\MtgException.cs" />
+    <Compile Include="Core\Exceptions\MtgExceptionBase.cs" />
     <Compile Include="Core\Exceptions\NotFoundException.cs" />
     <Compile Include="Core\Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Core\IMtgApiServiceAdapter.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Core\MtgApiException.cs" />
     <Compile Include="Core\MtgApiController.cs" />
     <Compile Include="Core\MtgApiServiceAdapter.cs" />
+    <Compile Include="Core\Option.cs" />
     <Compile Include="Dto\Cards\CardDto.cs" />
     <Compile Include="Dto\Cards\RootCardDto.cs" />
     <Compile Include="Dto\Cards\RootCardListDto.cs" />

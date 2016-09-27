@@ -1,4 +1,4 @@
-﻿// <copyright file="ForbiddenException.cs" company="Team7 Productions">
+﻿// <copyright file="ForbiddenException.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// An exception representing a forbidden request.
     /// </summary>
     [DataContract]
-    public class ForbiddenException : MtgException
+    public class ForbiddenException : MtgExceptionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ForbiddenException"/> class.

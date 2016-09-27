@@ -58,8 +58,10 @@
   <ItemGroup>
     <Compile Include="Core\ApiEndPointsTest.cs" />
     <Compile Include="Core\ApiVersionTest.cs" />
+    <Compile Include="Core\ExceptionalTest.cs" />
     <Compile Include="Core\MtgApiErrorTest.cs" />
     <Compile Include="Core\MtgApiServiceAdapterTest.cs" />
+    <Compile Include="Core\OptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CardServiceTest.cs" />
     <Compile Include="Utility\DtoTestObject.cs" />

@@ -1,4 +1,4 @@
-﻿// <copyright file="RootCard.cs" company="Team7 Productions">
+﻿// <copyright file="RootCardDto.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>

@@ -1,4 +1,4 @@
-﻿// <copyright file="MtgApiError.cs" company="Team7 Productions">
+﻿// <copyright file="MtgApiError.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -7,7 +7,7 @@ namespace MtgApiManager.Lib.Core
     using System.ComponentModel;
 
     /// <summary>
-    /// Represents the api errors.
+    /// Represents the API errors.
     /// </summary>
     public enum MtgApiError
     {

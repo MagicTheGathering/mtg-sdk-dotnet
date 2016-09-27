@@ -1,4 +1,4 @@
-﻿// <copyright file="Card.cs" company="Team7 Productions">
+﻿// <copyright file="Card.cs">
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
@@ -33,7 +33,7 @@ namespace MtgApiManager.Lib.Model.Card
         }
 
         /// <summary>
-        /// Gets the converted mana cost.
+        /// Gets the converted Mana cost.
         /// </summary>
         public int? Cmc
         {
@@ -132,7 +132,7 @@ namespace MtgApiManager.Lib.Model.Card
         }
 
         /// <summary>
-        /// Gets the mana cost of this card. Consists of one or more mana symbols.
+        /// Gets the mana cost of this card. Consists of one or more Mana symbols.
         /// </summary>
         public string ManaCost
         {
@@ -366,9 +366,9 @@ namespace MtgApiManager.Lib.Model.Card
         }
 
         /// <summary>
-        /// Maps a single card dto to the card model.
+        /// Maps a single card DTO to the card model.
         /// </summary>
-        /// <param name="item">The card dto object.</param>
+        /// <param name="item">The card DTO object.</param>
         /// <returns>A card model.</returns>
         public void MapCard(CardDto item)
         {
