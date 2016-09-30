@@ -4,9 +4,12 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Base class for an MTG response.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class MtgResponseBase
     {
     }

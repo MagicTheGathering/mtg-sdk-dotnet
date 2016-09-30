@@ -23,7 +23,6 @@ namespace MtgApiManager.Lib.Test.Service
         {
             var service = new CardService();
             var result = service.Find(12121212);
-            var result2 = service.All().Value.Where(t => t.Rulings != null);
         }
     }
 }

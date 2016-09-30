@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="0" />
+  <Modules>
+    <Module skippedDueTo="Filter" hash="9D-4C-49-D6-C4-93-47-C3-10-27-58-C6-EC-7C-C5-FB-65-17-1E-A0">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll</ModulePath>
+      <ModuleTime>2016-07-16T11:44:20.6085999Z</ModuleTime>
+      <ModuleName>mscorlib</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="5C-82-E3-E4-4E-4D-70-5F-6E-0A-28-83-6E-4A-AC-20-0D-55-85-C0">
+      <ModulePath>J:\Microsoft Visual Studio 14.0\Common7\IDE\MSTest.exe</ModulePath>
+      <ModuleTime>2015-07-07T04:51:38Z</ModuleTime>
+      <ModuleName>MSTest</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="2C-68-4E-D5-C1-3A-95-ED-B2-9B-A5-AC-35-83-4B-2A-92-7D-EC-71">
+      <ModulePath>C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Common\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Common.dll</ModulePath>
+      <ModuleTime>2016-09-23T08:01:32.6184493Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.Common</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="2F-06-CB-9E-45-EB-3F-7A-7A-0E-09-BA-75-25-0C-EF-AA-90-8E-2B">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</ModulePath>
+      <ModuleTime>2016-07-16T11:43:55.5461496Z</ModuleTime>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="AA-3B-1D-46-19-3E-D3-88-43-47-D3-1C-48-42-12-21-60-87-13-47">
+      <ModulePath>C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.ExecutionCommon\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.ExecutionCommon.dll</ModulePath>
+      <ModuleTime>2016-09-23T08:01:33.415332Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.ExecutionCommon</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="BA-37-91-08-FF-4E-E3-92-22-87-5C-B0-C4-31-B2-CD-D2-72-57-18">
+      <ModulePath>C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Resource\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Resource.dll</ModulePath>
+      <ModuleTime>2016-09-23T08:01:33.696585Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.Resource</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="34-A3-5D-67-8E-E7-DB-60-FE-97-F3-BD-D4-E7-40-6B-00-DA-51-C8">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll</ModulePath>
+      <ModuleTime>2016-07-16T11:43:53.9992781Z</ModuleTime>
+      <ModuleName>System.Configuration</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="88-45-F0-9C-3C-9F-72-79-CB-6A-82-FA-D7-DB-C3-4A-59-80-3C-6B">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll</ModulePath>
+      <ModuleTime>2016-07-16T11:43:55.4992744Z</ModuleTime>
+      <ModuleName>System.Xml</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="01-76-93-04-A0-DC-E8-05-99-10-09-82-2B-83-D9-A0-07-06-C8-E6">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.CommandLine\v4.0_14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.CommandLine.dll</ModulePath>
+      <ModuleTime>2016-09-23T08:01:32.3403087Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.CommandLine</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="04-58-89-F2-0B-CE-93-0E-73-AA-3D-87-9D-5D-45-11-C0-02-86-EF">
+      <ModulePath>C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.TMI\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.TMI.dll</ModulePath>
+      <ModuleTime>2016-09-23T08:01:35.5559793Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.TMI</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="E5-DE-BE-E6-36-3A-18-9D-19-75-10-62-04-4B-5A-43-5C-48-C4-34">
+      <ModulePath>C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll</ModulePath>
+      <ModuleTime>2016-07-16T11:43:57.1711464Z</ModuleTime>
+      <ModuleName>System.Core</ModuleName>
+      <Classes />
+    </Module>
+  </Modules>
+</CoverageSession>

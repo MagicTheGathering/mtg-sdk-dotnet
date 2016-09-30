@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib", "MtgApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.Test", "MtgApiManager.Lib.Test\MtgApiManager.Lib.Test.csproj", "{3EA66942-7AC4-42C5-8463-28FED71EE90D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B7E24A5D-BEF7-43EB-A61D-F1E1D6D55AAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Testing Metrics", "Unit Testing Metrics", "{D5C31173-C2FC-43CC-B68F-908CEAB61CCE}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCovUploadTestMetrics.ps1 = CodeCovUploadTestMetrics.ps1
+		RunUnitTestMetrics.bat = RunUnitTestMetrics.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +62,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D5C31173-C2FC-43CC-B68F-908CEAB61CCE} = {B7E24A5D-BEF7-43EB-A61D-F1E1D6D55AAA}
 	EndGlobalSection
 EndGlobal
