@@ -19,11 +19,22 @@ namespace MtgApiManager.Lib.Test.Utility
         /// Tests the <see cref="QueryUtility.GetQueryPropertyName{T}(MemberExpression)"/> method.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void GetQueryPropertyNameTest()
         {
-            // Test exception is thrown.
-            var result = QueryUtility.GetQueryPropertyName<CardDto>(null);
+            try
+            {
+                // Test exception is thrown.
+                var result = QueryUtility.GetQueryPropertyName<CardDto>(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("propertyName", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
 
             // Property doesn't exist.
             Assert.IsNull(QueryUtility.GetQueryPropertyName<DtoTestObject>("fakeProperty"));

@@ -19,13 +19,25 @@ namespace MtgApiManager.Lib.Test.Utility
         /// Tests the <see cref="Extensions.GetDescription(Enum)"/> extension method.
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        //[ExpectedException(typeof(ArgumentNullException))]
         public void GetDescriptionTest()
         {
             Enum testObject = null;
 
-            // Test exception is thrown.
-            testObject.GetDescription();
+            try
+            {
+                // Test exception is thrown.
+                testObject.GetDescription();
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("Value", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
 
             // Test when no attribute.
             testObject = EnumTestObject.NoDescription;
