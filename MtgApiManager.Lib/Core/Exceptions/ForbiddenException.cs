@@ -9,7 +9,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// <summary>
     /// An exception representing a forbidden request.
     /// </summary>
-    [DataContract]
     public class ForbiddenException : MtgExceptionBase
     {
         /// <summary>

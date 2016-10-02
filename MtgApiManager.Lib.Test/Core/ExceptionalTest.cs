@@ -21,7 +21,6 @@ namespace MtgApiManager.Lib.Test.Core
         public void FailureTest()
         {
             var testObject = Exceptional<int?>.Failure(new ArgumentNullException("test"));
-
             Assert.AreEqual(false, testObject.IsSuccess);
             Assert.IsInstanceOfType(testObject.Exception, typeof(ArgumentNullException));
             Assert.AreEqual("test", ((ArgumentNullException)testObject.Exception).ParamName);
@@ -34,6 +33,21 @@ namespace MtgApiManager.Lib.Test.Core
         public void IfFailureTest()
         {
             var testObject = 0;
+
+            try
+            {
+                // Test exception is thrown.
+                Exceptional<int>.Success(0).IfFailure(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("action", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
 
             Exceptional<int>.Success(0).IfFailure(x => testObject = 5);
             Assert.AreNotEqual(5, testObject);
@@ -50,6 +64,21 @@ namespace MtgApiManager.Lib.Test.Core
         {
             var testObject = 0;
 
+            try
+            {
+                // Test exception is thrown.
+                Exceptional<int>.Success(0).IfSuccess(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("action", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
             Exceptional<int>.Success(0).IfSuccess(x => testObject = 5);
             Assert.AreEqual(5, testObject);
 
@@ -65,6 +94,21 @@ namespace MtgApiManager.Lib.Test.Core
         {
             var testObject = Exceptional<int>.Success(10);
             var mappedObject = testObject.Map(x => x * 2);
+
+            try
+            {
+                // Test exception is thrown.
+                testObject.Map<int>(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("function", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
 
             testObject
                 .IfSuccess(x => Assert.AreEqual(10, x))
@@ -106,6 +150,21 @@ namespace MtgApiManager.Lib.Test.Core
         {
             var testObject = Exceptional<int>.Success(10);
             var mappedObject = testObject.Then(x => Exceptional<int>.Success(x * 2));
+
+            try
+            {
+                // Test exception is thrown.
+                testObject.Then<int>(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("function", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
 
             testObject
                 .IfSuccess(x => Assert.AreEqual(10, x))

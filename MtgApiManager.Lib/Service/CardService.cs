@@ -10,8 +10,7 @@ namespace MtgApiManager.Lib.Service
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Core.Exceptions;
-    using Dto.Cards;
+    using Dto;
     using Model.Card;
     using MtgApiManager.Lib.Core;
     using Utility;
@@ -110,7 +109,7 @@ namespace MtgApiManager.Lib.Service
             }
             catch (AggregateException ex)
             {
-                return Exceptional<Card>.Failure(ex.Flatten().InnerException);               
+                return Exceptional<Card>.Failure(ex.Flatten().InnerException);
             }
         }
 

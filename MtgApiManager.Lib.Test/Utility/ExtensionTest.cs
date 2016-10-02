@@ -5,7 +5,6 @@
 namespace MtgApiManager.Lib.Test.Utility
 {
     using System;
-    using Dto.Cards;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Utility;
 

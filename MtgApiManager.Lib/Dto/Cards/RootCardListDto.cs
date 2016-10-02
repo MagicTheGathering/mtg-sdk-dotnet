@@ -2,7 +2,7 @@
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Dto.Cards
+namespace MtgApiManager.Lib.Dto
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;

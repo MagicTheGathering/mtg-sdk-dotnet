@@ -9,7 +9,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// <summary>
     /// An exception representing an internal server error.
     /// </summary>
-    [DataContract]
     public class InternalServerErrorException : MtgExceptionBase
     {
         /// <summary>

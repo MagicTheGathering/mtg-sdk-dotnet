@@ -5,14 +5,12 @@
 namespace MtgApiManager.Lib.Core
 {
     using System;
-    using System.Runtime.Serialization;
     using Exceptions;
 
     /// <summary>
     /// Represents an MTG API exception.
     /// </summary>
     /// <typeparam name="T">The type of exception.</typeparam>
-    [DataContract]
     public class MtgApiException<T> : Exception
         where T : MtgExceptionBase
     {

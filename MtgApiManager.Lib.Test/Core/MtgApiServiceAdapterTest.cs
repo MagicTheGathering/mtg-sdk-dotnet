@@ -4,10 +4,9 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Core
 {
-    using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using Lib.Core;
-    using Dto.Cards;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Tests the functionality of the <see cref="MtgApiServiceAdapter"/> class.
@@ -16,11 +15,27 @@ namespace MtgApiManager.Lib.Test.Core
     public class MtgApiServiceAdapterTest
     {
         /// <summary>
-        /// Tests the <see cref="MtgApiServiceAdapter.WebGetAsync{T}(System.Uri)"/> method.
+        /// Tests the <see cref="MtgApiServiceAdapter.WebGetAsync(System.Uri)"/> method.
         /// </summary>
         [TestMethod]
         public void WebGetAsyncTest()
         {
+            MtgApiServiceAdapter adapter = new MtgApiServiceAdapter();
+
+            try
+            {
+                // Test exception is thrown.
+                var result = adapter.WebGetAsync(null).Result;
+                Assert.Fail();
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("requestUri", ((ArgumentNullException)ex.Flatten().InnerException).ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
     }
 }

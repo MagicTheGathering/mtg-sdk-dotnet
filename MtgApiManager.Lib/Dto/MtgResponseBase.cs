@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Dto
     /// Base class for an MTG response.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class MtgResponseBase
+    public abstract class MtgResponseBase
     {
     }
 }

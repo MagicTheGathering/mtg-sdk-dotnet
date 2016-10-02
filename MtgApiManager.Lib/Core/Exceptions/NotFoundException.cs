@@ -9,7 +9,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// <summary>
     /// An exception representing a not found request.
     /// </summary>
-    [DataContract]
     public class NotFoundException : MtgExceptionBase
     {
         /// <summary>

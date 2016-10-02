@@ -7,7 +7,7 @@ namespace MtgApiManager.Lib.Model.Card
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Dto.Cards;
+    using Dto;
 
     /// <summary>
     /// Object representing a MTG card.

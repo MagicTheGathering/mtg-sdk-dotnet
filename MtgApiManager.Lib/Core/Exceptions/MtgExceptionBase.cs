@@ -11,7 +11,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// <summary>
     /// Object representing an MTG exception.
     /// </summary>
-    [DataContract]
     public class MtgExceptionBase : Exception
     {
         /// <summary>

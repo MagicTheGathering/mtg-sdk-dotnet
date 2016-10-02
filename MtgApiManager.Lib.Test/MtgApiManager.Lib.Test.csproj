@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -59,9 +60,16 @@
     <Compile Include="Core\ApiEndPointsTest.cs" />
     <Compile Include="Core\ApiVersionTest.cs" />
     <Compile Include="Core\ExceptionalTest.cs" />
+    <Compile Include="Core\Exceptions\BadRequestExceptionTest.cs" />
+    <Compile Include="Core\Exceptions\ForbiddenExceptionTest.cs" />
+    <Compile Include="Core\Exceptions\InternalServerErrorExceptionTest.cs" />
+    <Compile Include="Core\Exceptions\MtgExceptionBaseTest.cs" />
+    <Compile Include="Core\Exceptions\NotFoundExceptionTest.cs" />
+    <Compile Include="Core\Exceptions\ServiceUnavailableExceptionTest.cs" />
     <Compile Include="Core\MtgApiErrorTest.cs" />
     <Compile Include="Core\MtgApiServiceAdapterTest.cs" />
     <Compile Include="Core\OptionTest.cs" />
+    <Compile Include="Dto\DtoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CardServiceTest.cs" />
     <Compile Include="Utility\DtoTestObject.cs" />
@@ -78,9 +86,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dto\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -9,7 +9,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
     /// <summary>
     /// An exception representing that the service is unavailable.
     /// </summary>
-    [DataContract]
     public class ServiceUnavailableException : MtgExceptionBase
     {
         /// <summary>
