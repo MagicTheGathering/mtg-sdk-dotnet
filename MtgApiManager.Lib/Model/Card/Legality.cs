@@ -2,13 +2,25 @@
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Model.Card
+namespace MtgApiManager.Lib.Model
 {
+    using System;
+    using MtgApiManager.Lib.Dto;
+
     /// <summary>
     /// Object representing the legality of a card.
     /// </summary>
     public class Legality
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Legality"/> class.
+        /// </summary>
+        /// <param name="item">The legality data transfer object to map.</param>
+        public Legality(LegalityDto item)
+        {
+            this.MapLegality(item);
+        }
+
         /// <summary>
         /// Gets or sets the format of the legality.
         /// </summary>
@@ -25,6 +37,21 @@ namespace MtgApiManager.Lib.Model.Card
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Maps a single <see cref="LegalityDto"/> to a <see cref="Legality"/> model.
+        /// </summary>
+        /// <param name="item">The foreign name data transfer object to map.</param>
+        private void MapLegality(LegalityDto item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+
+            this.Format = item.Format;
+            this.LegalityName = item.LegalityName;
         }
     }
 }

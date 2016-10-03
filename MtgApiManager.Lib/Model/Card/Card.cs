@@ -2,7 +2,7 @@
 //     Copyright (c) 2014. All rights reserved.
 // </copyright>
 // <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Model.Card
+namespace MtgApiManager.Lib.Model
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +14,15 @@ namespace MtgApiManager.Lib.Model.Card
     /// </summary>
     public class Card
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Card"/> class.
+        /// </summary>
+        /// <param name="item">The card data transfer object to map to.</param>
+        public Card(CardDto item)
+        {
+            this.MapCard(item);
+        }
+
         /// <summary>
         /// Gets the artist of the card.
         /// </summary>
@@ -369,9 +378,13 @@ namespace MtgApiManager.Lib.Model.Card
         /// Maps a single card DTO to the card model.
         /// </summary>
         /// <param name="item">The card DTO object.</param>
-        /// <returns>A card model.</returns>
-        public void MapCard(CardDto item)
+        private void MapCard(CardDto item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+
             this.Artist = item.Artist;
             this.Border = item.Border;
             this.Cmc = item.Cmc;
@@ -380,12 +393,7 @@ namespace MtgApiManager.Lib.Model.Card
             if (item.ForeignNames != null)
             {
                 this.ForeignNames = item.ForeignNames
-                        .Select(x => new Model.Card.ForeignName()
-                        {
-                            Language = x.Language,
-                            MultiverseId = x.MultiverseId,
-                            Name = x.Name
-                        }).ToList();
+                        .Select(x => new ForeignName(x)).ToList();
             }
 
             this.Hand = item.Hand;
@@ -395,11 +403,7 @@ namespace MtgApiManager.Lib.Model.Card
             if (item.Legalities != null)
             {
                 this.Legalities = item.Legalities
-                        .Select(x => new Model.Card.Legality()
-                        {
-                            Format = x.Format,
-                            LegalityName = x.LegalityName
-                        }).ToList();
+                        .Select(x => new Legality(x)).ToList();
             }
 
             this.Life = item.Life;
@@ -419,11 +423,7 @@ namespace MtgApiManager.Lib.Model.Card
             if (item.Rulings != null)
             {
                 this.Rulings = item.Rulings
-                      .Select(x => new Model.Card.Ruling()
-                      {
-                          Date = x.Date,
-                          Text = x.Text
-                      }).ToList();
+                      .Select(x => new Ruling(x)).ToList();
             }
 
             this.Set = item.Set;

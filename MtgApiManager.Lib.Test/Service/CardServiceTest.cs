@@ -4,8 +4,6 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Service
 {
-    using System;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Service;
 

@@ -11,7 +11,7 @@ namespace MtgApiManager.Lib.Service
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Dto;
-    using Model.Card;
+    using Model;
     using MtgApiManager.Lib.Core;
     using Utility;
 
@@ -102,8 +102,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var rootCard = this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString())).Result;
-                var model = new Card();
-                model.MapCard(rootCard.Card);
+                var model = new Card(rootCard.Card);
 
                 return Exceptional<Card>.Success(model);
             }
@@ -123,8 +122,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString()));
-                var model = new Card();
-                model.MapCard(rootCard.Card);
+                var model = new Card(rootCard.Card);
 
                 return Exceptional<Card>.Success(model);
             }
@@ -172,12 +170,7 @@ namespace MtgApiManager.Lib.Service
             }
 
             return cardListDto.Cards
-                .Select(x =>
-                {
-                    var newCard = new Card();
-                    newCard.MapCard(x);
-                    return newCard;
-                })
+                .Select(x => new Card(x))
                 .ToList();
         }
     }
