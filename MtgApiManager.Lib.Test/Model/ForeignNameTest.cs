@@ -4,6 +4,7 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
+    using System;
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
@@ -20,6 +21,23 @@ namespace MtgApiManager.Lib.Test.Model
         [TestMethod]
         public void ContructorTest()
         {
+            ForeignName model;
+
+            try
+            {
+                // Test exception is thrown.
+                model = new ForeignName(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("item", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
             var dto = new ForeignNameDto()
             {
                 Language = "English",
@@ -27,7 +45,7 @@ namespace MtgApiManager.Lib.Test.Model
                 Name = "name1"
             };
 
-            var model = new ForeignName(dto);
+            model = new ForeignName(dto);
 
             Assert.AreEqual(dto.Language, model.Language);
             Assert.AreEqual(dto.MultiverseId, model.MultiverseId);

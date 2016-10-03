@@ -4,6 +4,7 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
+    using System;
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
@@ -20,13 +21,30 @@ namespace MtgApiManager.Lib.Test.Model
         [TestMethod]
         public void ContructorTest()
         {
+            Ruling model;
+
+            try
+            {
+                // Test exception is thrown.
+                model = new Ruling(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("item", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
             var dto = new RulingDto()
             {
                 Date = new System.DateTime(2016, 10, 2),
                 Text = "testing"
             };
 
-            var model = new Ruling(dto);
+            model = new Ruling(dto);
 
             Assert.AreEqual(dto.Date, model.Date);
             Assert.AreEqual(dto.Text, model.Text);

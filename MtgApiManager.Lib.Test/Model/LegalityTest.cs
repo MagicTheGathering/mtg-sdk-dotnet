@@ -4,6 +4,7 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
+    using System;
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
@@ -20,13 +21,30 @@ namespace MtgApiManager.Lib.Test.Model
         [TestMethod]
         public void ContructorTest()
         {
+            Legality model;
+
+            try
+            {
+                // Test exception is thrown.
+                model = new Legality(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("item", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
             var dto = new LegalityDto()
             {
                 Format = "format1",
                 LegalityName = "fake name"
             };
 
-            var model = new Legality(dto);
+            model = new Legality(dto);
 
             Assert.AreEqual(dto.Format, model.Format);
             Assert.AreEqual(dto.LegalityName, model.LegalityName);

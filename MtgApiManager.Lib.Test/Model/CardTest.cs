@@ -4,6 +4,7 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
+    using System;
     using System.Linq;
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,6 +22,23 @@ namespace MtgApiManager.Lib.Test.Model
         [TestMethod]
         public void MapCardTest()
         {
+            Card model;
+
+            try
+            {
+                // Test exception is thrown.
+                model = new Card(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("item", ex.ParamName);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
             var dto = new CardDto()
             {
                 Artist = "artist1",
@@ -64,7 +82,7 @@ namespace MtgApiManager.Lib.Test.Model
                 Watermark = "watermark"
             };
 
-            var model = new Card(dto);
+            model = new Card(dto);
 
             Assert.AreEqual(dto.Artist, model.Artist);
             Assert.AreEqual(dto.Border, model.Border);
