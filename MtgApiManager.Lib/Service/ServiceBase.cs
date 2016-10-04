@@ -137,6 +137,11 @@ namespace MtgApiManager.Lib.Service
         /// <returns>The URL to make the call with.</returns>
         protected Uri BuildUri(NameValueCollection parameters)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+
             var urlBuilder = new UriBuilder(
                 new Uri(
                     new Uri(BaseMtgUrl),
@@ -156,6 +161,11 @@ namespace MtgApiManager.Lib.Service
         /// <returns>The URL to make the call with.</returns>
         protected Uri BuildUri(string parameterValue)
         {
+            if (string.IsNullOrWhiteSpace(parameterValue))
+            {
+                throw new ArgumentNullException("parameterValue");
+            }
+
             return new Uri(
                 new Uri(BaseMtgUrl),
                 string.Concat(this._version.GetDescription(), "/", this._endpoint.GetDescription(), "/", parameterValue));
@@ -209,6 +219,11 @@ namespace MtgApiManager.Lib.Service
         /// <param name="headers">The header to parse.</param>
         private void ParseHeaders(HttpResponseHeaders headers)
         {
+            if (headers == null)
+            {
+                throw new ArgumentNullException("headers");
+            }
+
             IEnumerable<string> resultHeaders = null;
 
             if (headers.TryGetValues("Link", out resultHeaders))

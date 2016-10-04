@@ -125,6 +125,19 @@ namespace MtgApiManager.Lib.Test.Model
             Assert.IsTrue(dto.Types.SequenceEqual(model.Types));
             Assert.IsTrue(dto.Variations.SequenceEqual(model.Variations));
             Assert.AreEqual(dto.Watermark, model.Watermark);
+
+            dto = new CardDto()
+            {
+                ForeignNames = null,
+                Legalities = null,
+                Rulings = null,
+            };
+
+            model = new Card(dto);
+
+            Assert.IsNull(dto.ForeignNames);
+            Assert.IsNull(dto.Legalities);
+            Assert.IsNull(dto.Rulings);
         }
     }
 }
