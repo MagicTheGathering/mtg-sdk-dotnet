@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MTGApi.NETSKD</id>
+    <version>1.0.0-alpha</version>
+    <authors>Jason Regnier</authors>
+    <owners>Jason Regnier</owners>
+    <licenseUrl>https://github.com/jregnier/MtgApiManager/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/jregnier/MtgApiManager</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of magicthegathering.io.</description>
+    <releaseNotes>first release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>magicthegathering mtg magic sdk api web</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="9.0" />
+    </dependencies>
+  </metadata>
+</package>
