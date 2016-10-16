@@ -6,6 +6,7 @@ namespace MtgApiManager.Lib.Test.Core
 {
     using System;
     using Lib.Core;
+    using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -15,7 +16,7 @@ namespace MtgApiManager.Lib.Test.Core
     public class MtgApiServiceAdapterTest
     {
         /// <summary>
-        /// Tests the <see cref="MtgApiServiceAdapter.WebGetAsync(System.Uri)"/> method.
+        /// Tests the <see cref="MtgApiServiceAdapter.WebGetAsync(Uri)"/> method.
         /// </summary>
         [TestMethod]
         public void WebGetAsyncTest()
@@ -25,7 +26,7 @@ namespace MtgApiManager.Lib.Test.Core
             try
             {
                 // Test exception is thrown.
-                var result = adapter.WebGetAsync(null).Result;
+                var result = adapter.WebGetAsync<RootCardDto>(null).Result;
                 Assert.Fail();
             }
             catch (AggregateException ex)

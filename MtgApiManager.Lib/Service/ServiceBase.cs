@@ -59,33 +59,6 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
-        /// Gets the number of elements returned.
-        /// </summary>
-        public int Count
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the page size for the request.
-        /// </summary>
-        public int PageSize
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the total number of elements (across all pages).
-        /// </summary>
-        public int TotalCount
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Gets the adapter used to interact with the MTG API.
         /// </summary>
         protected IMtgApiServiceAdapter Adapter
@@ -180,81 +153,12 @@ namespace MtgApiManager.Lib.Service
         protected async Task<T> CallWebServiceGet<T>(Uri requestUri)
             where T : Dto.MtgResponseBase
         {
-            var response = await this._adapter.WebGetAsync(requestUri);
-
-            if (response.IsSuccessStatusCode)
+            if (requestUri == null)
             {
-                // Get the custom mtg headers.
-                this.ParseHeaders(response.Headers);
-
-                // De serialize the response.
-                T obj = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-
-                return obj;
-            }
-            else
-            {
-                switch ((int)response.StatusCode)
-                {
-                    case (int)MtgApiError.BadRequest:
-                        throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.GetDescription());
-                    case (int)MtgApiError.Forbidden:
-                        throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.GetDescription());
-                    case (int)MtgApiError.InternalServerError:
-                        throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.GetDescription());
-                    case (int)MtgApiError.NotFound:
-                        throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.GetDescription());
-                    case (int)MtgApiError.ServiceUnavailable:
-                        throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
-                    default:
-                        response.EnsureSuccessStatusCode();
-                        return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets all the related headers from the response.
-        /// </summary>
-        /// <param name="headers">The header to parse.</param>
-        private void ParseHeaders(HttpResponseHeaders headers)
-        {
-            if (headers == null)
-            {
-                throw new ArgumentNullException("headers");
+                throw new ArgumentNullException("requestUri");
             }
 
-            IEnumerable<string> resultHeaders = null;
-
-            if (headers.TryGetValues("Link", out resultHeaders))
-            {
-                MtgApiController.Link = resultHeaders.FirstOrDefault();
-            }
-
-            if (headers.TryGetValues("Page-Size", out resultHeaders))
-            {
-                this.PageSize = int.Parse(resultHeaders.FirstOrDefault());
-            }
-
-            if (headers.TryGetValues("Count", out resultHeaders))
-            {
-                this.Count = int.Parse(resultHeaders.FirstOrDefault());
-            }
-
-            if (headers.TryGetValues("Total-Count", out resultHeaders))
-            {
-                this.TotalCount = int.Parse(resultHeaders.FirstOrDefault());
-            }
-
-            if (headers.TryGetValues("Ratelimit-Limit", out resultHeaders))
-            {
-                MtgApiController.RatelimitLimit = int.Parse(resultHeaders.FirstOrDefault());
-            }
-
-            if (headers.TryGetValues("Ratelimit-Remaining", out resultHeaders))
-            {
-                MtgApiController.RatelimitRemaining = int.Parse(resultHeaders.FirstOrDefault());
-            }
+            return await this._adapter.WebGetAsync<T>(requestUri);
         }
     }
 }
