@@ -86,9 +86,9 @@ namespace MtgApiManager.Lib.Service
 
                 return Exceptional<List<Card>>.Success(this.MapCardsList(rootCardList));
             }
-            catch (AggregateException ex)
+            catch (Exception ex)
             {
-                return Exceptional<List<Card>>.Failure(ex.Flatten().InnerException);
+                return Exceptional<List<Card>>.Failure(ex);
             }
         }
 
@@ -126,9 +126,9 @@ namespace MtgApiManager.Lib.Service
 
                 return Exceptional<Card>.Success(model);
             }
-            catch (AggregateException ex)
+            catch (Exception ex)
             {
-                return Exceptional<Card>.Failure(ex.Flatten().InnerException);
+                return Exceptional<Card>.Failure(ex);
             }
         }
 
@@ -141,13 +141,19 @@ namespace MtgApiManager.Lib.Service
         /// <returns>The instance of its self with the new query parameter.</returns>
         public CardService Where<U>(Expression<Func<CardDto, U>> property, string value)
         {
+            if (property == null)
+            {
+                throw new ArgumentNullException("property");
+            }
+
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException("value");
+            }
+
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<CardDto>(expression.Member.Name);
-
-            if (!string.IsNullOrWhiteSpace(queryName))
-            {
-                this._whereQueries[queryName] = value;
-            }
+            this._whereQueries[queryName] = value;
 
             return this;
         }
@@ -161,7 +167,7 @@ namespace MtgApiManager.Lib.Service
         {
             if (cardListDto == null)
             {
-                throw new ArgumentException("cardListDto");
+                throw new ArgumentNullException("cardListDto");
             }
 
             if (cardListDto.Cards == null)
