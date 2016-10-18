@@ -7,6 +7,7 @@ namespace MtgApiManager.Lib.Test.Service
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Threading.Tasks;
     using Lib.Core;
     using Lib.Core.Exceptions;
     using Lib.Dto;
@@ -22,7 +23,152 @@ namespace MtgApiManager.Lib.Test.Service
     public class CardServiceTest
     {
         /// <summary>
-        /// Tests the <see cref="CardService.All"/> and <see cref="CardService.AllAsync"/> methods.
+        /// Tests the <see cref="CardService.AllAsync"/> method.
+        /// </summary>
+        /// <returns>The asynchronous task.</returns>
+        [TestMethod]
+        public async Task AllAsyncTest()
+        {
+            var cards = new List<CardDto>()
+            {
+                new CardDto()
+                {
+                    Artist = "artist1",
+                    Border = "border1",
+                    Cmc = 111,
+                    Colors = new string[] { "blue", "pink" },
+                    Flavor = "flavor1",
+                    ForeignNames = new ForeignNameDto[] { new ForeignNameDto() { Language = "english", MultiverseId = 222, Name = "name2" } },
+                    Hand = 222,
+                    Id = "12345",
+                    ImageUrl = new System.Uri("http://fake/url"),
+                    Layout = "layout1",
+                    Legalities = new LegalityDto[] { new LegalityDto() { Format = "format2", LegalityName = "legality name 2" } },
+                    Life = 333,
+                    Loyalty = "loyalty",
+                    ManaCost = "500",
+                    MultiverseId = 444,
+                    Name = "name1",
+                    Names = new string[] { "name2", "name3" },
+                    Number = "600",
+                    OriginalText = "original text",
+                    OriginalType = "original type",
+                    Power = "9000",
+                    Printings = new string[] { "printing1", "printing2" },
+                    Rarity = "rare",
+                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    Reserved = true,
+                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Set = "set1",
+                    SetName = "set name 1",
+                    Source = "source",
+                    Starter = true,
+                    SubTypes = new string[] { "subtype1", "subtype2" },
+                    SuperTypes = new string[] { "supertype1", "supertype2" },
+                    Text = "text3",
+                    Timeshifted = false,
+                    Toughness = "tough",
+                    Type = "type2",
+                    Types = new string[] { "type1", "type2" },
+                    Variations = new int[] { 1, 2, 3 },
+                    Watermark = "watermark"
+                },
+                new CardDto()
+                {
+                    Artist = "artist1",
+                    Border = "border1",
+                    Cmc = 111,
+                    Colors = new string[] { "blue", "pink" },
+                    Flavor = "flavor1",
+                    ForeignNames = new ForeignNameDto[] { new ForeignNameDto() { Language = "english", MultiverseId = 222, Name = "name2" } },
+                    Hand = 222,
+                    Id = "12345",
+                    ImageUrl = new System.Uri("http://fake/url"),
+                    Layout = "layout1",
+                    Legalities = new LegalityDto[] { new LegalityDto() { Format = "format2", LegalityName = "legality name 2" } },
+                    Life = 333,
+                    Loyalty = "loyalty",
+                    ManaCost = "500",
+                    MultiverseId = 444,
+                    Name = "name1",
+                    Names = new string[] { "name2", "name3" },
+                    Number = "600",
+                    OriginalText = "original text",
+                    OriginalType = "original type",
+                    Power = "9000",
+                    Printings = new string[] { "printing1", "printing2" },
+                    Rarity = "rare",
+                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    Reserved = true,
+                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Set = "set1",
+                    SetName = "set name 1",
+                    Source = "source",
+                    Starter = true,
+                    SubTypes = new string[] { "subtype1", "subtype2" },
+                    SuperTypes = new string[] { "supertype1", "supertype2" },
+                    Text = "text3",
+                    Timeshifted = false,
+                    Toughness = "tough",
+                    Type = "type2",
+                    Types = new string[] { "type1", "type2" },
+                    Variations = new int[] { 1, 2, 3 },
+                    Watermark = "watermark"
+                }
+            };
+
+            // Test the All method.
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>();
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardListDto>(It.IsAny<Uri>()))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardListDto() { Cards = cards });
+
+            var service = new CardService(moqAdapter.Object);
+            service = service.Where(x => x.Name, "name1");
+
+            var result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = await service.AllAsync();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = await service.AllAsync();
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="CardService.All"/> method.
         /// </summary>
         [TestMethod]
         public void AllTest()
@@ -163,55 +309,6 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
-
-            // Test the All method.
-            moqAdapter = new Mock<IMtgApiServiceAdapter>();
-            moqAdapter
-                .SetupSequence(x => x.WebGetAsync<RootCardListDto>(It.IsAny<Uri>()))
-                .Throws<ArgumentNullException>()
-                .Throws(new MtgApiException<BadRequestException>("bad request"))
-                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
-                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
-                .Throws(new MtgApiException<NotFoundException>("not found"))
-                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
-                .Throws<Exception>()
-                .ReturnsAsync(new RootCardListDto() { Cards = cards });
-
-            service = new CardService(moqAdapter.Object);
-            service = service.Where(x => x.Name, "name1");
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
-
-            result = service.AllAsync().Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
-
-            result = service.AllAsync().Result;
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
         }
 
         /// <summary>
@@ -243,7 +340,106 @@ namespace MtgApiManager.Lib.Test.Service
         }
 
         /// <summary>
-        /// Tests the <see cref="CardService.Find(int)"/> and <see cref="CardService.FindAsync(int)"/> methods.
+        /// Tests the <see cref="CardService.FindAsync(int)"/> methods.
+        /// </summary>
+        /// <returns>The asynchronous task.</returns>
+        [TestMethod]
+        public async Task FindAsyncTest()
+        {
+            var cardDto = new CardDto()
+            {
+                Artist = "artist1",
+                Border = "border1",
+                Cmc = 111,
+                Colors = new string[] { "blue", "pink" },
+                Flavor = "flavor1",
+                ForeignNames = new ForeignNameDto[] { new ForeignNameDto() { Language = "english", MultiverseId = 222, Name = "name2" } },
+                Hand = 222,
+                Id = "12345",
+                ImageUrl = new System.Uri("http://fake/url"),
+                Layout = "layout1",
+                Legalities = new LegalityDto[] { new LegalityDto() { Format = "format2", LegalityName = "legality name 2" } },
+                Life = 333,
+                Loyalty = "loyalty",
+                ManaCost = "500",
+                MultiverseId = 444,
+                Name = "name1",
+                Names = new string[] { "name2", "name3" },
+                Number = "600",
+                OriginalText = "original text",
+                OriginalType = "original type",
+                Power = "9000",
+                Printings = new string[] { "printing1", "printing2" },
+                Rarity = "rare",
+                ReleaseDate = new System.DateTime(2010, 1, 1),
+                Reserved = true,
+                Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                Set = "set1",
+                SetName = "set name 1",
+                Source = "source",
+                Starter = true,
+                SubTypes = new string[] { "subtype1", "subtype2" },
+                SuperTypes = new string[] { "supertype1", "supertype2" },
+                Text = "text3",
+                Timeshifted = false,
+                Toughness = "tough",
+                Type = "type2",
+                Types = new string[] { "type1", "type2" },
+                Variations = new int[] { 1, 2, 3 },
+                Watermark = "watermark"
+            };
+
+            // Test the FindAsync method.
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>();
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardDto>(It.IsAny<Uri>()))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardDto() { Card = cardDto });
+
+            var service = new CardService(moqAdapter.Object);
+
+            var result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = await service.FindAsync(1);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = await service.FindAsync(1);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="CardService.Find(int)"/> method.
         /// </summary>
         [TestMethod]
         public void FindTest()
@@ -335,54 +531,6 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsInstanceOfType(result.Exception, typeof(Exception));
 
             result = service.Find(1);
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
-
-            // Test the FindAsync method.
-            moqAdapter = new Mock<IMtgApiServiceAdapter>();
-            moqAdapter
-                .SetupSequence(x => x.WebGetAsync<RootCardDto>(It.IsAny<Uri>()))
-                .Throws<ArgumentNullException>()
-                .Throws(new MtgApiException<BadRequestException>("bad request"))
-                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
-                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
-                .Throws(new MtgApiException<NotFoundException>("not found"))
-                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
-                .Throws<Exception>()
-                .ReturnsAsync(new RootCardDto() { Card = cardDto });
-
-            service = new CardService(moqAdapter.Object);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
-
-            result = service.FindAsync(1).Result;
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
-
-            result = service.FindAsync(1).Result;
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
