@@ -6,9 +6,7 @@ namespace MtgApiManager.Lib.Utility
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
 
     /// <summary>
     /// Utility methods dealing with queries.

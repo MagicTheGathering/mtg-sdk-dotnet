@@ -7,13 +7,9 @@ namespace MtgApiManager.Lib.Service
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Linq;
-    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using System.Web;
     using Core;
-    using Core.Exceptions;
-    using Newtonsoft.Json;
     using Utility;
 
     /// <summary>

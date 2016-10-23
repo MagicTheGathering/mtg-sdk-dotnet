@@ -19,7 +19,7 @@ namespace MtgApiManager.Lib.Service
     /// Object representing a MTG card.
     /// </summary>
     public class CardService
-        : ServiceBase<CardService, Card>, IMtgQueryable<CardService, CardDto>
+        : ServiceBase<CardService, Card>, IMtgQueryable<CardService, CardQueryParameter>
     {
         /// <summary>
         /// The list of queries to apply.
@@ -139,7 +139,7 @@ namespace MtgApiManager.Lib.Service
         /// <param name="property">The property to add the query for.</param>
         /// <param name="value">The value of the query.</param>
         /// <returns>The instance of its self with the new query parameter.</returns>
-        public CardService Where<U>(Expression<Func<CardDto, U>> property, string value)
+        public CardService Where<U>(Expression<Func<CardQueryParameter, U>> property, string value)
         {
             if (property == null)
             {
@@ -152,7 +152,7 @@ namespace MtgApiManager.Lib.Service
             }
 
             MemberExpression expression = property.Body as MemberExpression;
-            var queryName = QueryUtility.GetQueryPropertyName<CardDto>(expression.Member.Name);
+            var queryName = QueryUtility.GetQueryPropertyName<CardQueryParameter>(expression.Member.Name);
             this._whereQueries[queryName] = value;
 
             return this;

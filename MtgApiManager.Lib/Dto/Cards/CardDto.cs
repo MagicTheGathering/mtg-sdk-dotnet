@@ -30,6 +30,13 @@ namespace MtgApiManager.Lib.Dto
             set;
         }
 
+        [JsonProperty(PropertyName = "colorIdentity")]
+        public string[] ColorIdentity
+        {
+            get;
+            set;
+        }
+
         [JsonProperty(PropertyName = "colors")]
         public string[] Colors
         {

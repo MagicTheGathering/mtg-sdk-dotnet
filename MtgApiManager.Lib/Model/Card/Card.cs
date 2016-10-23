@@ -51,6 +51,15 @@ namespace MtgApiManager.Lib.Model
         }
 
         /// <summary>
+        /// Gets the card colors by color code. [“Red”, “Blue”] becomes [“R”, “U”]
+        /// </summary>
+        public string[] ColorIdentity
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the card colors. Usually this is derived from the casting cost, but some cards are special (like the back of dual sided cards and Ghostfire).
         /// </summary>
         public string[] Colors
@@ -388,6 +397,7 @@ namespace MtgApiManager.Lib.Model
             this.Artist = item.Artist;
             this.Border = item.Border;
             this.Cmc = item.Cmc;
+            this.ColorIdentity = item.ColorIdentity;
             this.Colors = item.Colors;
             this.Flavor = item.Flavor;
             if (item.ForeignNames != null)

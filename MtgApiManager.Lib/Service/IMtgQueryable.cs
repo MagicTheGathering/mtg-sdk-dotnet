@@ -11,8 +11,9 @@ namespace MtgApiManager.Lib.Service
     /// Defines an object to be query able against the MTG API.
     /// </summary>
     /// <typeparam name="TService">The type of service.</typeparam>
-    /// <typeparam name="TModel">The type of model.</typeparam>
-    public interface IMtgQueryable<TService, TDto>
+    /// <typeparam name="TQuery">The type of query.</typeparam>
+    public interface IMtgQueryable<TService, TQuery>
+        where TQuery : QueryParameterBase
     {
         /// <summary>
         /// Adds a query parameter.
@@ -21,6 +22,6 @@ namespace MtgApiManager.Lib.Service
         /// <param name="property">The property to add the query for.</param>
         /// <param name="value">The value of the query.</param>
         /// <returns>The instance of its self with the new query parameter.</returns>
-        TService Where<U>(Expression<Func<TDto, U>> property, string value);
+        TService Where<U>(Expression<Func<TQuery, U>> property, string value);
     }
 }

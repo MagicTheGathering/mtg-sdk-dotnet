@@ -97,10 +97,12 @@
     <Compile Include="Model\ForeignNameTest.cs" />
     <Compile Include="Model\LegalityTest.cs" />
     <Compile Include="Model\RulingTest.cs" />
+    <Compile Include="Model\SetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CardServiceTest.cs" />
     <Compile Include="Service\ServiceBaseObjectService.cs" />
     <Compile Include="Service\ServiceBaseTest.cs" />
+    <Compile Include="Service\SetServiceTest.cs" />
     <Compile Include="Utility\DtoTestObject.cs" />
     <Compile Include="Utility\EnumTestObject.cs" />
     <Compile Include="Utility\ExtensionTest.cs" />
