@@ -35,7 +35,7 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block1",
-                    Booster = "booster1",
+                    Booster = new List<List<string>>(),
                     Border = "border1",
                     Code = "code1",
                     Expansion = "expansion1",
@@ -49,7 +49,7 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block2",
-                    Booster = "booster2",
+                    Booster = new List<List<string>>(),
                     Border = "border2",
                     Code = "code2",
                     Expansion = "expansion2",
@@ -123,7 +123,7 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block1",
-                    Booster = "booster1",
+                    Booster = new List<List<string>>(),
                     Border = "border1",
                     Code = "code1",
                     Expansion = "expansion1",
@@ -137,7 +137,7 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block2",
-                    Booster = "booster2",
+                    Booster = new List<List<string>>(),
                     Border = "border2",
                     Code = "code2",
                     Expansion = "expansion2",
@@ -238,7 +238,7 @@ namespace MtgApiManager.Lib.Test.Service
             var setDto = new SetDto()
             {
                 Block = "block1",
-                Booster = "booster1",
+                Booster = new List<List<string>>(),
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -308,7 +308,7 @@ namespace MtgApiManager.Lib.Test.Service
             var setDto = new SetDto()
             {
                 Block = "block1",
-                Booster = "booster1",
+                Booster = new List<List<string>>(),
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -404,7 +404,7 @@ namespace MtgApiManager.Lib.Test.Service
                     new SetDto()
                     {
                         Block = "block1",
-                        Booster = "booster1",
+                        Booster = new List<List<string>>(),
                         Border = "border1",
                         Code = "code1",
                         Expansion = "expansion1",
@@ -418,7 +418,7 @@ namespace MtgApiManager.Lib.Test.Service
                     new SetDto()
                     {
                         Block = "block2",
-                        Booster = "booster2",
+                        Booster = new List<List<string>>(),
                         Border = "border2",
                         Code = "code2",
                         Expansion = "expansion2",

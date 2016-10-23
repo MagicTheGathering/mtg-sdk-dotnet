@@ -5,6 +5,7 @@
 namespace MtgApiManager.Lib.Dto
 {
     using System;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
 
     public class SetDto
@@ -16,8 +17,9 @@ namespace MtgApiManager.Lib.Dto
             set;
         }
 
+        [JsonConverter(typeof(BoosterCustomConverter))]
         [JsonProperty(PropertyName = "Booster")]
-        public object Booster
+        public List<List<string>> Booster
         {
             get;
             set;

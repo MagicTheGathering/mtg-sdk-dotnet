@@ -5,6 +5,7 @@
 namespace MtgApiManager.Lib.Test.Model
 {
     using System;
+    using System.Collections.Generic;
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
@@ -41,7 +42,7 @@ namespace MtgApiManager.Lib.Test.Model
             var dto = new SetDto()
             {
                 Block = "block1",
-                Booster = "booster1",
+                Booster = new List<List<string>>(),
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -56,7 +57,6 @@ namespace MtgApiManager.Lib.Test.Model
             model = new Set(dto);
 
             Assert.AreEqual(dto.Block, model.Block);
-            Assert.AreEqual(dto.Booster, model.Booster);
             Assert.AreEqual(dto.Border, model.Border);
             Assert.AreEqual(dto.Code, model.Code);
             Assert.AreEqual(dto.Expansion, model.Expansion);

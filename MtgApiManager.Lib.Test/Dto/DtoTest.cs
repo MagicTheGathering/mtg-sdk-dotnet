@@ -22,7 +22,7 @@ namespace MtgApiManager.Lib.Test.Dto
         public void AttributeTest()
         {
             var dtoTypes = from type in Assembly.LoadFrom("MtgApiManager.Lib.dll").GetTypes()
-                           where type.Namespace == "MtgApiManager.Lib.Dto" && !type.IsAbstract
+                           where type.Namespace == "MtgApiManager.Lib.Dto" && !type.IsAbstract && type.IsAssignableFrom(typeof(JsonConverter))
                            select type;
 
             foreach (var type in dtoTypes)
