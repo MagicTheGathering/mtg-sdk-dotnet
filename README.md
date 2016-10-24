@@ -34,6 +34,7 @@ else
 ```cs
 CardService service = new CardService();
 var result = service.Find(123);
+var asyncResult = await service.FindAsync(123);
 ```
 #### Filter Cards via query parameters
 ```cs
@@ -41,11 +42,15 @@ CardService service = new CardService();
 var result = service.Where(x => x.Set, "ktk")
                   .Where(x => x.SubTypes, "warrior,human")
                   .All()
+var asyncResult = await service.Where(x => x.Set, "ktk")
+                            .Where(x => x.SubTypes, "warrior,human")
+                            .AllAsync()                  
 ```    
 #### Find all cards (Will page through all data)
 ```cs
 CardService service = new CardService();
 var result = service.All()
+var asyncResult = await service.AllAsync()
 ```      
 #### Get all cards with pagination
 ```cs
@@ -53,26 +58,33 @@ CardService service = new CardService();
 var result = service.Where(x => x.Page, "5")
                   .Where(x => x.PageSize, "250")
                   .All()
+var asyncResult = await service.Where(x => x.Page, "5")
+                            .Where(x => x.PageSize, "250")
+                            .AllAsync()
 ```      
 #### Find a set by code
 ```cs
 SetService service = new SetService();
 var result = service.Find("ktk");
+var asyncResult = await service.FindAsync("ktk");
 ```    
 #### Filter sets via query parameters
 ```cs
 SetService service = new SetService();
-Set result = service.Where(x => x.Name, "khans").All()
+var result = service.Where(x => x.Name, "khans").All()
+var asyncResult = await service.Where(x => x.Name, "khans").AllAsync()
 ```     
 #### Get all Sets
 ```cs
 SetService service = new SetService();
-Set result = service.All()
+var result = service.All()
+var asyncResult = await service.AllAsync()
 ```
 #### Generate booster
 ```cs
 SetService service = new SetService();
 var result = service.GenerateBooster("ktk")
+var asyncResult = await service.GenerateBoosterAsync("ktk")
 ``` 
 #### Get all Types
 
