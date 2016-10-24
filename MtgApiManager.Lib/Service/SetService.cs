@@ -7,9 +7,11 @@ namespace MtgApiManager.Lib.Service
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Dto;
     using Dto.Set;
     using Model;
     using MtgApiManager.Lib.Core;
@@ -55,6 +57,28 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Maps a collection of set DTO objects to the set model.
+        /// </summary>
+        /// <param name="setListDto">The list of sets DTO objects.</param>
+        /// <returns>A list of set models.</returns>
+        public static List<Set> MapSetsList(RootSetListDto setListDto)
+        {
+            if (setListDto == null)
+            {
+                throw new ArgumentNullException("setListDto");
+            }
+
+            if (setListDto.Sets == null)
+            {
+                return null;
+            }
+
+            return setListDto.Sets
+                .Select(x => new Set(x))
+                .ToList();
+        }
+
+        /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
         /// <returns>A <see cref="Exceptional{List{Set}}"/> representing the result containing all the items.</returns>
@@ -65,7 +89,7 @@ namespace MtgApiManager.Lib.Service
                 var query = this.BuildUri(this._whereQueries);
                 var rootSetList = this.CallWebServiceGet<RootSetListDto>(query).Result;
 
-                return Exceptional<List<Set>>.Success(this.MapSetsList(rootSetList));
+                return Exceptional<List<Set>>.Success(SetService.MapSetsList(rootSetList));
             }
             catch (AggregateException ex)
             {
@@ -84,7 +108,7 @@ namespace MtgApiManager.Lib.Service
                 var query = this.BuildUri(this._whereQueries);
                 var rootSetList = await this.CallWebServiceGet<RootSetListDto>(query);
 
-                return Exceptional<List<Set>>.Success(this.MapSetsList(rootSetList));
+                return Exceptional<List<Set>>.Success(SetService.MapSetsList(rootSetList));
             }
             catch (Exception ex)
             {
@@ -133,6 +157,46 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        ///  Generates a booster pack for a specific set.
+        /// </summary>
+        /// <param name="code">The set code to generate a booster for.</param>
+        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
+        public Exceptional<List<Card>> GenerateBooster(string code)
+        {
+            try
+            {
+                var url = new Uri(Path.Combine(this.BuildUri(code).AbsoluteUri, "booster"), UriKind.Absolute);
+                var rootCardList = this.CallWebServiceGet<RootCardListDto>(url).Result;
+
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<Card>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        ///  Generates a booster pack for a specific set asynchronously.
+        /// </summary>
+        /// <param name="code">The set code to generate a booster for.</param>
+        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
+        public async Task<Exceptional<List<Card>>> GenerateBoosterAsync(string code)
+        {
+            try
+            {
+                var url = new Uri(Path.Combine(this.BuildUri(code).AbsoluteUri, "booster"));
+                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(url);
+
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<List<Card>>.Failure(ex);
+            }
+        }
+
+        /// <summary>
         /// Adds a query parameter.
         /// </summary>
         /// <typeparam name="U">The type of property to add the query for.</typeparam>
@@ -156,28 +220,6 @@ namespace MtgApiManager.Lib.Service
             this._whereQueries[queryName] = value;
 
             return this;
-        }
-
-        /// <summary>
-        /// Maps a collection of set DTO objects to the set model.
-        /// </summary>
-        /// <param name="setListDto">The list of sets DTO objects.</param>
-        /// <returns>A list of set models.</returns>
-        private List<Set> MapSetsList(RootSetListDto setListDto)
-        {
-            if (setListDto == null)
-            {
-                throw new ArgumentNullException("setListDto");
-            }
-
-            if (setListDto.Sets == null)
-            {
-                return null;
-            }
-
-            return setListDto.Sets
-                .Select(x => new Set(x))
-                .ToList();
         }
     }
 }

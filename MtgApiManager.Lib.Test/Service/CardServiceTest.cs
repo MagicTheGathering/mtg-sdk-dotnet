@@ -542,13 +542,12 @@ namespace MtgApiManager.Lib.Test.Service
         [TestMethod]
         public void MapCardsListTest()
         {
-            CardService cardService = new CardService();
-            PrivateObject privateObject = new PrivateObject(cardService);
+            PrivateType privateObject = new PrivateType(typeof(CardService));
 
             try
             {
                 // Test sending a null parameter.
-                privateObject.Invoke("MapCardsList", new object[] { null });
+                privateObject.InvokeStatic("MapCardsList", new object[] { null });
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)
@@ -562,7 +561,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             // Test a null cards collection inside the RootCardListDto object.
             var cardListDto = new RootCardListDto();
-            Assert.IsNull(privateObject.Invoke("MapCardsList", new object[] { cardListDto }));
+            Assert.IsNull(privateObject.InvokeStatic("MapCardsList", new object[] { cardListDto }));
 
             cardListDto = new RootCardListDto()
             {
@@ -613,7 +612,7 @@ namespace MtgApiManager.Lib.Test.Service
                 }
             };
 
-            var result = privateObject.Invoke("MapCardsList", new object[] { cardListDto }) as List<Card>;
+            var result = privateObject.InvokeStatic("MapCardsList", new object[] { cardListDto }) as List<Card>;
             Assert.AreEqual(1, result.Count);
         }
 

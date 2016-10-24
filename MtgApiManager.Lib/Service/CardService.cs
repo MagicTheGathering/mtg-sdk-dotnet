@@ -65,7 +65,7 @@ namespace MtgApiManager.Lib.Service
                 var query = this.BuildUri(this._whereQueries);
                 var rootCardList = this.CallWebServiceGet<RootCardListDto>(query).Result;
 
-                return Exceptional<List<Card>>.Success(this.MapCardsList(rootCardList));
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
             }
             catch (AggregateException ex)
             {
@@ -84,7 +84,7 @@ namespace MtgApiManager.Lib.Service
                 var query = this.BuildUri(this._whereQueries);
                 var rootCardList = await this.CallWebServiceGet<RootCardListDto>(query);
 
-                return Exceptional<List<Card>>.Success(this.MapCardsList(rootCardList));
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
             }
             catch (Exception ex)
             {
@@ -163,7 +163,7 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <param name="cardListDto">The list of cards DTO objects.</param>
         /// <returns>A list of card models.</returns>
-        private List<Card> MapCardsList(RootCardListDto cardListDto)
+        public static List<Card> MapCardsList(RootCardListDto cardListDto)
         {
             if (cardListDto == null)
             {
