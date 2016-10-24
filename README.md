@@ -17,35 +17,47 @@ Use the following command in the **Package Manager Console**.
 PM> Install-Package MtgApiManager.Lib
 ```
 ## Usage
-
+The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
+```
+CardService service = new CardService();
+Exceptional<List<Card>> result = service.All();
+if (result.IsSuccess)
+{
+  var value = result.Value;
+}
+else
+{
+  var exception = result.Exception;
+}
+```
 #### Find a card by multiverse id
 ```cs
 CardService service = new CardService();
-Card result = service.Find(123);
+var result = service.Find(123);
 ```
 #### Filter Cards via query parameters
 ```cs
 CardService service = new CardService();
-Card result = service.Where(x => x.Set, "ktk")
+var result = service.Where(x => x.Set, "ktk")
                   .Where(x => x.SubTypes, "warrior,human")
                   .All()
 ```    
 #### Find all cards (Will page through all data)
 ```cs
 CardService service = new CardService();
-Card result = service.All()
+var result = service.All()
 ```      
 #### Get all cards with pagination
 ```cs
 CardService service = new CardService();
-Card result = service.Where(x => x.Page, "5")
+var result = service.Where(x => x.Page, "5")
                   .Where(x => x.PageSize, "250")
                   .All()
 ```      
 #### Find a set by code
 ```cs
 SetService service = new SetService();
-Set result = service.Find("ktk");
+var result = service.Find("ktk");
 ```    
 #### Filter sets via query parameters
 ```cs
@@ -56,7 +68,12 @@ Set result = service.Where(x => x.Name, "khans").All()
 ```cs
 SetService service = new SetService();
 Set result = service.All()
-```       
+```
+#### Generate booster
+```cs
+SetService service = new SetService();
+var result = service.GenerateBooster("ktk")
+``` 
 #### Get all Types
 
 
