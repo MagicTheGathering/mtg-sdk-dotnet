@@ -30,6 +30,7 @@ else
   var exception = result.Exception;
 }
 ```
+Each service call also has an equivalent asynchronous call.
 #### Find a card by multiverse id
 ```cs
 CardService service = new CardService();
