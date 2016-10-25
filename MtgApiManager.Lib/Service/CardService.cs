@@ -55,6 +55,28 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Maps a collection of card DTO objects to the card model.
+        /// </summary>
+        /// <param name="cardListDto">The list of cards DTO objects.</param>
+        /// <returns>A list of card models.</returns>
+        public static List<Card> MapCardsList(RootCardListDto cardListDto)
+        {
+            if (cardListDto == null)
+            {
+                throw new ArgumentNullException("cardListDto");
+            }
+
+            if (cardListDto.Cards == null)
+            {
+                return null;
+            }
+
+            return cardListDto.Cards
+                .Select(x => new Card(x))
+                .ToList();
+        }
+
+        /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
         /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing all the items.</returns>
@@ -139,45 +161,23 @@ namespace MtgApiManager.Lib.Service
         /// <param name="property">The property to add the query for.</param>
         /// <param name="value">The value of the query.</param>
         /// <returns>The instance of its self with the new query parameter.</returns>
-        public CardService Where<U>(Expression<Func<CardQueryParameter, U>> property, string value)
+        public CardService Where<U>(Expression<Func<CardQueryParameter, U>> property, U value)
         {
             if (property == null)
             {
                 throw new ArgumentNullException("property");
             }
 
-            if (string.IsNullOrEmpty(value))
+            if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<CardQueryParameter>(expression.Member.Name);
-            this._whereQueries[queryName] = value;
+            this._whereQueries[queryName] = Convert.ToString(value);
 
             return this;
-        }
-
-        /// <summary>
-        /// Maps a collection of card DTO objects to the card model.
-        /// </summary>
-        /// <param name="cardListDto">The list of cards DTO objects.</param>
-        /// <returns>A list of card models.</returns>
-        public static List<Card> MapCardsList(RootCardListDto cardListDto)
-        {
-            if (cardListDto == null)
-            {
-                throw new ArgumentNullException("cardListDto");
-            }
-
-            if (cardListDto.Cards == null)
-            {
-                return null;
-            }
-
-            return cardListDto.Cards
-                .Select(x => new Card(x))
-                .ToList();
         }
     }
 }

@@ -22,6 +22,6 @@ namespace MtgApiManager.Lib.Service
         /// <param name="property">The property to add the query for.</param>
         /// <param name="value">The value of the query.</param>
         /// <returns>The instance of its self with the new query parameter.</returns>
-        TService Where<U>(Expression<Func<TQuery, U>> property, string value);
+        TService Where<U>(Expression<Func<TQuery, U>> property, U value);
     }
 }

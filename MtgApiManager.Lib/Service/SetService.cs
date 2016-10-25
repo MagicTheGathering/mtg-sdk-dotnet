@@ -203,21 +203,21 @@ namespace MtgApiManager.Lib.Service
         /// <param name="property">The property to add the query for.</param>
         /// <param name="value">The value of the query.</param>
         /// <returns>The instance of its self with the new query parameter.</returns>
-        public SetService Where<U>(Expression<Func<SetQueryParameter, U>> property, string value)
+        public SetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
         {
             if (property == null)
             {
                 throw new ArgumentNullException("property");
             }
 
-            if (string.IsNullOrEmpty(value))
+            if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<SetQueryParameter>(expression.Member.Name);
-            this._whereQueries[queryName] = value;
+            this._whereQueries[queryName] = Convert.ToString(value);
 
             return this;
         }

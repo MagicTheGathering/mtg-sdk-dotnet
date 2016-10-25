@@ -733,7 +733,7 @@ namespace MtgApiManager.Lib.Test.Service
             try
             {
                 // Test sending a null parameter.
-                service.Where<int>(null, null);
+                service.Where<int>(null, 1);
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)

@@ -152,6 +152,26 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Gets or sets the page number.
+        /// </summary>
+        [JsonProperty("page")]
+        public int Page
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
+        [JsonProperty("pageSize")]
+        public int PageSize
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the power of the card. This is only present for creatures.
         /// </summary>
         [JsonProperty("power")]

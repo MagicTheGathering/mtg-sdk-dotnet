@@ -627,7 +627,7 @@ namespace MtgApiManager.Lib.Test.Service
             try
             {
                 // Test sending a null parameter.
-                service.Where<int>(null, null);
+                service.Where<int>(null, 1);
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)
@@ -654,11 +654,13 @@ namespace MtgApiManager.Lib.Test.Service
                 Assert.Fail();
             }
 
-            service = service.Where(x => x.Name, "test");
+            service = service.Where(x => x.Name, "test")
+                            .Where(x => x.Page, 1)
+                            .Where(x => x.PageSize, 250);
 
             PrivateObject privateObject = new PrivateObject(service);
             var whereQuery = privateObject.GetFieldOrProperty("_whereQueries") as NameValueCollection;
-            Assert.AreEqual(1, whereQuery.Count);
+            Assert.AreEqual(3, whereQuery.Count);
             Assert.AreEqual("name", whereQuery.AllKeys[0]);
             Assert.AreEqual("test", whereQuery["name"]);
         }
