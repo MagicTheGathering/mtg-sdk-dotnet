@@ -31,6 +31,12 @@ else
 }
 ```
 Each service call also has an equivalent asynchronous call.
+#### Find a card by id
+```cs
+CardService service = new CardService();
+var result = service.Find("f2eb06047a3a8e515bff62b55f29468fcde6332a");
+var asyncResult = await service.FindAsync("f2eb06047a3a8e515bff62b55f29468fcde6332a");
+```
 #### Find a card by multiverse id
 ```cs
 CardService service = new CardService();
@@ -88,13 +94,20 @@ var result = service.GenerateBooster("ktk")
 var asyncResult = await service.GenerateBoosterAsync("ktk")
 ``` 
 #### Get all Types
-
-
-
+```cs
+CardTypeService service = new CardTypeService();
+var result = service.All()
+var asyncResult = await service.AllAsync()
+```
 #### Get all Subtypes
-
-
-
+```cs
+CardSupertypesService service = new CardSupertypesService();
+var result = service.All()
+var asyncResult = await service.AllAsync()
+```
 #### Get all Supertypes
-
-
+```cs
+CardSubtypesService service = new CardSubtypesService();
+var result = service.All()
+var asyncResult = await service.AllAsync()
+```
