@@ -400,6 +400,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws(new MtgApiException<NotFoundException>("not found"))
                 .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
                 .Throws<Exception>()
+                .ReturnsAsync(new RootCardDto() { Card = cardDto })
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
             var service = new CardService(moqAdapter.Object);
@@ -433,6 +434,11 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsInstanceOfType(result.Exception, typeof(Exception));
 
             result = await service.FindAsync(1);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
@@ -498,6 +504,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws(new MtgApiException<NotFoundException>("not found"))
                 .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
                 .Throws<Exception>()
+                .ReturnsAsync(new RootCardDto() { Card = cardDto })
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
             var service = new CardService(moqAdapter.Object);
@@ -531,6 +538,11 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsInstanceOfType(result.Exception, typeof(Exception));
 
             result = service.Find(1);
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);

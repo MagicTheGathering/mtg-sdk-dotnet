@@ -117,7 +117,7 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Find a specific card by its multi verse identifier.
         /// </summary>
-        /// <param name="multiverseId">The identifier to query for.</param>
+        /// <param name="multiverseId">The multi verse identifier to query for.</param>
         /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
         public Exceptional<Card> Find(int multiverseId)
         {
@@ -137,13 +137,53 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Find a specific card by its multi verse identifier.
         /// </summary>
-        /// <param name="multiverseId">The identifier to query for.</param>
+        /// <param name="id">The identifier to query for.</param>
+        /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
+        public Exceptional<Card> Find(string id)
+        {
+            try
+            {
+                var rootCard = this.CallWebServiceGet<RootCardDto>(this.BuildUri(id)).Result;
+                var model = new Card(rootCard.Card);
+
+                return Exceptional<Card>.Success(model);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<Card>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Find a specific card by its multi verse identifier.
+        /// </summary>
+        /// <param name="multiverseId">The multi verse identifier to query for.</param>
         /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
         public async Task<Exceptional<Card>> FindAsync(int multiverseId)
         {
             try
             {
                 var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString()));
+                var model = new Card(rootCard.Card);
+
+                return Exceptional<Card>.Success(model);
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<Card>.Failure(ex);
+            }
+        }
+
+        /// <summary>
+        /// Find a specific card by its multi verse identifier.
+        /// </summary>
+        /// <param name="id">The identifier to query for.</param>
+        /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
+        public async Task<Exceptional<Card>> FindAsync(string id)
+        {
+            try
+            {
+                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(id));
                 var model = new Card(rootCard.Card);
 
                 return Exceptional<Card>.Success(model);

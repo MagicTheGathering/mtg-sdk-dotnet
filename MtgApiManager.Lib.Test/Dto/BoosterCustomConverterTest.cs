@@ -4,14 +4,12 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Dto
 {
-    using System.Linq;
-    using System.Reflection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Newtonsoft.Json;
-    using MtgApiManager.Lib.Dto;
     using System;
     using System.IO;
     using Lib.Dto.Set;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MtgApiManager.Lib.Dto;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Tests the data transfer objects.
