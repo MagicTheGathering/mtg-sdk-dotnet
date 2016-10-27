@@ -99,13 +99,13 @@ CardTypeService service = new CardTypeService();
 var result = service.All()
 var asyncResult = await service.AllAsync()
 ```
-#### Get all Subtypes
+#### Get all Supertypes
 ```cs
 CardSupertypesService service = new CardSupertypesService();
 var result = service.All()
 var asyncResult = await service.AllAsync()
 ```
-#### Get all Supertypes
+#### Get all Subtypes
 ```cs
 CardSubtypesService service = new CardSubtypesService();
 var result = service.All()
