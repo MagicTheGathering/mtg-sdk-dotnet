@@ -44,7 +44,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Name = "name1",
                     OldCode = "oldCode1",
                     OnlineOnly = true,
-                    ReleaseDate = new DateTime(2016, 1, 1)
+                    ReleaseDate = "2016, 1, 1"
                 },
                 new SetDto()
                 {
@@ -58,7 +58,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Name = "name2",
                     OldCode = "oldCode2",
                     OnlineOnly = true,
-                    ReleaseDate = new DateTime(2016, 2, 2)
+                    ReleaseDate = "2016, 2, 2"
                 }
             };
 
@@ -132,7 +132,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Name = "name1",
                     OldCode = "oldCode1",
                     OnlineOnly = true,
-                    ReleaseDate = new DateTime(2016, 1, 1)
+                    ReleaseDate = "2016, 1, 1"
                 },
                 new SetDto()
                 {
@@ -146,7 +146,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Name = "name2",
                     OldCode = "oldCode2",
                     OnlineOnly = true,
-                    ReleaseDate = new DateTime(2016, 2, 2)
+                    ReleaseDate = "2016, 2, 2"
                 }
             };
 
@@ -247,7 +247,7 @@ namespace MtgApiManager.Lib.Test.Service
                 Name = "name1",
                 OldCode = "oldCode1",
                 OnlineOnly = true,
-                ReleaseDate = new DateTime(2016, 1, 1)
+                ReleaseDate = "2016, 1, 1"
             };
 
             // Test the FindAsync method.
@@ -317,7 +317,7 @@ namespace MtgApiManager.Lib.Test.Service
                 Name = "name1",
                 OldCode = "oldCode1",
                 OnlineOnly = true,
-                ReleaseDate = new DateTime(2016, 1, 1)
+                ReleaseDate = "2016, 1, 1"
             };
 
             // Test the FindAsync method.
@@ -403,9 +403,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -445,9 +445,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -546,9 +546,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -588,9 +588,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -699,7 +699,7 @@ namespace MtgApiManager.Lib.Test.Service
                         Name = "name1",
                         OldCode = "oldCode1",
                         OnlineOnly = true,
-                        ReleaseDate = new DateTime(2016, 1, 1)
+                        ReleaseDate = "2016, 1, 1"
                     },
                     new SetDto()
                     {
@@ -713,7 +713,7 @@ namespace MtgApiManager.Lib.Test.Service
                         Name = "name2",
                         OldCode = "oldCode2",
                         OnlineOnly = true,
-                        ReleaseDate = new DateTime(2016, 2, 2)
+                        ReleaseDate = "2016, 2, 2"
                     }
                 }
             };

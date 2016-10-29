@@ -82,7 +82,7 @@ namespace MtgApiManager.Lib.Dto
         }
 
         [JsonProperty(PropertyName = "ReleaseDate")]
-        public DateTime? ReleaseDate
+        public string ReleaseDate
         {
             get;
             set;

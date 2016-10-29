@@ -242,7 +242,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the date this card was released. This is only set for promo cards. The date may not be accurate to an exact day and month, thus only a partial date may be set (YYYY-MM-DD or YYYY-MM or YYYY). Some promo cards do not have a known release date.
         /// </summary>
-        public DateTime? ReleaseDate
+        public string ReleaseDate
         {
             get;
             private set;

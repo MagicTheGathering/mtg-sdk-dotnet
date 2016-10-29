@@ -104,7 +104,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var query = this.BuildUri(this._whereQueries);
-                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(query);
+                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(query).ConfigureAwait(false);
 
                 return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
             }
@@ -163,7 +163,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString()));
+                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(multiverseId.ToString())).ConfigureAwait(false);
                 var model = new Card(rootCard.Card);
 
                 return Exceptional<Card>.Success(model);
@@ -183,7 +183,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(id));
+                var rootCard = await this.CallWebServiceGet<RootCardDto>(this.BuildUri(id)).ConfigureAwait(false);
                 var model = new Card(rootCard.Card);
 
                 return Exceptional<Card>.Success(model);

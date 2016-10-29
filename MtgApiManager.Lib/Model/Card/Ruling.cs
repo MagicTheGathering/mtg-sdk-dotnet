@@ -24,7 +24,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets or sets the date of the ruling.
         /// </summary>
-        public DateTime? Date
+        public string Date
         {
             get;
             set;

@@ -35,12 +35,12 @@ namespace MtgApiManager.Lib.Core
 
             using (var client = new HttpClient())
             {
-                using (var response = await client.GetAsync(requestUri))
+                using (var response = await client.GetAsync(requestUri).ConfigureAwait(false))
                 {
                     if (response.IsSuccessStatusCode)
                     {
                         MtgApiController.ParseHeaders(response.Headers);
-                        return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                        return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                     }
                     else
                     {

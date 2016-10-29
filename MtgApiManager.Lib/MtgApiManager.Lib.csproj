@@ -67,7 +67,10 @@
     <Compile Include="Dto\Cards\ForeignNameDto.cs" />
     <Compile Include="Dto\Cards\LegalityDto.cs" />
     <Compile Include="Dto\Cards\RulingDto.cs" />
+    <Compile Include="Dto\CardTypes\RootCardSubTypeDto.cs" />
+    <Compile Include="Dto\CardTypes\RootCardSuperTypeDto.cs" />
     <Compile Include="Dto\MtgResponseBase.cs" />
+    <Compile Include="Dto\CardTypes\RootCardTypeDto.cs" />
     <Compile Include="Dto\Set\BoosterCustomConverter.cs" />
     <Compile Include="Dto\Set\RootSetListDto.cs" />
     <Compile Include="Dto\Set\RootSetDto.cs" />
@@ -85,6 +88,7 @@
     </Compile>
     <Compile Include="Service\CardQueryParameter.cs" />
     <Compile Include="Service\CardService.cs" />
+    <Compile Include="Service\CardTypeService.cs" />
     <Compile Include="Service\IMtgQueryable.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

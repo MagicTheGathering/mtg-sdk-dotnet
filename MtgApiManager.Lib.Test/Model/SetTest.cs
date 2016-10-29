@@ -51,7 +51,7 @@ namespace MtgApiManager.Lib.Test.Model
                 Name = "name1",
                 OldCode = "oldCode1",
                 OnlineOnly = true,
-                ReleaseDate = new DateTime(2016, 1, 1)
+                ReleaseDate = "2016, 1, 1"
             };
 
             model = new Set(dto);

@@ -24,7 +24,7 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// The base URL to the MTG API.
         /// </summary>
-        private const string BaseMtgUrl = "https://api.magicthegathering.io";
+        protected const string BaseMtgUrl = "https://api.magicthegathering.io";
 
         /// <summary>
         /// The adapter used to interact with the MTG API.
@@ -154,7 +154,7 @@ namespace MtgApiManager.Lib.Service
                 throw new ArgumentNullException("requestUri");
             }
 
-            return await this._adapter.WebGetAsync<T>(requestUri);
+            return await this._adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
         }
     }
 }

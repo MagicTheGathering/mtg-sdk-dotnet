@@ -5,7 +5,9 @@
 namespace MtgApiManager.Lib.Test.Dto
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using Lib.Dto.Set;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Dto;
@@ -40,6 +42,13 @@ namespace MtgApiManager.Lib.Test.Dto
 
             Assert.IsNotNull(result.Set.Booster);
             Assert.AreEqual(16, result.Set.Booster.Count);
+
+            JsonTextReader jsonReader = new JsonTextReader(new StringReader("[[\"rare\",\"mythic rare\"],\"uncommon\",\"uncommon\",\"uncommon\",\"common\",\"common\",\"common\",\"common\",\"common\",\"common\",\"common\",\"common\",\"common\",\"common\",\"land\",\"marketing\"]"));
+
+            BoosterCustomConverter converter = new BoosterCustomConverter();
+            var result2 = converter.ReadJson(jsonReader, typeof(List<List<string>>), null, null) as List<List<string>>;
+            Assert.IsNotNull(result2);
+            Assert.AreEqual(16, result2.Count);
         }
 
         /// <summary>

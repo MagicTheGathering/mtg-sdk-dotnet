@@ -10,7 +10,7 @@ namespace MtgApiManager.Lib.Dto
     public class RulingDto
     {
         [JsonProperty(PropertyName = "date")]
-        public DateTime? Date
+        public string Date
         {
             get;
             set;

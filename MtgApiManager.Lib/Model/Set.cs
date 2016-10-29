@@ -114,7 +114,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets when the set was released. For promo sets, the date the first card was released.
         /// </summary>
-        public DateTime? ReleaseDate
+        public string ReleaseDate
         {
             get;
             private set;

@@ -56,9 +56,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -98,9 +98,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -200,9 +200,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -242,9 +242,9 @@ namespace MtgApiManager.Lib.Test.Service
                     Power = "9000",
                     Printings = new string[] { "printing1", "printing2" },
                     Rarity = "rare",
-                    ReleaseDate = new System.DateTime(2010, 1, 1),
+                    ReleaseDate = "2010, 1, 1",
                     Reserved = true,
-                    Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                    Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                     Set = "set1",
                     SetName = "set name 1",
                     Source = "source",
@@ -371,9 +371,9 @@ namespace MtgApiManager.Lib.Test.Service
                 Power = "9000",
                 Printings = new string[] { "printing1", "printing2" },
                 Rarity = "rare",
-                ReleaseDate = new System.DateTime(2010, 1, 1),
+                ReleaseDate = "2010, 1, 1",
                 Reserved = true,
-                Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                 Set = "set1",
                 SetName = "set name 1",
                 Source = "source",
@@ -400,7 +400,6 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws(new MtgApiException<NotFoundException>("not found"))
                 .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
                 .Throws<Exception>()
-                .ReturnsAsync(new RootCardDto() { Card = cardDto })
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
             var service = new CardService(moqAdapter.Object);
@@ -438,7 +437,47 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
 
-            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            // Test the FindAsync method.
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardDto>(It.IsAny<Uri>()))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardDto() { Card = cardDto });
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = await service.FindAsync("123h4hfh4h6jgjk45jhbj");
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
@@ -475,9 +514,9 @@ namespace MtgApiManager.Lib.Test.Service
                 Power = "9000",
                 Printings = new string[] { "printing1", "printing2" },
                 Rarity = "rare",
-                ReleaseDate = new System.DateTime(2010, 1, 1),
+                ReleaseDate = "2010, 1, 1",
                 Reserved = true,
-                Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                 Set = "set1",
                 SetName = "set name 1",
                 Source = "source",
@@ -493,7 +532,7 @@ namespace MtgApiManager.Lib.Test.Service
                 Watermark = "watermark"
             };
 
-            // Test the Find method.
+            // Test the Find by multi verse identifier method.
             var moqAdapter = new Mock<IMtgApiServiceAdapter>();
             moqAdapter
                 .SetupSequence(x => x.WebGetAsync<RootCardDto>(It.IsAny<Uri>()))
@@ -504,7 +543,6 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws(new MtgApiException<NotFoundException>("not found"))
                 .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
                 .Throws<Exception>()
-                .ReturnsAsync(new RootCardDto() { Card = cardDto })
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
             var service = new CardService(moqAdapter.Object);
@@ -541,6 +579,46 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsTrue(result.IsSuccess);
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
+
+            // Test the Find by identifier method.
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardDto>(It.IsAny<Uri>()))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardDto() { Card = cardDto });
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = service.Find("123h4hfh4h6jgjk45jhbj");
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
 
             result = service.Find("123h4hfh4h6jgjk45jhbj");
             Assert.IsTrue(result.IsSuccess);
@@ -604,9 +682,9 @@ namespace MtgApiManager.Lib.Test.Service
                         Power = "9000",
                         Printings = new string[] { "printing1", "printing2" },
                         Rarity = "rare",
-                        ReleaseDate = new System.DateTime(2010, 1, 1),
+                        ReleaseDate = "2010, 1, 1",
                         Reserved = true,
-                        Rulings = new RulingDto[] { new RulingDto() { Date = new System.DateTime(2010, 2, 2), Text = "text2" } },
+                        Rulings = new RulingDto[] { new RulingDto() { Date = "2010, 2, 2", Text = "text2" } },
                         Set = "set1",
                         SetName = "set name 1",
                         Source = "source",

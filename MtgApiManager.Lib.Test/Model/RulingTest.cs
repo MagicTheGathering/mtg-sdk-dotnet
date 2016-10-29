@@ -40,7 +40,7 @@ namespace MtgApiManager.Lib.Test.Model
 
             var dto = new RulingDto()
             {
-                Date = new System.DateTime(2016, 10, 2),
+                Date = "2016, 10, 2",
                 Text = "testing"
             };
 

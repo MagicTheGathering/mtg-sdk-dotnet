@@ -106,7 +106,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var query = this.BuildUri(this._whereQueries);
-                var rootSetList = await this.CallWebServiceGet<RootSetListDto>(query);
+                var rootSetList = await this.CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
 
                 return Exceptional<List<Set>>.Success(SetService.MapSetsList(rootSetList));
             }
@@ -145,7 +145,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootSet = await this.CallWebServiceGet<RootSetDto>(this.BuildUri(code));
+                var rootSet = await this.CallWebServiceGet<RootSetDto>(this.BuildUri(code)).ConfigureAwait(false);
                 var model = new Set(rootSet.Set);
 
                 return Exceptional<Set>.Success(model);
@@ -186,7 +186,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = new Uri(Path.Combine(this.BuildUri(code).AbsoluteUri, "booster"));
-                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(url);
+                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
 
                 return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
             }
