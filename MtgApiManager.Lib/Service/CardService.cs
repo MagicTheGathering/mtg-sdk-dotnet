@@ -195,6 +195,63 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Gets a list of all the card sub types.
+        /// </summary>
+        /// <returns>A list of all the card super types.</returns>
+        public Exceptional<List<string>> GetCardSubTypes()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardSubTypes.GetDescription()));
+                var rootTypeList = this.CallWebServiceGet<RootCardSubTypeDto>(url).Result;
+
+                return Exceptional<List<string>>.Success(rootTypeList.SubTypes);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<string>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of all the card super types.
+        /// </summary>
+        /// <returns>A list of all the card super types.</returns>
+        public Exceptional<List<string>> GetCardSuperTypes()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardSuperTypes.GetDescription()));
+                var rootTypeList = this.CallWebServiceGet<RootCardSuperTypeDto>(url).Result;
+
+                return Exceptional<List<string>>.Success(rootTypeList.SuperTypes);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<string>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of all the card types.
+        /// </summary>
+        /// <returns>A list of all the card types.</returns>
+        public Exceptional<List<string>> GetCardTypes()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardTypes.GetDescription()));
+                var rootTypeList = this.CallWebServiceGet<RootCardTypeDto>(url).Result;
+
+                return Exceptional<List<string>>.Success(rootTypeList.Types);
+            }
+            catch (AggregateException ex)
+            {
+                return Exceptional<List<string>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
         /// Adds a query parameter.
         /// </summary>
         /// <typeparam name="U">The type of property to add the query for.</typeparam>

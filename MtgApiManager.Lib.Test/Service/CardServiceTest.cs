@@ -627,6 +627,198 @@ namespace MtgApiManager.Lib.Test.Service
         }
 
         /// <summary>
+        /// Tests the <see cref="CardService.GetCardSubTypes"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GetCardSubTypesTest()
+        {
+            var cardSubTypes = new List<string>
+            {
+                "type1",
+                "type2",
+                "type3",
+                "type4",
+                "type5",
+            };
+
+            // Test the All method.
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>();
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardSubTypeDto>(new Uri("https://api.magicthegathering.io/v1/subtypes")))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardSubTypeDto() { SubTypes = cardSubTypes });
+
+            var service = new CardService(moqAdapter.Object);
+
+            var result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = service.GetCardSubTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = service.GetCardSubTypes();
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="CardService.GetCardSuperTypes"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GetCardSuperTypesTest()
+        {
+            var cardSuperTypes = new List<string>
+            {
+                "type1",
+                "type2",
+                "type3",
+                "type4",
+                "type5",
+            };
+
+            // Test the All method.
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>();
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardSuperTypeDto>(new Uri("https://api.magicthegathering.io/v1/supertypes")))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardSuperTypeDto() { SuperTypes = cardSuperTypes });
+
+            var service = new CardService(moqAdapter.Object);
+
+            var result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = service.GetCardSuperTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = service.GetCardSuperTypes();
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="CardService.GetCardTypes"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GetCardTypesTest()
+        {
+            var cardTypes = new List<string>
+            {
+                "type1",
+                "type2",
+                "type3",
+                "type4",
+                "type5",
+            };
+
+            // Test the All method.
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>();
+            moqAdapter
+                .SetupSequence(x => x.WebGetAsync<RootCardTypeDto>(new Uri("https://api.magicthegathering.io/v1/types")))
+                .Throws<ArgumentNullException>()
+                .Throws(new MtgApiException<BadRequestException>("bad request"))
+                .Throws(new MtgApiException<ForbiddenException>("forbidden"))
+                .Throws(new MtgApiException<InternalServerErrorException>("server error"))
+                .Throws(new MtgApiException<NotFoundException>("not found"))
+                .Throws(new MtgApiException<ServiceUnavailableException>("unavailable"))
+                .Throws<Exception>()
+                .ReturnsAsync(new RootCardTypeDto() { Types = cardTypes });
+
+            var service = new CardService(moqAdapter.Object);
+
+            var result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("bad request", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("forbidden", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("server error", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("not found", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("unavailable", result.Exception.Message);
+
+            result = service.GetCardTypes();
+            Assert.IsFalse(result.IsSuccess);
+            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+
+            result = service.GetCardTypes();
+            Assert.IsTrue(result.IsSuccess);
+            Assert.IsNull(result.Exception);
+            Assert.IsNotNull(result.Value);
+        }
+
+        /// <summary>
         /// Tests the MapCardsList method.
         /// </summary>
         [TestMethod]
