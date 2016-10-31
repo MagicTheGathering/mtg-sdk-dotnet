@@ -18,7 +18,7 @@ PM> Install-Package MtgApiManager.Lib
 ```
 ## Usage
 The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
-```
+```cs
 CardService service = new CardService();
 Exceptional<List<Card>> result = service.All();
 if (result.IsSuccess)
