@@ -214,6 +214,25 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Gets a list of all the card sub types.
+        /// </summary>
+        /// <returns>A list of all the card super types.</returns>
+        public async Task<Exceptional<List<string>>> GetCardSubTypesAsync()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardSubTypes.GetDescription()));
+                var rootTypeList = await this.CallWebServiceGet<RootCardSubTypeDto>(url).ConfigureAwait(false);
+
+                return Exceptional<List<string>>.Success(rootTypeList.SubTypes);
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<List<string>>.Failure(ex);
+            }
+        }
+
+        /// <summary>
         /// Gets a list of all the card super types.
         /// </summary>
         /// <returns>A list of all the card super types.</returns>
@@ -233,6 +252,25 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
+        /// Gets a list of all the card super types.
+        /// </summary>
+        /// <returns>A list of all the card super types.</returns>
+        public async Task<Exceptional<List<string>>> GetCardSuperTypesAsync()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardSuperTypes.GetDescription()));
+                var rootTypeList = await this.CallWebServiceGet<RootCardSuperTypeDto>(url).ConfigureAwait(false);
+
+                return Exceptional<List<string>>.Success(rootTypeList.SuperTypes);
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<List<string>>.Failure(ex);
+            }
+        }
+
+        /// <summary>
         /// Gets a list of all the card types.
         /// </summary>
         /// <returns>A list of all the card types.</returns>
@@ -248,6 +286,25 @@ namespace MtgApiManager.Lib.Service
             catch (AggregateException ex)
             {
                 return Exceptional<List<string>>.Failure(ex.Flatten().InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of all the card types.
+        /// </summary>
+        /// <returns>A list of all the card types.</returns>
+        public async Task<Exceptional<List<string>>> GetCardTypesAsync()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(this.Version.GetDescription(), "/", ApiEndPoint.CardTypes.GetDescription()));
+                var rootTypeList = await this.CallWebServiceGet<RootCardTypeDto>(url).ConfigureAwait(false);
+
+                return Exceptional<List<string>>.Success(rootTypeList.Types);
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<List<string>>.Failure(ex);
             }
         }
 
