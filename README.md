@@ -53,7 +53,7 @@ var asyncResult = await service.Where(x => x.Set, "ktk")
                             .Where(x => x.SubTypes, "warrior,human")
                             .AllAsync()                  
 ```    
-#### Find all cards (Will page through all data)
+#### Find all cards (limited by default page size)
 ```cs
 CardService service = new CardService();
 var result = service.All()
@@ -62,13 +62,31 @@ var asyncResult = await service.AllAsync()
 #### Get all cards with pagination
 ```cs
 CardService service = new CardService();
-var result = service.Where(x => x.Page, "5")
-                  .Where(x => x.PageSize, "250")
+var result = service.Where(x => x.Page, 5)
+                  .Where(x => x.PageSize, 250)
                   .All()
-var asyncResult = await service.Where(x => x.Page, "5")
-                            .Where(x => x.PageSize, "250")
+var asyncResult = await service.Where(x => x.Page, 5)
+                            .Where(x => x.PageSize, 250)
                             .AllAsync()
-```      
+```
+#### Get all card types
+```cs
+CardService service = new CardService();
+var result = service.GetCardTypes();
+var asyncResult = await service.GetCardTypesAsync();
+```
+#### Get all card supertypes
+```cs
+CardService service = new CardService();
+var result = service.GetCardSuperTypes();
+var asyncResult = await service.GetCardSuperTypesAsync();
+```
+#### Get all card subtypes
+```cs
+CardService service = new CardService();
+var result = service.GetCardSubTypes();
+var asyncResult = await service.GetCardSubTypesAsync();
+```
 #### Find a set by code
 ```cs
 SetService service = new SetService();
@@ -93,21 +111,3 @@ SetService service = new SetService();
 var result = service.GenerateBooster("ktk")
 var asyncResult = await service.GenerateBoosterAsync("ktk")
 ``` 
-#### Get all Types
-```cs
-CardTypeService service = new CardTypeService();
-var result = service.All()
-var asyncResult = await service.AllAsync()
-```
-#### Get all Supertypes
-```cs
-CardSupertypesService service = new CardSupertypesService();
-var result = service.All()
-var asyncResult = await service.AllAsync()
-```
-#### Get all Subtypes
-```cs
-CardSubtypesService service = new CardSubtypesService();
-var result = service.All()
-var asyncResult = await service.AllAsync()
-```
