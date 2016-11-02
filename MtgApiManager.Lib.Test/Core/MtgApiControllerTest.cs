@@ -5,7 +5,10 @@
 namespace MtgApiManager.Lib.Test.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
+    using System.Threading.Tasks;
+    using Lib.Core;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -70,6 +73,36 @@ namespace MtgApiManager.Lib.Test.Core
             response.Headers.Add("Ratelimit-Remaining", "250");
             MtgApiController.ParseHeaders(response.Headers);
             Assert.AreEqual(250, MtgApiController.RatelimitRemaining);
+        }
+
+        /// <summary>
+        /// Tests the <see cref="MtgApiController.HandleRateLimit"/> method.
+        /// </summary>
+        [TestMethod]
+        public async Task HandleRateLimitTest()
+        {
+            // Test no delay.
+            await MtgApiController.HandleRateLimit();
+
+            // Test with delay.
+            var privateController = new PrivateType(typeof(MtgApiController));
+            privateController.SetStaticFieldOrProperty("RatelimitLimit", 2000);
+
+            var limit = new RateLimit();
+            var privateLimit = new PrivateObject(limit);
+            privateLimit.SetFieldOrProperty("_webServiceCalls", new List<DateTime>()
+            {
+                DateTime.Now.AddSeconds(-1),
+                DateTime.Now.AddSeconds(-2),
+                DateTime.Now.AddSeconds(-3),
+                DateTime.Now.AddSeconds(-4),
+                DateTime.Now.AddSeconds(-5),
+                DateTime.Now.AddSeconds(-6),
+            });
+
+            privateController.SetStaticFieldOrProperty("_apiRateLimit", limit);
+
+            await MtgApiController.HandleRateLimit();
         }
     }
 }

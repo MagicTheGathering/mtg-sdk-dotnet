@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using MtgApiManager.Lib.Core;
 
 [assembly: InternalsVisibleTo("MtgApiManager.Lib.Test")]
 
@@ -11,6 +13,11 @@ using System.Runtime.CompilerServices;
 /// </summary>
 internal static class MtgApiController
 {
+    /// <summary>
+    /// The rate limit which controls the calls to the API.
+    /// </summary>
+    private static RateLimit _apiRateLimit = new RateLimit();
+
     /// <summary>
     /// Gets or sets the number of elements returned.
     /// </summary>
@@ -63,6 +70,18 @@ internal static class MtgApiController
     {
         get;
         set;
+    }
+
+    public async static Task HandleRateLimit()
+    {
+        int delayInMilliseconds = MtgApiController._apiRateLimit.GetDelay(MtgApiController.RatelimitLimit);
+
+        if (delayInMilliseconds > 0)
+        {
+            await Task.Delay(delayInMilliseconds);
+        }
+
+        MtgApiController._apiRateLimit.AddApiCall();
     }
 
     /// <summary>

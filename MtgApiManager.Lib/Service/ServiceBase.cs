@@ -154,6 +154,9 @@ namespace MtgApiManager.Lib.Service
                 throw new ArgumentNullException("requestUri");
             }
 
+            // Makes sure that th rate limit is not reached. 
+            await MtgApiController.HandleRateLimit();
+
             return await this._adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
         }
     }
