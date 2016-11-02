@@ -27,12 +27,12 @@ namespace MtgApiManager.Lib.Test.Core
             var privateObject = new PrivateObject(limit);
 
             limit.AddApiCall();
-            Task.Delay(500);
+            Thread.Sleep(500);
             limit.AddApiCall();
-            Task.Delay(500);
+            Thread.Sleep(500);
             limit.AddApiCall();
 
-            Assert.AreEqual(3, (privateObject.GetFieldOrProperty("_webServiceCalls") as HashSet<DateTime>).Count);
+            Assert.AreEqual(3, (privateObject.GetFieldOrProperty("_webServiceCalls") as List<DateTime>).Count);
         }
 
         /// <summary>
