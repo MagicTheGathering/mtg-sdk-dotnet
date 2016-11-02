@@ -629,8 +629,9 @@ namespace MtgApiManager.Lib.Test.Service
         /// <summary>
         /// Tests the <see cref="CardService.GetCardSubTypesAsync"/> method.
         /// </summary>
+        /// <returns>The asynchronous task.</returns>
         [TestMethod]
-        public async void GetCardSubTypesAsyncTest()
+        public async Task GetCardSubTypesAsyncTest()
         {
             var cardSubTypes = new List<string>
             {
@@ -757,8 +758,9 @@ namespace MtgApiManager.Lib.Test.Service
         /// <summary>
         /// Tests the <see cref="CardService.GetCardSuperTypesAsync"/> method.
         /// </summary>
+        /// <returns>The asynchronous task.</returns>
         [TestMethod]
-        public async void GetCardSuperTypesAsyncTest()
+        public async Task GetCardSuperTypesAsyncTest()
         {
             var cardSuperTypes = new List<string>
             {
@@ -885,8 +887,9 @@ namespace MtgApiManager.Lib.Test.Service
         /// <summary>
         /// Tests the <see cref="CardService.GetCardTypesAsync"/> method.
         /// </summary>
+        /// <returns>The asynchronous task.</returns>
         [TestMethod]
-        public async void GetCardTypesAsyncTest()
+        public async Task GetCardTypesAsyncTest()
         {
             var cardTypes = new List<string>
             {
