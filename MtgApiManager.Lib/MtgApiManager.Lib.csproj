@@ -61,6 +61,7 @@
     <Compile Include="Core\MtgApiController.cs" />
     <Compile Include="Core\MtgApiServiceAdapter.cs" />
     <Compile Include="Core\Option.cs" />
+    <Compile Include="Core\RateLimit.cs" />
     <Compile Include="Dto\Cards\CardDto.cs" />
     <Compile Include="Dto\Cards\RootCardDto.cs" />
     <Compile Include="Dto\Cards\RootCardListDto.cs" />

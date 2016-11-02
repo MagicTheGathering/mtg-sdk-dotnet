@@ -92,6 +92,7 @@
     <Compile Include="Core\MtgApiExceptionTest.cs" />
     <Compile Include="Core\MtgApiServiceAdapterTest.cs" />
     <Compile Include="Core\OptionTest.cs" />
+    <Compile Include="Core\RateLimitTest.cs" />
     <Compile Include="Dto\BoosterCustomConverterTest.cs" />
     <Compile Include="Dto\DtoTest.cs" />
     <Compile Include="Model\CardTest.cs" />
