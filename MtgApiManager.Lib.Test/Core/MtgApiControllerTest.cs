@@ -73,6 +73,9 @@ namespace MtgApiManager.Lib.Test.Core
             response.Headers.Add("Ratelimit-Remaining", "250");
             MtgApiController.ParseHeaders(response.Headers);
             Assert.AreEqual(250, MtgApiController.RatelimitRemaining);
+
+            var privateController = new PrivateType(typeof(MtgApiController));
+            privateController.SetStaticFieldOrProperty("RatelimitLimit", 2000);
         }
 
         /// <summary>
@@ -97,12 +100,22 @@ namespace MtgApiManager.Lib.Test.Core
                 DateTime.Now.AddSeconds(-3),
                 DateTime.Now.AddSeconds(-4),
                 DateTime.Now.AddSeconds(-5),
-                DateTime.Now.AddSeconds(-6),
+                DateTime.Now.AddSeconds(-8),
             });
 
             privateController.SetStaticFieldOrProperty("_apiRateLimit", limit);
 
             await MtgApiController.HandleRateLimit();
+        }
+
+        /// <summary>
+        /// Make sure the rate limit is set back to 0 being that its static.
+        /// </summary>
+        [TestCleanup()]
+        public void Cleanup()
+        {
+            var privateController = new PrivateType(typeof(MtgApiController));
+            privateController.SetStaticFieldOrProperty("RatelimitLimit", 0);
         }
     }
 }
