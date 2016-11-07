@@ -161,10 +161,20 @@ namespace MtgApiManager.Lib.Model
 
             this.Block = item.Block;
 
-            this.Booster = new List<object>();
-            foreach (var booster in item.Booster)
+            if (item.Booster != null)
             {
-                this.Booster.Add(Set.CreateBoosterArray(booster));
+                this.Booster = new List<object>();
+                foreach (var booster in item.Booster)
+                {
+                    if (booster is string)
+                    {
+                        this.Booster.Add(booster);
+                    }
+                    else
+                    {
+                        this.Booster.Add(Set.CreateBoosterArray(booster));
+                    }
+                }
             }
 
             this.Border = item.Border;
