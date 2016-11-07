@@ -93,7 +93,6 @@
     <Compile Include="Core\MtgApiServiceAdapterTest.cs" />
     <Compile Include="Core\OptionTest.cs" />
     <Compile Include="Core\RateLimitTest.cs" />
-    <Compile Include="Dto\BoosterCustomConverterTest.cs" />
     <Compile Include="Dto\DtoTest.cs" />
     <Compile Include="Model\CardTest.cs" />
     <Compile Include="Model\ForeignNameTest.cs" />
@@ -118,9 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="Dto\BoosterCustomConverterData.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

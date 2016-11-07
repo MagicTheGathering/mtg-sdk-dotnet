@@ -5,7 +5,9 @@
 namespace MtgApiManager.Lib.Model
 {
     using System;
+    using System.Collections.Generic;
     using Dto;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Object representing a MTG Set.
@@ -33,7 +35,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the booster contents for this set.
         /// </summary>
-        public object Booster
+        public List<object> Booster
         {
             get;
             private set;
@@ -103,7 +105,7 @@ namespace MtgApiManager.Lib.Model
         }
 
         /// <summary>
-        /// Get a value indicating whether the set was only released on line.
+        /// Gets a value indicating whether the set was only released on line.
         /// </summary>
         public bool? OnlineOnly
         {
@@ -121,6 +123,32 @@ namespace MtgApiManager.Lib.Model
         }
 
         /// <summary>
+        /// Handles parsing the booster property by recursively looking for arrays or values.
+        /// </summary>
+        /// <param name="item">The parent item.</param>
+        /// <returns>A object representing the booster member.</returns>
+        private static object CreateBoosterArray(object item)
+        {
+            var value = item as JValue;
+            if (value != null)
+            {
+                return value.Value.ToString();
+            }
+            else
+            {
+                var array = item as JArray;
+                var subList = new List<object>();
+
+                foreach (var arrayItem in array)
+                {
+                    subList.Add(Set.CreateBoosterArray(arrayItem));
+                }
+
+                return subList;
+            }
+        }
+
+        /// <summary>
         /// Maps a single set DTO to the set model.
         /// </summary>
         /// <param name="item">The set DTO object.</param>
@@ -132,7 +160,13 @@ namespace MtgApiManager.Lib.Model
             }
 
             this.Block = item.Block;
-            this.Booster = item.Booster;
+
+            this.Booster = new List<object>();
+            foreach (var booster in item.Booster)
+            {
+                this.Booster.Add(Set.CreateBoosterArray(booster));
+            }
+
             this.Border = item.Border;
             this.Code = item.Code;
             this.Expansion = item.Expansion;

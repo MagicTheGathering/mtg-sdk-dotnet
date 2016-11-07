@@ -9,6 +9,7 @@ namespace MtgApiManager.Lib.Test.Model
     using Lib.Dto;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Tests the <see cref="Set"/> class.
@@ -42,7 +43,20 @@ namespace MtgApiManager.Lib.Test.Model
             var dto = new SetDto()
             {
                 Block = "block1",
-                Booster = new List<List<string>>(),
+                Booster = new object[2]
+                {
+                    new JValue("booster1"),
+                    new JArray()
+                    {
+                        new JValue("booster2"),
+                        new JValue("booster3"),
+                        new JArray()
+                        {
+                            new JValue("booster4"),
+                            new JValue("booster5")
+                        }
+                    }
+                },
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -66,6 +80,38 @@ namespace MtgApiManager.Lib.Test.Model
             Assert.AreEqual(dto.OldCode, model.OldCode);
             Assert.AreEqual(dto.OnlineOnly, model.OnlineOnly);
             Assert.AreEqual(dto.ReleaseDate, model.ReleaseDate);
+        }
+
+        /// <summary>
+        /// Tests the CreateBoosterArray method.
+        /// </summary>
+        [TestMethod]
+        public void CreateBoosterArrayTest()
+        {
+            var privateSet = new PrivateType(typeof(Set));
+
+            var stringResult = privateSet.InvokeStatic("CreateBoosterArray", new object[] { new JValue("booster1") }) as string;
+            Assert.AreEqual("booster1", stringResult);
+
+            var booster = new JArray()
+            {
+                new JValue("booster2"),
+                new JValue("booster3"),
+                new JArray()
+                {
+                    new JValue("booster4"),
+                    new JArray()
+                    {
+                        new JValue("booster5"),
+                        new JValue("booster6")
+                    }
+                }
+            };
+
+            var arrayResult = privateSet.InvokeStatic("CreateBoosterArray", new object[] { booster }) as List<object>;
+            Assert.AreEqual(3, arrayResult.Count);
+            Assert.AreEqual(2, ((List<object>)arrayResult[2]).Count);
+            Assert.AreEqual(2, ((List<object>)((List<object>)arrayResult[2])[1]).Count);
         }
     }
 }

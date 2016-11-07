@@ -72,7 +72,6 @@
     <Compile Include="Dto\RootCardSuperTypeDto.cs" />
     <Compile Include="Dto\MtgResponseBase.cs" />
     <Compile Include="Dto\RootCardTypeDto.cs" />
-    <Compile Include="Dto\Set\BoosterCustomConverter.cs" />
     <Compile Include="Dto\Set\RootSetListDto.cs" />
     <Compile Include="Dto\Set\RootSetDto.cs" />
     <Compile Include="Dto\Set\SetDto.cs" />

@@ -16,6 +16,7 @@ namespace MtgApiManager.Lib.Test.Service
     using Lib.Service;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Tests the <see cref="SetService"/> class.
@@ -35,7 +36,20 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block1",
-                    Booster = new List<List<string>>(),
+                    Booster = new object[2]
+                    {
+                        new JValue("booster1"),
+                        new JArray()
+                        {
+                            new JValue("booster2"),
+                            new JValue("booster3"),
+                            new JArray()
+                            {
+                                new JValue("booster4"),
+                                new JValue("booster5")
+                            }
+                        }
+                    },
                     Border = "border1",
                     Code = "code1",
                     Expansion = "expansion1",
@@ -49,7 +63,20 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block2",
-                    Booster = new List<List<string>>(),
+                    Booster = new object[2]
+                    {
+                        new JValue("booster1"),
+                        new JArray()
+                        {
+                            new JValue("booster2"),
+                            new JValue("booster3"),
+                            new JArray()
+                            {
+                                new JValue("booster4"),
+                                new JValue("booster5")
+                            }
+                        }
+                    },
                     Border = "border2",
                     Code = "code2",
                     Expansion = "expansion2",
@@ -123,7 +150,20 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block1",
-                    Booster = new List<List<string>>(),
+                    Booster = new object[2]
+                    {
+                        new JValue("booster1"),
+                        new JArray()
+                        {
+                            new JValue("booster2"),
+                            new JValue("booster3"),
+                            new JArray()
+                            {
+                                new JValue("booster4"),
+                                new JValue("booster5")
+                            }
+                        }
+                    },
                     Border = "border1",
                     Code = "code1",
                     Expansion = "expansion1",
@@ -137,7 +177,15 @@ namespace MtgApiManager.Lib.Test.Service
                 new SetDto()
                 {
                     Block = "block2",
-                    Booster = new List<List<string>>(),
+                    Booster = new object[2]
+                    {
+                        new JValue("booster1"),
+                        new JArray()
+                        {
+                            new JValue("booster1"),
+                            new JValue("booster2")
+                        }
+                    },
                     Border = "border2",
                     Code = "code2",
                     Expansion = "expansion2",
@@ -238,7 +286,20 @@ namespace MtgApiManager.Lib.Test.Service
             var setDto = new SetDto()
             {
                 Block = "block1",
-                Booster = new List<List<string>>(),
+                Booster = new object[2]
+                {
+                    new JValue("booster1"),
+                    new JArray()
+                    {
+                        new JValue("booster2"),
+                        new JValue("booster3"),
+                        new JArray()
+                        {
+                            new JValue("booster4"),
+                            new JValue("booster5")
+                        }
+                    }
+                },
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -308,7 +369,20 @@ namespace MtgApiManager.Lib.Test.Service
             var setDto = new SetDto()
             {
                 Block = "block1",
-                Booster = new List<List<string>>(),
+                Booster = new object[2]
+                {
+                    new JValue("booster1"),
+                    new JArray()
+                    {
+                        new JValue("booster2"),
+                        new JValue("booster3"),
+                        new JArray()
+                        {
+                            new JValue("booster4"),
+                            new JValue("booster5")
+                        }
+                    }
+                },
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -690,7 +764,20 @@ namespace MtgApiManager.Lib.Test.Service
                     new SetDto()
                     {
                         Block = "block1",
-                        Booster = new List<List<string>>(),
+                        Booster = new object[2]
+                        {
+                            new JValue("booster1"),
+                            new JArray()
+                            {
+                                new JValue("booster2"),
+                                new JValue("booster3"),
+                                new JArray()
+                                {
+                                    new JValue("booster4"),
+                                    new JValue("booster5")
+                                }
+                            }
+                        },
                         Border = "border1",
                         Code = "code1",
                         Expansion = "expansion1",
@@ -704,7 +791,20 @@ namespace MtgApiManager.Lib.Test.Service
                     new SetDto()
                     {
                         Block = "block2",
-                        Booster = new List<List<string>>(),
+                        Booster = new object[2]
+                        {
+                            new JValue("booster1"),
+                            new JArray()
+                            {
+                                new JValue("booster2"),
+                                new JValue("booster3"),
+                                new JArray()
+                                {
+                                    new JValue("booster4"),
+                                    new JValue("booster5")
+                                }
+                            }
+                        },
                         Border = "border2",
                         Code = "code2",
                         Expansion = "expansion2",
