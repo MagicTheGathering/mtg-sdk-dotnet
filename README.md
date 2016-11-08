@@ -16,6 +16,8 @@ Use the following command in the **Package Manager Console**.
 ```
 PM> Install-Package MtgApiManager.Lib
 ```
+## Rate Limit
+The MTG API has a [rate limit](https://docs.magicthegathering.io/#rate-limits) in order to maintain a reponsive experience for the user. This SDK has a rate limit manager which manages the rates for you. Based on the total requests per hour the rate limit manager attempts to spead out the calls over the hour in 10 second chuncks. For example if the number of requests is limited to 5000 per hour, the number of requests per 10 seconds is 13 (5000 / (3600 / 10)) after rounding down, therefore if you make 13 requests out to the web service in 8 seconds when you attempt to make the 14th request the SDK will wait 2 seconds before trying to call the API.
 ## Usage
 The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
 ```cs
