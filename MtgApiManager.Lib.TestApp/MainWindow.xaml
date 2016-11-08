@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:MtgApiManager.Lib.TestApp"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="MainWindow"
-        Width="800"
+        Width="900"
         Height="700"
         mc:Ignorable="d">
     <Window.DataContext>
@@ -27,8 +27,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="240" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.ColumnDefinitions>
@@ -47,6 +48,26 @@
                                 Command="{Binding Path=CardSearchCommand}"
                                 Content="Search" />
                     </Grid>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Command="{Binding Path=FindSelectedCardCommand}"
+                            Content="Find Selected" />
+                    <StackPanel Grid.Row="0"
+                                Grid.Column="4"
+                                Orientation="Horizontal">
+                        <Button Width="75"
+                                Margin="0,0,5,0"
+                                Command="{Binding Path=GetCardTypesCommand}"
+                                Content="Types" />
+                        <Button Width="75"
+                                Margin="0,0,5,0"
+                                Command="{Binding Path=GetCardSuperTypesCommand}"
+                                Content="Super Types" />
+                        <Button Width="75"
+                                Command="{Binding Path=GetCardSubTypesCommand}"
+                                Content="Sub Types" />
+                    </StackPanel>
                     <ListView Grid.Row="2"
                               ItemsSource="{Binding Path=CardsCollection}"
                               SelectedValue="{Binding Path=SelectedCardId}"
@@ -64,21 +85,9 @@
                                 Grid.Column="2"
                                 HorizontalAlignment="Left"
                                 Orientation="Vertical">
-                        <Button Width="100"
-                                Height="30"
-                                HorizontalAlignment="Left"
-                                Command="{Binding Path=FindSelectedCardCommand}"
-                                Content="Find Selected" />
                         <Image Width="200"
                                Height="300"
-                               Margin="0,10,0,0"
                                Source="{Binding Path=SelectedCard.ImageUrl}" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="2"
-                                Grid.Column="3"
-                                Margin="0,50,0,0"
-                                HorizontalAlignment="Left"
-                                Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Name:" />
                             <Label Content="{Binding Path=SelectedCard.Name}" />
@@ -108,6 +117,9 @@
                             <Label Content="{Binding Path=SelectedCard.Rarity}" />
                         </StackPanel>
                     </StackPanel>
+                    <ListView Grid.Row="2"
+                              Grid.Column="4"
+                              ItemsSource="{Binding Path=TypesCollection}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Set">
@@ -118,7 +130,9 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
@@ -139,6 +153,16 @@
                                 Command="{Binding Path=SetSearchCommand}"
                                 Content="Search" />
                     </Grid>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Command="{Binding Path=FindSelectedSetCommand}"
+                            Content="Find Selected" />
+                    <Button Grid.Row="0"
+                            Grid.Column="4"
+                            HorizontalAlignment="Left"
+                            Command="{Binding Path=GenerateBoosterCommand}"
+                            Content="Generate Booster" />
                     <ListView Grid.Row="2"
                               Grid.Column="0"
                               ItemsSource="{Binding Path=SetsCollection}"
@@ -157,11 +181,6 @@
                                 Grid.Column="2"
                                 HorizontalAlignment="Left"
                                 Orientation="Vertical">
-                        <Button Width="100"
-                                Height="30"
-                                HorizontalAlignment="Left"
-                                Command="{Binding Path=FindSelectedSetCommand}"
-                                Content="Find Selected" />
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Name:" />
                             <Label Content="{Binding Path=SelectedSet.Name}" />
@@ -203,6 +222,18 @@
                             <Label Content="{Binding Path=SelectedSet.OnlineOnly}" />
                         </StackPanel>
                     </StackPanel>
+                    <ListView Grid.Row="2"
+                              Grid.Column="4"
+                              ItemsSource="{Binding Path=GeneratedBoosterCollection}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=Name}" ContentStringFormat="{}{0}, " />
+                                    <Label Content="{Binding Path=MultiverseId}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </TabItem>
         </TabControl>

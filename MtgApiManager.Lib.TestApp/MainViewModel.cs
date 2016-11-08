@@ -13,6 +13,11 @@ namespace MtgApiManager.Lib.TestApp
         private string _cardSearchString = null;
         private RelayCommand _findSelectedCardCommand;
         private RelayCommand _findSelectedSetCommand;
+        private RelayCommand _generateBoosterCommand;
+        private ObservableCollection<Card> _generatedBoosterCollection = null;
+        private RelayCommand _getCardSubTypesCommand;
+        private RelayCommand _getCardSuperTypesCommand;
+        private RelayCommand _getCardTypesCommand;
         private bool _isLoading = false;
         private Card _selectedCard = null;
         private string _selectedCardId = null;
@@ -21,6 +26,8 @@ namespace MtgApiManager.Lib.TestApp
         private ObservableCollection<Set> _setsCollection = null;
         private RelayCommand _setSearchCommand;
         private string _setSearchString = null;
+
+        private ObservableCollection<string> _typesCollection = null;
 
         public MainViewModel()
         {
@@ -132,6 +139,111 @@ namespace MtgApiManager.Lib.TestApp
                         this.IsLoading = false;
                     },
                     () => !string.IsNullOrWhiteSpace(this._selectedSetCode)));
+            }
+        }
+
+        public RelayCommand GenerateBoosterCommand
+        {
+            get
+            {
+                return _generateBoosterCommand
+                    ?? (_generateBoosterCommand = new RelayCommand(
+                    async () =>
+                    {
+                        this.IsLoading = true;
+
+                        SetService setService = new SetService();
+                        var result = await setService.GenerateBoosterAsync(this._selectedSetCode);
+
+                        if (result.IsSuccess)
+                        {
+                            this.GeneratedBoosterCollection = new ObservableCollection<Card>(result.Value);
+                        }
+
+                        this.IsLoading = false;
+                    },
+                    () => !string.IsNullOrWhiteSpace(this.SelectedSetCode)));
+            }
+        }
+
+        public ObservableCollection<Card> GeneratedBoosterCollection
+        {
+            get
+            {
+                return _generatedBoosterCollection;
+            }
+            set
+            {
+                Set(() => GeneratedBoosterCollection, ref _generatedBoosterCollection, value);
+            }
+        }
+
+        public RelayCommand GetCardSubTypesCommand
+        {
+            get
+            {
+                return _getCardSubTypesCommand
+                    ?? (_getCardSubTypesCommand = new RelayCommand(
+                    async () =>
+                    {
+                        this.IsLoading = true;
+
+                        CardService cardService = new CardService();
+                        var result = await cardService.GetCardSubTypesAsync();
+
+                        if (result.IsSuccess)
+                        {
+                            this.TypesCollection = new ObservableCollection<string>(result.Value);
+                        }
+
+                        this.IsLoading = false;
+                    }));
+            }
+        }
+
+        public RelayCommand GetCardSuperTypesCommand
+        {
+            get
+            {
+                return _getCardSuperTypesCommand
+                    ?? (_getCardSuperTypesCommand = new RelayCommand(
+                    async () =>
+                    {
+                        this.IsLoading = true;
+
+                        CardService cardService = new CardService();
+                        var result = await cardService.GetCardSuperTypesAsync();
+
+                        if (result.IsSuccess)
+                        {
+                            this.TypesCollection = new ObservableCollection<string>(result.Value);
+                        }
+
+                        this.IsLoading = false;
+                    }));
+            }
+        }
+
+        public RelayCommand GetCardTypesCommand
+        {
+            get
+            {
+                return _getCardTypesCommand
+                    ?? (_getCardTypesCommand = new RelayCommand(
+                    async () =>
+                    {
+                        this.IsLoading = true;
+
+                        CardService cardService = new CardService();
+                        var result = await cardService.GetCardTypesAsync();
+
+                        if (result.IsSuccess)
+                        {
+                            this.TypesCollection = new ObservableCollection<string>(result.Value);
+                        }
+
+                        this.IsLoading = false;
+                    }));
             }
         }
 
@@ -251,6 +363,18 @@ namespace MtgApiManager.Lib.TestApp
             set
             {
                 Set(() => SetSearchString, ref _setSearchString, value);
+            }
+        }
+
+        public ObservableCollection<string> TypesCollection
+        {
+            get
+            {
+                return _typesCollection;
+            }
+            set
+            {
+                Set(() => TypesCollection, ref _typesCollection, value);
             }
         }
     }
