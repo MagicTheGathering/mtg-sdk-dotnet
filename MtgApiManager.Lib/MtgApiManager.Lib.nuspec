@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>$version$-beta</version>
+    <version>$version$</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/jregnier/MtgApiManager/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/jregnier/MtgApiManager</projectUrl>   
+    <licenseUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</projectUrl>   
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>First Release.</releaseNotes>
@@ -16,8 +16,5 @@
 	<dependencies>
       <dependency id="Newtonsoft.Json" version="9.0" />
     </dependencies>
-	<packageTypes>
-      <packageType type="Dependency" />
-    </packageTypes>
   </metadata>
 </package>
