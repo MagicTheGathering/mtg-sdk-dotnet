@@ -22,7 +22,7 @@ Task("BuildSolution")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    MSBuild("./MtgApiManager.sln");
+    MSBuild("./MtgApiManager.sln", settings => settings.SetConfiguration("Release"));
 });
 
 Task("RunMSUnitTests")
