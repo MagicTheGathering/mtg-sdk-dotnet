@@ -34,7 +34,7 @@ Task("RunCodeCoverage")
     OpenCover(tool =>
         {
             tool.MSTest(
-                "./MtgApiManager.Lib.Test/bin/Debug/MtgApiManager.Lib.Test.dll", 
+                "./MtgApiManager.Lib.Test/bin/Release/MtgApiManager.Lib.Test.dll", 
                 new MSTestSettings() 
                     { 
                         NoIsolation = false 
