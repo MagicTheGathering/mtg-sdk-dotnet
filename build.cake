@@ -1,4 +1,4 @@
-#tool "nuget:?package=gitreleasemanager"
+#tool "nuget:?package=OpenCover"
 
 var target = Argument("target", "Default");
 
@@ -16,7 +16,15 @@ Task("Clean")
     .IsDependentOn("NuGetRestorePackages")
     .Does(() =>
 {
-    CleanDirectories(new DirectoryPath[] { "./MtgApiManager.Lib/bin", "./MtgApiManager.Lib/obj" });
+    CleanDirectories(new DirectoryPath[] 
+        { 
+            "./MtgApiManager.Lib/bin", 
+            "./MtgApiManager.Lib/obj",
+            "./MtgApiManager.Lib.Test/bin",
+            "./MtgApiManager.Lib.Test/obj",
+            "./MtgApiManager.Lib.TestApp/bin",
+            "./MtgApiManager.Lib.TestApp/obj",            
+        });
 });
 
 Task("BuildSolution")
@@ -34,7 +42,7 @@ Task("RunCodeCoverage")
     OpenCover(tool =>
         {
             tool.MSTest(
-                "./MtgApiManager.Lib.Test/bin/Release/MtgApiManager.Lib.Test.dll", 
+                "./MtgApiManager.Lib.Test/bin/**/MtgApiManager.Lib.Test.dll", 
                 new MSTestSettings() 
                     { 
                         NoIsolation = false 
@@ -43,7 +51,6 @@ Task("RunCodeCoverage")
         new FilePath("./MtgApiManager.Lib_coverage.xml"),
         new OpenCoverSettings() 
         { 
-            ToolPath = "./packages/OpenCover.4.6.519/tools/OpenCover.Console.exe",
             Register = "user",
             SkipAutoProps = true
         }
