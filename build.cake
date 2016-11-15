@@ -1,7 +1,9 @@
+#tool "nuget:?package=gitreleasemanager"
+
 var target = Argument("target", "Default");
 
 Task("Default")
-    .IsDependentOn("RunMSUnitTests");
+    .IsDependentOn("RunCodeCoverage");
 
 Task("NuGetRestorePackages")
     .Does(() =>
@@ -14,8 +16,7 @@ Task("Clean")
     .IsDependentOn("NuGetRestorePackages")
     .Does(() =>
 {
-    CleanDirectories("./MtgApiManager.Lib/bin");
-    CleanDirectories("./MtgApiManager.Lib/obj");
+    CleanDirectories(new DirectoryPath[] { "./MtgApiManager.Lib/bin", "./MtgApiManager.Lib/obj" });
 });
 
 Task("BuildSolution")
@@ -25,11 +26,57 @@ Task("BuildSolution")
     MSBuild("./MtgApiManager.sln", settings => settings.SetConfiguration("Release"));
 });
 
-Task("RunMSUnitTests")
+Task("RunCodeCoverage")
     .IsDependentOn("BuildSolution")
     .Does(() =>
 {
-    MSTest("./MtgApiManager.Lib.Test/bin/Debug/MtgApiManager.Lib.Test.dll");
+    Information("Creating the code coverage file with OpenCover");    
+    OpenCover(tool =>
+        {
+            tool.MSTest(
+                "./MtgApiManager.Lib.Test/bin/Debug/MtgApiManager.Lib.Test.dll", 
+                new MSTestSettings() 
+                    { 
+                        NoIsolation = false 
+                    });
+        },
+        new FilePath("./MtgApiManager.Lib_coverage.xml"),
+        new OpenCoverSettings() 
+        { 
+            ToolPath = "./packages/OpenCover.4.6.519/tools/OpenCover.Console.exe",
+            Register = "user",
+            SkipAutoProps = true
+        }
+        .WithFilter("+[MtgApiManager.Lib]*")
+        .WithFilter("-[MtgApiManager.Lib]MtgApiManager.Lib.Properties.*")
+        .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
+    );
+
+    Information("Upload code coverage file to CodeCov.");
+
+    using(var process = StartAndReturnProcess("pip", new ProcessSettings
+        { 
+            Arguments = "install codecov",
+            WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,
+            EnvironmentVariables = new Dictionary<string, string>
+            {
+                { "PATH", "C:\\Python34\\Scripts" },
+            }           
+        }))
+    {
+        process.WaitForExit();
+        Information("Install codecov returned with code: {0}", process.GetExitCode());
+    }
+
+    using(var process = StartAndReturnProcess("codecov", new ProcessSettings
+        { 
+            Arguments = "-f \"MtgApiManager.Lib_coverage.xml\"",
+            WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,          
+        }))
+    {
+        process.WaitForExit();
+        Information("Upload coverage file returned with code: {0}", process.GetExitCode());
+    }
 });
 
 RunTarget(target);

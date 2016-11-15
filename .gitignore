@@ -244,3 +244,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/MtgApiManager.Lib_coverage.xml
+/tools
