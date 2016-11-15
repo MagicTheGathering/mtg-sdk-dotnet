@@ -67,7 +67,7 @@ Task("RunCodeCoverage")
             WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,
             EnvironmentVariables = new Dictionary<string, string>
             {
-                { "PATH", "C:\\Python34\\Scripts" },
+                { "PATH", "C:\\Python35\\Scripts" },
             }           
         }))
     {
