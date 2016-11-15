@@ -77,7 +77,7 @@ Task("RunCodeCoverage")
 
     using(var process = StartAndReturnProcess("codecov", new ProcessSettings
         { 
-            Arguments = "-f \"MtgApiManager.Lib_coverage.xml\"",
+            Arguments = "-f \"../MtgApiManager.Lib_coverage.xml\"",
             WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,          
         }))
     {
