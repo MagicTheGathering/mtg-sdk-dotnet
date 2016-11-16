@@ -93,18 +93,18 @@ Task("CreateGitRelease")
 {
     if (!HasEnvironmentVariable("GIT_USERNAME"))
     {
-        throw new Exception("Git user name doesn't exist as an environment variable"));
+        throw new Exception("Git user name doesn't exist as an environment variable");
         returned;
     }
 
     if (!HasEnvironmentVariable("GIT_PASSWORD"))
     {
-        throw new Exception("Git password doesn't exist as an environment variable"));
+        throw new Exception("Git password doesn't exist as an environment variable");
     }
 
     if (!HasEnvironmentVariable("APPVEYOR_BUILD_VERSION"))
     {
-        throw new Exception("Appveyor build version doesn't exist as an environment variable"));
+        throw new Exception("Appveyor build version doesn't exist as an environment variable");
     }
 
     var userName = EnvironmentVariable("GIT_USERNAME");
