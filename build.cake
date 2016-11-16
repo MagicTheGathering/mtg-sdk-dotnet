@@ -94,7 +94,6 @@ Task("CreateGitRelease")
     if (!HasEnvironmentVariable("GIT_USERNAME"))
     {
         throw new Exception("Git user name doesn't exist as an environment variable");
-        returned;
     }
 
     if (!HasEnvironmentVariable("GIT_PASSWORD"))
