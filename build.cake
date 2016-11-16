@@ -1,9 +1,10 @@
 #tool "nuget:?package=OpenCover"
+#tool "nuget:?package=gitreleasemanager"
 
 var target = Argument("target", "Default");
 
 Task("Default")
-    .IsDependentOn("RunCodeCoverage");
+    .IsDependentOn("CreateGitRelease");
 
 Task("NuGetRestorePackages")
     .Does(() =>
@@ -84,6 +85,26 @@ Task("RunCodeCoverage")
         process.WaitForExit();
         Information("Upload coverage file returned with code: {0}", process.GetExitCode());
     }
+});
+
+Task("CreateGitRelease")
+    .IsDependentOn("RunCodeCoverage")
+    .Does(() =>
+{
+    var userName = EnvironmentVariable("GIT_USERNAME");
+    var password = EnvironmentVariable("GIT_PASSWORD");
+    var buildVersion = EnvironmentVariable("APPVEYOR_BUILD_VERSION");
+
+    GitReleaseManagerCreate(
+        userName, 
+        password, 
+        "MagicTheGathering", 
+        "https://github.com/MagicTheGathering/mtg-sdk-dotnet.git",
+        new GitReleaseManagerCreateSettings()
+        {
+            Name = buildVersion,
+            Prerelease = false
+        });
 });
 
 RunTarget(target);
