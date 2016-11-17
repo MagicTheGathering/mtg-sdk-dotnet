@@ -4,7 +4,7 @@
 var target = Argument("target", "Default");
 
 Task("Default")
-    .IsDependentOn("CreateGitRelease");
+    .IsDependentOn("RunCodeCoverage");
 
 Task("NuGetRestorePackages")
     .Does(() =>
@@ -85,36 +85,6 @@ Task("RunCodeCoverage")
         process.WaitForExit();
         Information("Upload coverage file returned with code: {0}", process.GetExitCode());
     }
-});
-
-Task("CreateGitRelease")
-    .IsDependentOn("RunCodeCoverage")
-    .Does(() =>
-{
-    if (!HasEnvironmentVariable("GIT_USERNAME"))
-    {
-        throw new Exception("Git user name doesn't exist as an environment variable");
-    }
-
-    if (!HasEnvironmentVariable("GIT_PASSWORD"))
-    {
-        throw new Exception("Git password doesn't exist as an environment variable");
-    }
-
-    if (!HasEnvironmentVariable("APPVEYOR_BUILD_VERSION"))
-    {
-        throw new Exception("Appveyor build version doesn't exist as an environment variable");
-    }
-
-    var userName = EnvironmentVariable("GIT_USERNAME");
-    var password = EnvironmentVariable("GIT_PASSWORD");
-    var buildVersion = EnvironmentVariable("APPVEYOR_BUILD_VERSION");
-
-    GitReleaseManagerCreate(
-        userName, 
-        password, 
-        "MagicTheGathering", 
-        "https://github.com/MagicTheGathering/mtg-sdk-dotnet.git");
 });
 
 RunTarget(target);
