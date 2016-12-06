@@ -110,4 +110,4 @@ var asyncResult = await service.AllAsync()
 SetService service = new SetService();
 var result = service.GenerateBooster("ktk")
 var asyncResult = await service.GenerateBoosterAsync("ktk")
-``` 
+```
