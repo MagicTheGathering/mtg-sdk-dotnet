@@ -44,7 +44,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the converted Mana cost.
         /// </summary>
-        public int? Cmc
+        public float? Cmc
         {
             get;
             private set;

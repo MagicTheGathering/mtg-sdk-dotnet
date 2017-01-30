@@ -24,7 +24,7 @@ namespace MtgApiManager.Lib.Dto
         }
 
         [JsonProperty(PropertyName = "cmc")]
-        public int? Cmc
+        public float? Cmc
         {
             get;
             set;
