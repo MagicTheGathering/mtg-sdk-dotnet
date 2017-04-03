@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</projectUrl>   
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>First Release.</releaseNotes>
+    <releaseNotes>Fixed bugs.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>magicthegathering mtg magic sdk api web</tags>
 	<dependencies>
