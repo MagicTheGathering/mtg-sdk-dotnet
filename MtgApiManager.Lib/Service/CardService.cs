@@ -329,7 +329,17 @@ namespace MtgApiManager.Lib.Service
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<CardQueryParameter>(expression.Member.Name);
-            this._whereQueries[queryName] = Convert.ToString(value);
+
+            Type valueType = value.GetType();
+            if (valueType.IsArray)
+            {
+                string val = string.Join("|", ((IEnumerable<object>)value).Cast<object>());
+                this._whereQueries[queryName] = val;
+            }
+            else
+            {
+                this._whereQueries[queryName] = Convert.ToString(value);
+            }
 
             return this;
         }
