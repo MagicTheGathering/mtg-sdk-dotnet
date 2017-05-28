@@ -25,7 +25,7 @@ namespace MtgApiManager.Lib.Service
         /// Gets or sets the converted Mana cost.
         /// </summary>
         [JsonProperty("cmc")]
-        public int Cmc
+        public string Cmc
         {
             get;
             set;
