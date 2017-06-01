@@ -333,7 +333,7 @@ namespace MtgApiManager.Lib.Service
             Type valueType = value.GetType();
             if (valueType.IsArray)
             {
-                string val = string.Join("|", ((IEnumerable<object>)value).Cast<object>());
+                string val = string.Join("|", (IEnumerable<object>)value);
                 this._whereQueries[queryName] = val;
             }
             else
