@@ -166,7 +166,7 @@ namespace MtgApiManager.Lib.Test.Service
             Assert.IsNull(result.Exception);
             Assert.IsNotNull(result.Value);
         }
-
+        
         /// <summary>
         /// Tests the <see cref="CardService.All"/> method.
         /// </summary>

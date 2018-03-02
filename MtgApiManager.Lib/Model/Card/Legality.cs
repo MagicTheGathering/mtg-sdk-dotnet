@@ -18,7 +18,7 @@ namespace MtgApiManager.Lib.Model
         /// <param name="item">The legality data transfer object to map.</param>
         public Legality(LegalityDto item)
         {
-            this.MapLegality(item);
+            MapLegality(item);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace MtgApiManager.Lib.Model
                 throw new ArgumentNullException("item");
             }
 
-            this.Format = item.Format;
-            this.LegalityName = item.LegalityName;
+            Format = item.Format;
+            LegalityName = item.LegalityName;
         }
     }
 }

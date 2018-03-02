@@ -49,9 +49,9 @@ namespace MtgApiManager.Lib.Service
         /// <param name="endpoint">The end point of the service.</param>
         public ServiceBase(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, ApiEndPoint endpoint)
         {
-            this._adapter = serviceAdapter;
-            this._version = version;
-            this._endpoint = endpoint;
+            _adapter = serviceAdapter;
+            _version = version;
+            _endpoint = endpoint;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace MtgApiManager.Lib.Service
         {
             get
             {
-                return this._adapter;
+                return _adapter;
             }
         }
 
@@ -72,7 +72,7 @@ namespace MtgApiManager.Lib.Service
         {
             get
             {
-                return this._endpoint;
+                return _endpoint;
             }
         }
 
@@ -83,7 +83,7 @@ namespace MtgApiManager.Lib.Service
         {
             get
             {
-                return this._version;
+                return _version;
             }
         }
 
@@ -114,7 +114,7 @@ namespace MtgApiManager.Lib.Service
             var urlBuilder = new UriBuilder(
                 new Uri(
                     new Uri(BaseMtgUrl),
-                    string.Concat(this._version.GetDescription(), "/", this._endpoint.GetDescription())));
+                    string.Concat(_version.GetDescription(), "/", _endpoint.GetDescription())));
 
             var query = HttpUtility.ParseQueryString(urlBuilder.Query);
             query.Add(parameters);
@@ -137,7 +137,7 @@ namespace MtgApiManager.Lib.Service
 
             return new Uri(
                 new Uri(BaseMtgUrl),
-                string.Concat(this._version.GetDescription(), "/", this._endpoint.GetDescription(), "/", parameterValue));
+                string.Concat(_version.GetDescription(), "/", _endpoint.GetDescription(), "/", parameterValue));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace MtgApiManager.Lib.Service
             // Makes sure that th rate limit is not reached. 
             await MtgApiController.HandleRateLimit();
 
-            return await this._adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
+            return await _adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace MtgApiManager.Lib.Test.Core
             try
             {
                 // Test exception is thrown.
-                Exceptional<int>.Success(0).IfFailure(null);
+                Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfFailure(null); 
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)
@@ -49,7 +49,7 @@ namespace MtgApiManager.Lib.Test.Core
                 Assert.Fail();
             }
 
-            Exceptional<int>.Success(0).IfFailure(x => testObject = 5);
+            Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfFailure(x => testObject = 5);
             Assert.AreNotEqual(5, testObject);
 
             Exceptional<int>.Failure(new ArgumentNullException("test")).IfFailure(x => testObject = 10);
@@ -67,7 +67,7 @@ namespace MtgApiManager.Lib.Test.Core
             try
             {
                 // Test exception is thrown.
-                Exceptional<int>.Success(0).IfSuccess(null);
+                Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfSuccess(null);
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)
@@ -79,7 +79,7 @@ namespace MtgApiManager.Lib.Test.Core
                 Assert.Fail();
             }
 
-            Exceptional<int>.Success(0).IfSuccess(x => testObject = 5);
+            Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfSuccess(x => testObject = 5);
             Assert.AreEqual(5, testObject);
 
             Exceptional<int>.Failure(new ArgumentNullException("test")).IfSuccess(x => testObject = 10);
@@ -92,7 +92,7 @@ namespace MtgApiManager.Lib.Test.Core
         [TestMethod]
         public void MapTest()
         {
-            var testObject = Exceptional<int>.Success(10);
+            var testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
             var mappedObject = testObject.Map(x => x * 2);
 
             try
@@ -136,7 +136,7 @@ namespace MtgApiManager.Lib.Test.Core
         [TestMethod]
         public void SuccessTest()
         {
-            var testObject = Exceptional<int>.Success(5);
+            var testObject = Exceptional<int>.Success(5, new PagingInfo(10, 5));
 
             Assert.AreEqual(true, testObject.IsSuccess, "The Result was expected to be a success, but it was a failure.");
             Assert.AreEqual(5, testObject.Value, "The Result value did not match the expected result.");
@@ -148,8 +148,8 @@ namespace MtgApiManager.Lib.Test.Core
         [TestMethod]
         public void ThenTest()
         {
-            var testObject = Exceptional<int>.Success(10);
-            var mappedObject = testObject.Then(x => Exceptional<int>.Success(x * 2));
+            var testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
+            var mappedObject = testObject.Then(x => Exceptional<int>.Success(x * 2, new PagingInfo(10, 5)));
 
             try
             {
@@ -174,7 +174,7 @@ namespace MtgApiManager.Lib.Test.Core
                 .IfSuccess(x => Assert.AreEqual(20, x))
                 .IfFailure(_ => Assert.Fail());
 
-            testObject = Exceptional<int>.Success(10);
+            testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
             mappedObject = testObject.Then(x => Exceptional<int>.Failure(new ArgumentNullException("test")));
 
             testObject

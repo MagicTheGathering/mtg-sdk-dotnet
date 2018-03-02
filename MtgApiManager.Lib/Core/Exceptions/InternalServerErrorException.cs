@@ -4,8 +4,6 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Core.Exceptions
 {
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// An exception representing an internal server error.
     /// </summary>

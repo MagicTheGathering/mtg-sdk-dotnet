@@ -23,7 +23,7 @@ namespace MtgApiManager.Lib.Core
         /// </summary>
         public RateLimit()
         {
-            this._webServiceCalls = new List<DateTime>();
+            _webServiceCalls = new List<DateTime>();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace MtgApiManager.Lib.Core
         /// </summary>
         public void AddApiCall()
         {
-            this._webServiceCalls.Add(DateTime.Now);
+            _webServiceCalls.Add(DateTime.Now);
         }
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace MtgApiManager.Lib.Core
             // Figure out the requests per 10 seconds in order to spread out the calls.
             var requestsPerTenSeconds = (int)Math.Floor((float)requestsPerHour / (3600f / 10f));
 
-            if (this._webServiceCalls.Any())
+            if (_webServiceCalls.Any())
             {
                 // Remove any extra traces that are not in the last seconds plus a 5 second buffer.
-                this._webServiceCalls.RemoveAll(x => x < DateTime.Now.AddSeconds(-10));
+                _webServiceCalls.RemoveAll(x => x < DateTime.Now.AddSeconds(-10));
 
                 // Get the request that are within the rate passed in.
-                var lastTenSeconds = this._webServiceCalls
+                var lastTenSeconds = _webServiceCalls
                                         .Where(x => x > DateTime.Now.AddSeconds(-10))
                                         .OrderBy(x => x)
                                         .ToList();

@@ -4,7 +4,6 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Dto
 {
-    using System;
     using Newtonsoft.Json;
 
     public class RulingDto

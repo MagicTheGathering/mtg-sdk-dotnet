@@ -4,8 +4,6 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Core.Exceptions
 {
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// An exception representing a not found request.
     /// </summary>

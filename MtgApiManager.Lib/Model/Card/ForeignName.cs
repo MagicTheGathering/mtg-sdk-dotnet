@@ -18,7 +18,7 @@ namespace MtgApiManager.Lib.Model
         /// <param name="item">The foreign name data transfer object to map.</param>
         public ForeignName(ForeignNameDto item)
         {
-            this.MapForeignName(item);
+            MapForeignName(item);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace MtgApiManager.Lib.Model
                 throw new ArgumentNullException("item");
             }
 
-            this.Language = item.Language;
-            this.MultiverseId = item.MultiverseId;
-            this.Name = item.Name;
+            Language = item.Language;
+            MultiverseId = item.MultiverseId;
+            Name = item.Name;
         }
     }
 }
