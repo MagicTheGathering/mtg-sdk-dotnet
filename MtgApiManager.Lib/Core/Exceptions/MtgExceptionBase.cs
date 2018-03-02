@@ -6,7 +6,6 @@ namespace MtgApiManager.Lib.Core.Exceptions
 {
     using System;
     using System.Globalization;
-    using System.Runtime.Serialization;
 
     /// <summary>
     /// Object representing an MTG exception.

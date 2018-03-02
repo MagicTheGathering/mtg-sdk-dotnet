@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MtgApiManager.Lib.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using MtgApiManager.Lib.Core;
 
 [assembly: InternalsVisibleTo("MtgApiManager.Lib.Test")]
 
@@ -72,16 +72,21 @@ internal static class MtgApiController
         set;
     }
 
+    public static PagingInfo CreatePagingInfo()
+    {
+        return new PagingInfo(TotalCount, PageSize);
+    }
+
     public async static Task HandleRateLimit()
     {
-        int delayInMilliseconds = MtgApiController._apiRateLimit.GetDelay(MtgApiController.RatelimitLimit);
+        int delayInMilliseconds = _apiRateLimit.GetDelay(MtgApiController.RatelimitLimit);
 
         if (delayInMilliseconds > 0)
         {
             await Task.Delay(delayInMilliseconds);
         }
 
-        MtgApiController._apiRateLimit.AddApiCall();
+        _apiRateLimit.AddApiCall();
     }
 
     /// <summary>
@@ -95,36 +100,34 @@ internal static class MtgApiController
             throw new ArgumentNullException("headers");
         }
 
-        IEnumerable<string> resultHeaders = null;
-
-        if (headers.TryGetValues("Link", out resultHeaders))
+        if (headers.TryGetValues("Link", out IEnumerable<string> resultHeaders))
         {
-            MtgApiController.Link = resultHeaders.FirstOrDefault();
+            Link = resultHeaders.FirstOrDefault();
         }
 
         if (headers.TryGetValues("Page-Size", out resultHeaders))
         {
-            MtgApiController.PageSize = int.Parse(resultHeaders.FirstOrDefault());
+            PageSize = int.Parse(resultHeaders.FirstOrDefault());
         }
 
         if (headers.TryGetValues("Count", out resultHeaders))
         {
-            MtgApiController.Count = int.Parse(resultHeaders.FirstOrDefault());
+            Count = int.Parse(resultHeaders.FirstOrDefault());
         }
 
         if (headers.TryGetValues("Total-Count", out resultHeaders))
         {
-            MtgApiController.TotalCount = int.Parse(resultHeaders.FirstOrDefault());
+            TotalCount = int.Parse(resultHeaders.FirstOrDefault());
         }
 
         if (headers.TryGetValues("Ratelimit-Limit", out resultHeaders))
         {
-            MtgApiController.RatelimitLimit = int.Parse(resultHeaders.FirstOrDefault());
+            RatelimitLimit = int.Parse(resultHeaders.FirstOrDefault());
         }
 
         if (headers.TryGetValues("Ratelimit-Remaining", out resultHeaders))
         {
-            MtgApiController.RatelimitRemaining = int.Parse(resultHeaders.FirstOrDefault());
+            RatelimitRemaining = int.Parse(resultHeaders.FirstOrDefault());
         }
     }
 }

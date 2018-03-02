@@ -53,7 +53,7 @@ namespace MtgApiManager.Lib.Service
         public SetService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version)
             : base(serviceAdapter, version, ApiEndPoint.Sets)
         {
-            this._whereQueries = new NameValueCollection();
+            _whereQueries = new NameValueCollection();
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = this.BuildUri(this._whereQueries);
-                var rootSetList = this.CallWebServiceGet<RootSetListDto>(query).Result;
+                var query = BuildUri(_whereQueries);
+                var rootSetList = CallWebServiceGet<RootSetListDto>(query).Result;
 
-                return Exceptional<List<Set>>.Success(SetService.MapSetsList(rootSetList));
+                return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
             }
             catch (AggregateException ex)
             {
@@ -105,10 +105,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = this.BuildUri(this._whereQueries);
-                var rootSetList = await this.CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
+                var query = BuildUri(_whereQueries);
+                var rootSetList = await CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
 
-                return Exceptional<List<Set>>.Success(SetService.MapSetsList(rootSetList));
+                return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
@@ -125,10 +125,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootSet = this.CallWebServiceGet<RootSetDto>(this.BuildUri(code)).Result;
+                var rootSet = CallWebServiceGet<RootSetDto>(BuildUri(code)).Result;
                 var model = new Set(rootSet.Set);
 
-                return Exceptional<Set>.Success(model);
+                return Exceptional<Set>.Success(model, MtgApiController.CreatePagingInfo());
             }
             catch (AggregateException ex)
             {
@@ -145,10 +145,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootSet = await this.CallWebServiceGet<RootSetDto>(this.BuildUri(code)).ConfigureAwait(false);
+                var rootSet = await CallWebServiceGet<RootSetDto>(BuildUri(code)).ConfigureAwait(false);
                 var model = new Set(rootSet.Set);
 
-                return Exceptional<Set>.Success(model);
+                return Exceptional<Set>.Success(model, MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
@@ -165,10 +165,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(Path.Combine(this.BuildUri(code).AbsoluteUri, "booster"), UriKind.Absolute);
-                var rootCardList = this.CallWebServiceGet<RootCardListDto>(url).Result;
+                var url = new Uri(Path.Combine(BuildUri(code).AbsoluteUri, "booster"), UriKind.Absolute);
+                var rootCardList = CallWebServiceGet<RootCardListDto>(url).Result;
 
-                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
             }
             catch (AggregateException ex)
             {
@@ -185,10 +185,10 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(Path.Combine(this.BuildUri(code).AbsoluteUri, "booster"));
-                var rootCardList = await this.CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
+                var url = new Uri(Path.Combine(BuildUri(code).AbsoluteUri, "booster"));
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
 
-                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList));
+                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
@@ -217,7 +217,7 @@ namespace MtgApiManager.Lib.Service
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<SetQueryParameter>(expression.Member.Name);
-            this._whereQueries[queryName] = Convert.ToString(value);
+            _whereQueries[queryName] = Convert.ToString(value);
 
             return this;
         }

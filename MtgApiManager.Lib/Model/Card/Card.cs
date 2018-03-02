@@ -20,7 +20,7 @@ namespace MtgApiManager.Lib.Model
         /// <param name="item">The card data transfer object to map to.</param>
         public Card(CardDto item)
         {
-            this.MapCard(item);
+            MapCard(item);
         }
 
         /// <summary>
@@ -394,61 +394,61 @@ namespace MtgApiManager.Lib.Model
                 throw new ArgumentNullException("item");
             }
 
-            this.Artist = item.Artist;
-            this.Border = item.Border;
-            this.Cmc = item.Cmc;
-            this.ColorIdentity = item.ColorIdentity;
-            this.Colors = item.Colors;
-            this.Flavor = item.Flavor;
+            Artist = item.Artist;
+            Border = item.Border;
+            Cmc = item.Cmc;
+            ColorIdentity = item.ColorIdentity;
+            Colors = item.Colors;
+            Flavor = item.Flavor;
             if (item.ForeignNames != null)
             {
-                this.ForeignNames = item.ForeignNames
+                ForeignNames = item.ForeignNames
                         .Select(x => new ForeignName(x)).ToList();
             }
 
-            this.Hand = item.Hand;
-            this.Id = item.Id;
-            this.ImageUrl = item.ImageUrl;
-            this.Layout = item.Layout;
+            Hand = item.Hand;
+            Id = item.Id;
+            ImageUrl = item.ImageUrl;
+            Layout = item.Layout;
             if (item.Legalities != null)
             {
-                this.Legalities = item.Legalities
+                Legalities = item.Legalities
                         .Select(x => new Legality(x)).ToList();
             }
 
-            this.Life = item.Life;
-            this.Loyalty = item.Loyalty;
-            this.ManaCost = item.ManaCost;
-            this.MultiverseId = item.MultiverseId;
-            this.Name = item.Name;
-            this.Names = item.Names;
-            this.Number = item.Number;
-            this.OriginalText = item.OriginalText;
-            this.OriginalType = item.OriginalType;
-            this.Power = item.Power;
-            this.Printings = item.Printings;
-            this.Rarity = item.Rarity;
-            this.ReleaseDate = item.ReleaseDate;
-            this.Reserved = item.Reserved;
+            Life = item.Life;
+            Loyalty = item.Loyalty;
+            ManaCost = item.ManaCost;
+            MultiverseId = item.MultiverseId;
+            Name = item.Name;
+            Names = item.Names;
+            Number = item.Number;
+            OriginalText = item.OriginalText;
+            OriginalType = item.OriginalType;
+            Power = item.Power;
+            Printings = item.Printings;
+            Rarity = item.Rarity;
+            ReleaseDate = item.ReleaseDate;
+            Reserved = item.Reserved;
             if (item.Rulings != null)
             {
-                this.Rulings = item.Rulings
+                Rulings = item.Rulings
                       .Select(x => new Ruling(x)).ToList();
             }
 
-            this.Set = item.Set;
-            this.SetName = item.SetName;
-            this.Source = item.Source;
-            this.Starter = item.Starter;
-            this.SubTypes = item.SubTypes;
-            this.SuperTypes = item.SuperTypes;
-            this.Text = item.Text;
-            this.Timeshifted = item.Timeshifted;
-            this.Toughness = item.Toughness;
-            this.Type = item.Type;
-            this.Types = item.Types;
-            this.Variations = item.Variations;
-            this.Watermark = item.Watermark;
+            Set = item.Set;
+            SetName = item.SetName;
+            Source = item.Source;
+            Starter = item.Starter;
+            SubTypes = item.SubTypes;
+            SuperTypes = item.SuperTypes;
+            Text = item.Text;
+            Timeshifted = item.Timeshifted;
+            Toughness = item.Toughness;
+            Type = item.Type;
+            Types = item.Types;
+            Variations = item.Variations;
+            Watermark = item.Watermark;
         }
     }
 }

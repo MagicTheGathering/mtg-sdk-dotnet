@@ -31,6 +31,15 @@ namespace MtgApiManager.Lib.Core
         }
 
         /// <summary>
+        /// Gets the paging information.
+        /// </summary>
+        public PagingInfo PagingInfo
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the value of the result if it has a value.
         /// </summary>
         public T Value
@@ -57,8 +66,9 @@ namespace MtgApiManager.Lib.Core
         /// Initializes a new instance of the <see cref="Exceptional{T}"/> structure in a success state.
         /// </summary>
         /// <param name="value">The value.</param>
+        /// <param name="pagingInfo">The paging information.</param>
         /// <returns>A <see cref="Exceptional{T}"/> with the given value.</returns>
-        public static Exceptional<T> Success(T value)
+        public static Exceptional<T> Success(T value, PagingInfo pagingInfo)
         {
             return new Exceptional<T>()
             {
@@ -80,9 +90,9 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("action");
             }
 
-            if (!this.IsSuccess)
+            if (!IsSuccess)
             {
-                action(this.Exception);
+                action(Exception);
             }
 
             return this;
@@ -101,16 +111,17 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("action");
             }
 
-            if (this.IsSuccess)
+            if (IsSuccess)
             {
-                action(this.Value);
+                action(Value);
             }
 
             return this;
         }
 
         /// <summary>
-        /// Maps the given function to the contents of the result. If the result is a success, the function will be applied to the success value; otherwise, the function will not be applied.
+        /// Maps the given function to the contents of the result. If the result is a success, the
+        /// function will be applied to the success value; otherwise, the function will not be applied.
         /// </summary>
         /// <typeparam name="TNewValue">The type that the success value will be mapped to.</typeparam>
         /// <param name="function">The function to apply to the success value of the result.</param>
@@ -122,20 +133,24 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("function");
             }
 
-            if (this.IsSuccess)
+            if (IsSuccess)
             {
-                return Exceptional<TNewValue>.Success(function(this.Value));
+                return Exceptional<TNewValue>.Success(function(Value), PagingInfo);
             }
             else
             {
-                return Exceptional<TNewValue>.Failure(this.Exception);
+                return Exceptional<TNewValue>.Failure(Exception);
             }
         }
 
         /// <summary>
-        /// Chains two results together by taking the value of the result, and passing it to the given function which returns another result. If the result is a failure, then the function will not be applied.
+        /// Chains two results together by taking the value of the result, and passing it to the
+        /// given function which returns another result. If the result is a failure, then the
+        /// function will not be applied.
         /// </summary>
-        /// <typeparam name="TNewValue">The type of the result that the value will be mapped to.</typeparam>
+        /// <typeparam name="TNewValue">
+        /// The type of the result that the value will be mapped to.
+        /// </typeparam>
         /// <param name="function">The function to apply to the value.</param>
         /// <returns>A new result with the mapping applied.</returns>
         public Exceptional<TNewValue> Then<TNewValue>(Func<T, Exceptional<TNewValue>> function)
@@ -145,13 +160,13 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("function");
             }
 
-            if (this.IsSuccess)
+            if (IsSuccess)
             {
-                return function(this.Value);
+                return function(Value);
             }
             else
             {
-                return Exceptional<TNewValue>.Failure(this.Exception);
+                return Exceptional<TNewValue>.Failure(Exception);
             }
         }
     }

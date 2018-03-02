@@ -18,7 +18,7 @@ namespace MtgApiManager.Lib.Model
         /// <param name="item">The legality data transfer object to map.</param>
         public Ruling(RulingDto item)
         {
-            this.MapRuling(item);
+            MapRuling(item);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace MtgApiManager.Lib.Model
                 throw new ArgumentNullException("item");
             }
 
-            this.Date = item.Date;
-            this.Text = item.Text;
+            Date = item.Date;
+            Text = item.Text;
         }
     }
 }

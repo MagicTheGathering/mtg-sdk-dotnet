@@ -20,7 +20,7 @@ namespace MtgApiManager.Lib.Model
         /// <param name="item">The set data transfer object to map to.</param>
         public Set(SetDto item)
         {
-            this.MapSet(item);
+            MapSet(item);
         }
 
         /// <summary>
@@ -129,8 +129,7 @@ namespace MtgApiManager.Lib.Model
         /// <returns>A object representing the booster member.</returns>
         private static object CreateBoosterArray(object item)
         {
-            var value = item as JValue;
-            if (value != null)
+            if (item is JValue value)
             {
                 return value.Value.ToString();
             }
@@ -159,33 +158,33 @@ namespace MtgApiManager.Lib.Model
                 throw new ArgumentNullException("item");
             }
 
-            this.Block = item.Block;
+            Block = item.Block;
 
             if (item.Booster != null)
             {
-                this.Booster = new List<object>();
+                Booster = new List<object>();
                 foreach (var booster in item.Booster)
                 {
                     if (booster is string)
                     {
-                        this.Booster.Add(booster);
+                        Booster.Add(booster);
                     }
                     else
                     {
-                        this.Booster.Add(Set.CreateBoosterArray(booster));
+                        Booster.Add(Set.CreateBoosterArray(booster));
                     }
                 }
             }
 
-            this.Border = item.Border;
-            this.Code = item.Code;
-            this.Expansion = item.Expansion;
-            this.GathererCode = item.GathererCode;
-            this.MagicCardsInfoCode = item.MagicCardsInfoCode;
-            this.Name = item.Name;
-            this.OldCode = item.OldCode;
-            this.OnlineOnly = item.OnlineOnly;
-            this.ReleaseDate = item.ReleaseDate;
+            Border = item.Border;
+            Code = item.Code;
+            Expansion = item.Expansion;
+            GathererCode = item.GathererCode;
+            MagicCardsInfoCode = item.MagicCardsInfoCode;
+            Name = item.Name;
+            OldCode = item.OldCode;
+            OnlineOnly = item.OnlineOnly;
+            ReleaseDate = item.ReleaseDate;
         }
     }
 }

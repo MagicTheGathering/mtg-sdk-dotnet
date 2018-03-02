@@ -69,7 +69,7 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("action");
             }
 
-            if (!this.HasValue)
+            if (!HasValue)
             {
                 action();
             }
@@ -90,9 +90,9 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("action");
             }
 
-            if (this.HasValue)
+            if (HasValue)
             {
-                action(this.Value);
+                action(Value);
             }
 
             return this;
@@ -111,9 +111,9 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("function");
             }
 
-            if (this.HasValue)
+            if (HasValue)
             {
-                return Option<TNewValue>.Some(function(this.Value));
+                return Option<TNewValue>.Some(function(Value));
             }
             else
             {
@@ -134,9 +134,9 @@ namespace MtgApiManager.Lib.Core
                 throw new ArgumentNullException("function");
             }
 
-            if (this.HasValue)
+            if (HasValue)
             {
-                return function(this.Value);
+                return function(Value);
             }
             else
             {
