@@ -73,7 +73,8 @@ namespace MtgApiManager.Lib.Core
             return new Exceptional<T>()
             {
                 IsSuccess = true,
-                Value = value
+                Value = value,
+                PagingInfo = pagingInfo
             };
         }
 
