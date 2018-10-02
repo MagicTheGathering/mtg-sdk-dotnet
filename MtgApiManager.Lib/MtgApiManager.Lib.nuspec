@@ -14,7 +14,7 @@
     <copyright>Copyright 2016</copyright>
     <tags>magicthegathering mtg magic sdk api web</tags>
 	<dependencies>
-      <dependency id="Newtonsoft.Json" version="9.0" />
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
     </dependencies>
   </metadata>
 </package>
