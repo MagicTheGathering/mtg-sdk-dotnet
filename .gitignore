@@ -246,3 +246,7 @@ ModelManifest.xml
 .fake/
 /MtgApiManager.Lib_coverage.xml
 /tools
+
+
+.idea/
+.DS_Store
