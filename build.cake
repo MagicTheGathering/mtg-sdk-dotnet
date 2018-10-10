@@ -1,90 +1,71 @@
 #tool "nuget:?package=OpenCover"
-#tool "nuget:?package=gitreleasemanager"
+#tool nuget:?package=Codecov
+#addin nuget:?package=Cake.Codecov
 
 var target = Argument("target", "Default");
+var configuration = Argument("configuration", "Release");
 
-Task("Default")
-    .IsDependentOn("RunCodeCoverage");
-
-Task("NuGetRestorePackages")
+var cleanTask = Task("Clean")
     .Does(() =>
 {
-    Information("Restoring nuget packeges for solution");
-    NuGetRestore("./MtgApiManager.sln");
+    Information("Cleaning solution");
+    DotNetCoreClean("./src");
 });
 
-Task("Clean")
-    .IsDependentOn("NuGetRestorePackages")
+var nugetTask = Task("NuGetRestorePackages")
+    .IsDependentOn(cleanTask)
     .Does(() =>
 {
-    CleanDirectories(new DirectoryPath[] 
-        { 
-            "./MtgApiManager.Lib/bin", 
-            "./MtgApiManager.Lib/obj",
-            "./MtgApiManager.Lib.Test/bin",
-            "./MtgApiManager.Lib.Test/obj",
-            "./MtgApiManager.Lib.TestApp/bin",
-            "./MtgApiManager.Lib.TestApp/obj",            
+    Information("Restoring Nuget packages for solution");
+    DotNetCoreRestore("./MtgApiManager.sln");
+});
+
+var buildTask = Task("BuildSolution")
+    .IsDependentOn(nugetTask)
+    .Does(() =>
+{
+    Information("Building solution");
+    DotNetCoreBuild(
+        "./MtgApiManager.sln",
+        new DotNetCoreBuildSettings()
+        {
+            Configuration = configuration,
+            NoRestore = true,
+            ArgumentCustomization = arg => arg.AppendSwitch("/p:DebugType","=","Full")
         });
 });
 
-Task("BuildSolution")
-    .IsDependentOn("Clean")
-    .Does(() =>
-{
-    MSBuild("./MtgApiManager.sln", settings => settings.SetConfiguration("Release"));
-});
 
-Task("RunCodeCoverage")
-    .IsDependentOn("BuildSolution")
+var unitTestsTask = Task("RunUnitTests")
+    .IsDependentOn(buildTask)
     .Does(() =>
 {
-    Information("Creating the code coverage file with OpenCover");    
-    OpenCover(tool =>
-        {
-            tool.MSTest(
-                "./MtgApiManager.Lib.Test/bin/**/MtgApiManager.Lib.Test.dll", 
-                new MSTestSettings() 
-                    { 
-                        NoIsolation = false 
-                    });
+    Information("Running xunit tests");
+
+    OpenCover(tool => {
+        tool.DotNetCoreTest(
+            "./MtgApiManager.Lib.Test/bin/**/MtgApiManager.Lib.Test.dll",   
+            new DotNetCoreTestSettings()
+            {
+                Configuration = configuration,
+                NoBuild = true
+            });
         },
-        new FilePath("./MtgApiManager.Lib_coverage.xml"),
+        new FilePath("./OpenCoverResults.xml"),
         new OpenCoverSettings() 
         { 
+            SkipAutoProps = true,
             Register = "user",
-            SkipAutoProps = true
+            OldStyle = true 
         }
         .WithFilter("+[MtgApiManager.Lib]*")
         .WithFilter("-[MtgApiManager.Lib]MtgApiManager.Lib.Properties.*")
         .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
-    );
 
-    Information("Upload code coverage file to CodeCov.");
-
-    using(var process = StartAndReturnProcess("pip", new ProcessSettings
-        { 
-            Arguments = "install codecov",
-            WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,
-            EnvironmentVariables = new Dictionary<string, string>
-            {
-                { "PATH", "C:\\Python35\\Scripts" },
-            }           
-        }))
-    {
-        process.WaitForExit();
-        Information("Install codecov returned with code: {0}", process.GetExitCode());
-    }
-
-    using(var process = StartAndReturnProcess("codecov", new ProcessSettings
-        { 
-            Arguments = "-f \"../MtgApiManager.Lib_coverage.xml\"",
-            WorkingDirectory = MakeAbsolute(Directory("./tools")).FullPath,          
-        }))
-    {
-        process.WaitForExit();
-        Information("Upload coverage file returned with code: {0}", process.GetExitCode());
-    }
+    Codecov("./OpenCoverResults.xml", "6f30231e-7bab-4c5f-b705-a1729f1badfd");
 });
+
+Task("Default")
+    .IsDependentOn("unitTestsTask");
 
 RunTarget(target);
