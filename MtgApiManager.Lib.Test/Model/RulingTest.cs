@@ -4,21 +4,21 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
-    using System;
     using Lib.Dto;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Model;
+    using System;
+    using Xunit;
 
     /// <summary>
     /// Tests methods in the <see cref="Ruling"/> class.
     /// </summary>
-    [TestClass]
+
     public class RulingTest
     {
         /// <summary>
         /// Tests the <see cref="Ruling.Ruling(RulingDto)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
             Ruling model;
@@ -27,15 +27,15 @@ namespace MtgApiManager.Lib.Test.Model
             {
                 // Test exception is thrown.
                 model = new Ruling(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("item", ex.ParamName);
+                Assert.Equal("item", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             var dto = new RulingDto()
@@ -46,8 +46,8 @@ namespace MtgApiManager.Lib.Test.Model
 
             model = new Ruling(dto);
 
-            Assert.AreEqual(dto.Date, model.Date);
-            Assert.AreEqual(dto.Text, model.Text);
+            Assert.Equal(dto.Date, model.Date);
+            Assert.Equal(dto.Text, model.Text);
         }
     }
 }

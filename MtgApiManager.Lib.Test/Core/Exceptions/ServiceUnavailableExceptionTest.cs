@@ -5,24 +5,25 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+
 
     /// <summary>
     /// Tests the <see cref="ServiceUnavailableException"/> class.
     /// </summary>
-    [TestClass]
+
     public class ServiceUnavailableExceptionTest
     {
         /// <summary>
         /// Tests the <see cref="ServiceUnavailableException.ServiceUnavailableException(string)"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
-            Assert.IsTrue(typeof(ServiceUnavailableException).IsSubclassOf(typeof(MtgExceptionBase)));
+            Assert.True(typeof(ServiceUnavailableException).IsSubclassOf(typeof(MtgExceptionBase)));
 
             ServiceUnavailableException exception = new ServiceUnavailableException("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

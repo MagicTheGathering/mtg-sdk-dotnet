@@ -4,46 +4,45 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Utility
 {
-    using System;
     using Lib.Dto;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Utility;
+    using System;
+    using Xunit;
 
     /// <summary>
     /// Tests methods in the <see cref="QueryUtility"/> class.
     /// </summary>
-    [TestClass]
     public class QueryUtilityTest
     {
         /// <summary>
         /// Tests the <see cref="QueryUtility.GetQueryPropertyName{T}(MemberExpression)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetQueryPropertyNameTest()
         {
             try
             {
                 // Test exception is thrown.
                 var result = QueryUtility.GetQueryPropertyName<CardDto>(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("propertyName", ex.ParamName);
+                Assert.Equal("propertyName", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             // Property doesn't exist.
-            Assert.IsNull(QueryUtility.GetQueryPropertyName<DtoTestObject>("fakeProperty"));
+            Assert.Null(QueryUtility.GetQueryPropertyName<DtoTestObject>("fakeProperty"));
 
             // Attribute doesn't exist.
-            Assert.IsNull(QueryUtility.GetQueryPropertyName<DtoTestObject>("Property1"));
+            Assert.Null(QueryUtility.GetQueryPropertyName<DtoTestObject>("Property1"));
 
             // Property exists.
-            Assert.AreEqual("jsonProperty2", QueryUtility.GetQueryPropertyName<DtoTestObject>("Property2"));
+            Assert.Equal("jsonProperty2", QueryUtility.GetQueryPropertyName<DtoTestObject>("Property2"));
         }
     }
 }

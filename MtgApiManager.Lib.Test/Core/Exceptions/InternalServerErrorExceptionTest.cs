@@ -5,24 +5,25 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+
 
     /// <summary>
     /// Tests the <see cref="InternalServerErrorException"/> class.
     /// </summary>
-    [TestClass]
+
     public class InternalServerErrorExceptionTest
     {
         /// <summary>
         /// Tests the <see cref="InternalServerErrorException.InternalServerErrorException(string)"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
-            Assert.IsTrue(typeof(InternalServerErrorException).IsSubclassOf(typeof(MtgExceptionBase)));
+            Assert.True(typeof(InternalServerErrorException).IsSubclassOf(typeof(MtgExceptionBase)));
 
             InternalServerErrorException exception = new InternalServerErrorException("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

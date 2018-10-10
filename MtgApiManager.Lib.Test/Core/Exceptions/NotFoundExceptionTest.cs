@@ -5,24 +5,25 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+
 
     /// <summary>
     /// Tests the <see cref="NotFoundException"/> class.
     /// </summary>
-    [TestClass]
+
     public class NotFoundExceptionTest
     {
         /// <summary>
         /// Tests the <see cref="NotFoundException.NotFoundException(string)"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
-            Assert.IsTrue(typeof(NotFoundException).IsSubclassOf(typeof(MtgExceptionBase)));
+            Assert.True(typeof(NotFoundException).IsSubclassOf(typeof(MtgExceptionBase)));
 
             NotFoundException exception = new NotFoundException("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

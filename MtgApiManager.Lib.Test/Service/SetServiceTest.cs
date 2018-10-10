@@ -4,31 +4,31 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Service
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Threading.Tasks;
     using Lib.Core;
     using Lib.Core.Exceptions;
     using Lib.Dto;
     using Lib.Dto.Set;
     using Lib.Model;
     using Lib.Service;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Newtonsoft.Json.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Threading.Tasks;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="SetService"/> class.
     /// </summary>
-    [TestClass]
+
     public class SetServiceTest
     {
         /// <summary>
         /// Tests the <see cref="SetService.AllAsync"/> method.
         /// </summary>
         /// <returns>The asynchronous task.</returns>
-        [TestMethod]
+        [Fact]
         public async Task AllAsyncTest()
         {
             var sets = new List<SetDto>()
@@ -106,43 +106,43 @@ namespace MtgApiManager.Lib.Test.Service
             service = service.Where(x => x.Name, "name1");
 
             var result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = await service.AllAsync();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = await service.AllAsync();
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="CardService.All"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void AllTest()
         {
             var sets = new List<SetDto>()
@@ -215,72 +215,44 @@ namespace MtgApiManager.Lib.Test.Service
             service = service.Where(x => x.Name, "name1");
 
             var result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = service.All();
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = service.All();
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
-        }
-
-        /// <summary>
-        /// Tests the constructors in the <see cref="SetService"/> class.
-        /// </summary>
-        [TestMethod]
-        public void ContructorTest()
-        {
-            SetService service;
-            PrivateObject privateObject;
-
-            service = new SetService();
-            privateObject = new PrivateObject(service, new PrivateType(typeof(ServiceBase<SetService, Set>)));
-            Assert.IsInstanceOfType(privateObject.GetFieldOrProperty("Adapter"), typeof(MtgApiServiceAdapter));
-            Assert.AreEqual(ApiVersion.V1_0, privateObject.GetFieldOrProperty("Version"));
-            Assert.AreEqual(ApiEndPoint.Sets, privateObject.GetFieldOrProperty("EndPoint"));
-
-            service = new SetService(new MtgApiServiceAdapter());
-            privateObject = new PrivateObject(service, new PrivateType(typeof(ServiceBase<SetService, Set>)));
-            Assert.IsInstanceOfType(privateObject.GetFieldOrProperty("Adapter"), typeof(MtgApiServiceAdapter));
-            Assert.AreEqual(ApiVersion.V1_0, privateObject.GetFieldOrProperty("Version"));
-            Assert.AreEqual(ApiEndPoint.Sets, privateObject.GetFieldOrProperty("EndPoint"));
-
-            service = new SetService(new MtgApiServiceAdapter(), ApiVersion.V1_0);
-            privateObject = new PrivateObject(service, new PrivateType(typeof(ServiceBase<SetService, Set>)));
-            Assert.IsInstanceOfType(privateObject.GetFieldOrProperty("Adapter"), typeof(MtgApiServiceAdapter));
-            Assert.AreEqual(ApiVersion.V1_0, privateObject.GetFieldOrProperty("Version"));
-            Assert.AreEqual(ApiEndPoint.Sets, privateObject.GetFieldOrProperty("EndPoint"));
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="SetService.FindAsync(int)"/> methods.
         /// </summary>
         /// <returns>The asynchronous task.</returns>
-        [TestMethod]
+        [Fact]
         public async Task FindAsyncTest()
         {
             var setDto = new SetDto()
@@ -327,43 +299,43 @@ namespace MtgApiManager.Lib.Test.Service
             var service = new SetService(moqAdapter.Object);
 
             var result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = await service.FindAsync("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = await service.FindAsync("code1");
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="SetService.Find(int)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FindTest()
         {
             var setDto = new SetDto()
@@ -410,44 +382,44 @@ namespace MtgApiManager.Lib.Test.Service
             var service = new SetService(moqAdapter.Object);
 
             var result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = service.Find("code1");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = service.Find("code1");
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="SetService.GenerateBoosterAsync(string)"/> method.
         /// </summary>
         /// <returns>The asynchronous task.</returns>
-        [TestMethod]
+        [Fact]
         public async Task GenerateBoosterAsyncTest()
         {
             var cards = new List<CardDto>()
@@ -554,43 +526,43 @@ namespace MtgApiManager.Lib.Test.Service
             var service = new SetService(moqAdapter.Object);
 
             var result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = await service.GenerateBoosterAsync("ktk");
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="SetService.GenerateBooster(string)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GenerateBoosterTest()
         {
             var cards = new List<CardDto>()
@@ -697,135 +669,43 @@ namespace MtgApiManager.Lib.Test.Service
             var service = new SetService(moqAdapter.Object);
 
             var result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Value cannot be null.", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("Value cannot be null.", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("bad request", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("bad request", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("forbidden", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("forbidden", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("server error", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("server error", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("not found", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("not found", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("unavailable", result.Exception.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Equal("unavailable", result.Exception.Message);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsFalse(result.IsSuccess);
-            Assert.IsInstanceOfType(result.Exception, typeof(Exception));
+            Assert.False(result.IsSuccess);
+            Assert.IsType<Exception>(result.Exception);
 
             result = service.GenerateBooster("ktk");
-            Assert.IsTrue(result.IsSuccess);
-            Assert.IsNull(result.Exception);
-            Assert.IsNotNull(result.Value);
-        }
-
-        /// <summary>
-        /// Tests the MapSetsList method.
-        /// </summary>
-        [TestMethod]
-        public void MapSetsListTest()
-        {
-            PrivateType privateObject = new PrivateType(typeof(SetService));
-
-            try
-            {
-                // Test sending a null parameter.
-                privateObject.InvokeStatic("MapSetsList", new object[] { null });
-                Assert.Fail();
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.AreEqual("setListDto", ex.ParamName);
-            }
-            catch
-            {
-                Assert.Fail();
-            }
-
-            // Test a null sets collection inside the RootSetsListDto object.
-            var setListDto = new RootSetListDto();
-            Assert.IsNull(privateObject.InvokeStatic("MapSetsList", new object[] { setListDto }));
-
-            setListDto = new RootSetListDto()
-            {
-                Sets = new List<SetDto>()
-                {
-                    new SetDto()
-                    {
-                        Block = "block1",
-                        Booster = new object[2]
-                        {
-                            new JValue("booster1"),
-                            new JArray()
-                            {
-                                new JValue("booster2"),
-                                new JValue("booster3"),
-                                new JArray()
-                                {
-                                    new JValue("booster4"),
-                                    new JValue("booster5")
-                                }
-                            }
-                        },
-                        Border = "border1",
-                        Code = "code1",
-                        Expansion = "expansion1",
-                        GathererCode = "gathererCode1",
-                        MagicCardsInfoCode = "magicCardsInfoCode1",
-                        Name = "name1",
-                        OldCode = "oldCode1",
-                        OnlineOnly = true,
-                        ReleaseDate = "2016, 1, 1"
-                    },
-                    new SetDto()
-                    {
-                        Block = "block2",
-                        Booster = new object[2]
-                        {
-                            new JValue("booster1"),
-                            new JArray()
-                            {
-                                new JValue("booster2"),
-                                new JValue("booster3"),
-                                new JArray()
-                                {
-                                    new JValue("booster4"),
-                                    new JValue("booster5")
-                                }
-                            }
-                        },
-                        Border = "border2",
-                        Code = "code2",
-                        Expansion = "expansion2",
-                        GathererCode = "gathererCode2",
-                        MagicCardsInfoCode = "magicCardsInfoCode2",
-                        Name = "name2",
-                        OldCode = "oldCode2",
-                        OnlineOnly = true,
-                        ReleaseDate = "2016, 2, 2"
-                    }
-                }
-            };
-
-            var result = privateObject.InvokeStatic("MapSetsList", new object[] { setListDto }) as List<Set>;
-            Assert.AreEqual(2, result.Count);
+            Assert.True(result.IsSuccess);
+            Assert.Null(result.Exception);
+            Assert.NotNull(result.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="SetService.Where{U}(System.Linq.Expressions.Expression{Func{SetQueryParameter, U}}, string)"/>> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void WhereTest()
         {
             SetService service = new SetService();
@@ -834,39 +714,31 @@ namespace MtgApiManager.Lib.Test.Service
             {
                 // Test sending a null parameter.
                 service.Where<int>(null, 1);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("property", ex.ParamName);
+                Assert.Equal("property", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             try
             {
                 // Test sending a null parameter.
                 service.Where(x => x.Name, null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("value", ex.ParamName);
+                Assert.Equal("value", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
-
-            service = service.Where(x => x.Name, "test");
-
-            PrivateObject privateObject = new PrivateObject(service);
-            var whereQuery = privateObject.GetFieldOrProperty("_whereQueries") as NameValueCollection;
-            Assert.AreEqual(1, whereQuery.Count);
-            Assert.AreEqual("name", whereQuery.AllKeys[0]);
-            Assert.AreEqual("test", whereQuery["name"]);
         }
     }
 }

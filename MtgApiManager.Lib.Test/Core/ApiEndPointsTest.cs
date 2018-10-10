@@ -5,22 +5,23 @@
 namespace MtgApiManager.Lib.Test.Core
 {
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using MtgApiManager.Lib.Core;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="ApiEndPoint"/> enumeration.
     /// </summary>
-    [TestClass]
+
     public class ApiEndPointsTest
     {
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.Cards"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void CardsTest()
         {
-            Assert.AreEqual(1, (int)ApiEndPoint.Cards);
+            Assert.Equal(1, (int)ApiEndPoint.Cards);
 
             var attribute = ApiEndPoint.Cards
                     .GetType()
@@ -28,17 +29,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("cards", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("cards", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.CardSubTypes"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void CardSubTypesTest()
         {
-            Assert.AreEqual(5, (int)ApiEndPoint.CardSubTypes);
+            Assert.Equal(5, (int)ApiEndPoint.CardSubTypes);
 
             var attribute = ApiEndPoint.CardSubTypes
                     .GetType()
@@ -46,17 +47,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("subtypes", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("subtypes", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.CardSuperTypes"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void CardSuperTypesTest()
         {
-            Assert.AreEqual(4, (int)ApiEndPoint.CardSuperTypes);
+            Assert.Equal(4, (int)ApiEndPoint.CardSuperTypes);
 
             var attribute = ApiEndPoint.CardSuperTypes
                     .GetType()
@@ -64,17 +65,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("supertypes", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("supertypes", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.CardTypes"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void CardTypesTest()
         {
-            Assert.AreEqual(3, (int)ApiEndPoint.CardTypes);
+            Assert.Equal(3, (int)ApiEndPoint.CardTypes);
 
             var attribute = ApiEndPoint.CardTypes
                     .GetType()
@@ -82,17 +83,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("types", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("types", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.None"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NoneTest()
         {
-            Assert.AreEqual(0, (int)ApiEndPoint.None);
+            Assert.Equal(0, (int)ApiEndPoint.None);
 
             var attribute = ApiEndPoint.None
                     .GetType()
@@ -100,17 +101,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("none", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("none", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="ApiEndPoint.Sets"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SetsTest()
         {
-            Assert.AreEqual(2, (int)ApiEndPoint.Sets);
+            Assert.Equal(2, (int)ApiEndPoint.Sets);
 
             var attribute = ApiEndPoint.Sets
                     .GetType()
@@ -118,8 +119,8 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("sets", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("sets", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
     }
 }

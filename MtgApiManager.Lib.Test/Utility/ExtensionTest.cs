@@ -4,20 +4,20 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Utility
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Utility;
+    using System;
+    using Xunit;
 
     /// <summary>
     /// Tests methods in the <see cref="Extension"/> class.
     /// </summary>
-    [TestClass]
+
     public class ExtensionTest
     {
         /// <summary>
         /// Tests the <see cref="Extensions.GetDescription(Enum)"/> extension method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void GetDescriptionTest()
         {
             Enum testObject = null;
@@ -26,28 +26,28 @@ namespace MtgApiManager.Lib.Test.Utility
             {
                 // Test exception is thrown.
                 testObject.GetDescription();
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("value", ex.ParamName);
+                Assert.Equal("value", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             // Test when no attribute.
             testObject = EnumTestObject.NoDescription;
-            Assert.AreEqual("NoDescription", testObject.GetDescription());
+            Assert.Equal("NoDescription", testObject.GetDescription());
 
             // Test when different attribute.
             testObject = EnumTestObject.DifferentAttribute;
-            Assert.AreEqual("DifferentAttribute", testObject.GetDescription());
+            Assert.Equal("DifferentAttribute", testObject.GetDescription());
 
             // Test when description is present.
             testObject = EnumTestObject.HasDescription;
-            Assert.AreEqual("greatDescription", testObject.GetDescription());
+            Assert.Equal("greatDescription", testObject.GetDescription());
         }
     }
 }

@@ -5,24 +5,25 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+
 
     /// <summary>
     /// Tests the <see cref="ForbiddenException"/> class.
     /// </summary>
-    [TestClass]
+
     public class ForbiddenExceptionTest
     {
         /// <summary>
         /// Tests the <see cref="ForbiddenException.ForbiddenException"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
-            Assert.IsTrue(typeof(ForbiddenException).IsSubclassOf(typeof(MtgExceptionBase)));
+            Assert.True(typeof(ForbiddenException).IsSubclassOf(typeof(MtgExceptionBase)));
 
             ForbiddenException exception = new ForbiddenException("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

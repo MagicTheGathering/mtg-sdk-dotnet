@@ -5,24 +5,23 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="BadRequestException"/> class.
     /// </summary>
-    [TestClass]
     public class BadRequestExceptionTest
     {
         /// <summary>
         /// Tests the <see cref="BadRequestException.BadRequestException(string)"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
-            Assert.IsTrue(typeof(BadRequestException).IsSubclassOf(typeof(MtgExceptionBase)));
+            Assert.True(typeof(BadRequestException).IsSubclassOf(typeof(MtgExceptionBase)));
 
             BadRequestException exception = new BadRequestException("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

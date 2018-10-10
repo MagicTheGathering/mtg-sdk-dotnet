@@ -4,22 +4,22 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Model
 {
+    using Lib.Dto;
+    using MtgApiManager.Lib.Model;
     using System;
     using System.Linq;
-    using Lib.Dto;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MtgApiManager.Lib.Model;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="Card"/> class.
     /// </summary>
-    [TestClass]
+
     public class CardTest
     {
         /// <summary>
         /// Tests the <see cref="Card.MapCard(Lib.Dto.CardDto)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void MapCardTest()
         {
             Card model;
@@ -28,15 +28,15 @@ namespace MtgApiManager.Lib.Test.Model
             {
                 // Test exception is thrown.
                 model = new Card(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("item", ex.ParamName);
+                Assert.Equal("item", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             var dto = new CardDto()
@@ -84,47 +84,47 @@ namespace MtgApiManager.Lib.Test.Model
 
             model = new Card(dto);
 
-            Assert.AreEqual(dto.Artist, model.Artist);
-            Assert.AreEqual(dto.Border, model.Border);
-            Assert.AreEqual(dto.Cmc, model.Cmc);
-            Assert.IsTrue(dto.Colors.SequenceEqual(model.Colors));
-            Assert.AreEqual(dto.Flavor, model.Flavor);
-            Assert.AreEqual(dto.ForeignNames.Count(), model.ForeignNames.Count);
-            Assert.AreEqual(dto.Hand, model.Hand);
-            Assert.AreEqual(dto.Id, model.Id);
-            Assert.AreEqual(dto.ImageUrl, model.ImageUrl);
-            Assert.AreEqual(dto.Layout, model.Layout);
-            Assert.AreEqual(dto.Legalities.Count(), model.Legalities.Count);
-            Assert.AreEqual(dto.Life, model.Life);
-            Assert.AreEqual(dto.Loyalty, model.Loyalty);
-            Assert.AreEqual(dto.ManaCost, model.ManaCost);
-            Assert.AreEqual(dto.MultiverseId, model.MultiverseId);
-            Assert.AreEqual(dto.Name, model.Name);
-            Assert.IsTrue(dto.Name.SequenceEqual(model.Name));
-            Assert.AreEqual(dto.Number, model.Number);
-            Assert.AreEqual(dto.OriginalText, model.OriginalText);
-            Assert.AreEqual(dto.OriginalType, model.OriginalType);
-            Assert.AreEqual(dto.Power, model.Power);
-            Assert.IsTrue(dto.Printings.SequenceEqual(model.Printings));
-            Assert.AreEqual(dto.Rarity, model.Rarity);
-            Assert.AreEqual(dto.ReleaseDate, model.ReleaseDate);
-            Assert.AreEqual(dto.Number, model.Number);
-            Assert.AreEqual(dto.Reserved, model.Reserved);
-            Assert.AreEqual(dto.Rulings.Count(), model.Rulings.Count);
-            Assert.AreEqual(dto.Set, model.Set);
-            Assert.AreEqual(dto.SetName, model.SetName);
-            Assert.AreEqual(dto.Source, model.Source);
-            Assert.AreEqual(dto.Starter, model.Starter);
-            Assert.AreEqual(dto.Reserved, model.Reserved);
-            Assert.IsTrue(dto.SubTypes.SequenceEqual(model.SubTypes));
-            Assert.IsTrue(dto.SuperTypes.SequenceEqual(model.SuperTypes));
-            Assert.AreEqual(dto.Text, model.Text);
-            Assert.AreEqual(dto.Timeshifted, model.Timeshifted);
-            Assert.AreEqual(dto.Toughness, model.Toughness);
-            Assert.AreEqual(dto.Type, model.Type);
-            Assert.IsTrue(dto.Types.SequenceEqual(model.Types));
-            Assert.IsTrue(dto.Variations.SequenceEqual(model.Variations));
-            Assert.AreEqual(dto.Watermark, model.Watermark);
+            Assert.Equal(dto.Artist, model.Artist);
+            Assert.Equal(dto.Border, model.Border);
+            Assert.Equal(dto.Cmc, model.Cmc);
+            Assert.True(dto.Colors.SequenceEqual(model.Colors));
+            Assert.Equal(dto.Flavor, model.Flavor);
+            Assert.Equal(dto.ForeignNames.Count(), model.ForeignNames.Count);
+            Assert.Equal(dto.Hand, model.Hand);
+            Assert.Equal(dto.Id, model.Id);
+            Assert.Equal(dto.ImageUrl, model.ImageUrl);
+            Assert.Equal(dto.Layout, model.Layout);
+            Assert.Equal(dto.Legalities.Count(), model.Legalities.Count);
+            Assert.Equal(dto.Life, model.Life);
+            Assert.Equal(dto.Loyalty, model.Loyalty);
+            Assert.Equal(dto.ManaCost, model.ManaCost);
+            Assert.Equal(dto.MultiverseId, model.MultiverseId);
+            Assert.Equal(dto.Name, model.Name);
+            Assert.True(dto.Name.SequenceEqual(model.Name));
+            Assert.Equal(dto.Number, model.Number);
+            Assert.Equal(dto.OriginalText, model.OriginalText);
+            Assert.Equal(dto.OriginalType, model.OriginalType);
+            Assert.Equal(dto.Power, model.Power);
+            Assert.True(dto.Printings.SequenceEqual(model.Printings));
+            Assert.Equal(dto.Rarity, model.Rarity);
+            Assert.Equal(dto.ReleaseDate, model.ReleaseDate);
+            Assert.Equal(dto.Number, model.Number);
+            Assert.Equal(dto.Reserved, model.Reserved);
+            Assert.Equal(dto.Rulings.Count(), model.Rulings.Count);
+            Assert.Equal(dto.Set, model.Set);
+            Assert.Equal(dto.SetName, model.SetName);
+            Assert.Equal(dto.Source, model.Source);
+            Assert.Equal(dto.Starter, model.Starter);
+            Assert.Equal(dto.Reserved, model.Reserved);
+            Assert.True(dto.SubTypes.SequenceEqual(model.SubTypes));
+            Assert.True(dto.SuperTypes.SequenceEqual(model.SuperTypes));
+            Assert.Equal(dto.Text, model.Text);
+            Assert.Equal(dto.Timeshifted, model.Timeshifted);
+            Assert.Equal(dto.Toughness, model.Toughness);
+            Assert.Equal(dto.Type, model.Type);
+            Assert.True(dto.Types.SequenceEqual(model.Types));
+            Assert.True(dto.Variations.SequenceEqual(model.Variations));
+            Assert.Equal(dto.Watermark, model.Watermark);
 
             dto = new CardDto()
             {
@@ -135,9 +135,9 @@ namespace MtgApiManager.Lib.Test.Model
 
             model = new Card(dto);
 
-            Assert.IsNull(dto.ForeignNames);
-            Assert.IsNull(dto.Legalities);
-            Assert.IsNull(dto.Rulings);
+            Assert.Null(dto.ForeignNames);
+            Assert.Null(dto.Legalities);
+            Assert.Null(dto.Rulings);
         }
     }
 }

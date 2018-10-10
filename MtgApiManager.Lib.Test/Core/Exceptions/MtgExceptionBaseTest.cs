@@ -5,22 +5,23 @@
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
     using Lib.Core.Exceptions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
+
 
     /// <summary>
     /// Tests the <see cref="MtgExceptionBase"/> class.
     /// </summary>
-    [TestClass]
+
     public class MtgExceptionBaseTest
     {
         /// <summary>
         /// Tests the <see cref="MtgExceptionBase.MtgExceptionBase(string)"/> constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ContructorTest()
         {
             MtgExceptionBase exception = new MtgExceptionBase("testing");
-            Assert.AreEqual("MTG Api Error, testing", exception.Message);
+            Assert.Equal("MTG Api Error, testing", exception.Message);
         }
     }
 }

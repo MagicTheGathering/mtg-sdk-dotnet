@@ -4,32 +4,32 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Test.Core
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MtgApiManager.Lib.Core;
+    using System;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="Exceptional{T}"/> class.
     /// </summary>
-    [TestClass]
+
     public class ExceptionalTest
     {
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.Failure(Exception)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void FailureTest()
         {
             var testObject = Exceptional<int?>.Failure(new ArgumentNullException("test"));
-            Assert.AreEqual(false, testObject.IsSuccess);
-            Assert.IsInstanceOfType(testObject.Exception, typeof(ArgumentNullException));
-            Assert.AreEqual("test", ((ArgumentNullException)testObject.Exception).ParamName);
+            Assert.False(testObject.IsSuccess);
+            Assert.IsType<ArgumentNullException>(testObject.Exception);
+            Assert.Equal("test", ((ArgumentNullException)testObject.Exception).ParamName);
         }
 
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.IfFailure(Action{Exception})"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IfFailureTest()
         {
             var testObject = 0;
@@ -38,28 +38,28 @@ namespace MtgApiManager.Lib.Test.Core
             {
                 // Test exception is thrown.
                 Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfFailure(null); 
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("action", ex.ParamName);
+                Assert.Equal("action", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfFailure(x => testObject = 5);
-            Assert.AreNotEqual(5, testObject);
+            Assert.NotEqual(5, testObject);
 
             Exceptional<int>.Failure(new ArgumentNullException("test")).IfFailure(x => testObject = 10);
-            Assert.AreEqual(10, testObject);
+            Assert.Equal(10, testObject);
         }
 
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.IfSuccess(Action{T})"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void IfSuccessTest()
         {
             var testObject = 0;
@@ -68,28 +68,28 @@ namespace MtgApiManager.Lib.Test.Core
             {
                 // Test exception is thrown.
                 Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfSuccess(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("action", ex.ParamName);
+                Assert.Equal("action", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             Exceptional<int>.Success(0, new PagingInfo(10, 5)).IfSuccess(x => testObject = 5);
-            Assert.AreEqual(5, testObject);
+            Assert.Equal(5, testObject);
 
             Exceptional<int>.Failure(new ArgumentNullException("test")).IfSuccess(x => testObject = 10);
-            Assert.AreNotEqual(10, testObject);
+            Assert.NotEqual(10, testObject);
         }
 
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.Map{TNewValue}(Func{T, TNewValue})"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void MapTest()
         {
             var testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
@@ -99,53 +99,53 @@ namespace MtgApiManager.Lib.Test.Core
             {
                 // Test exception is thrown.
                 testObject.Map<int>(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("function", ex.ParamName);
+                Assert.Equal("function", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             testObject
-                .IfSuccess(x => Assert.AreEqual(10, x))
-                .IfFailure(_ => Assert.Fail());
+                .IfSuccess(x => Assert.Equal(10, x))
+                .IfFailure(_ => Assert.True(false));
 
             mappedObject
-                .IfSuccess(x => Assert.AreEqual(20, x))
-                .IfFailure(_ => Assert.Fail());
+                .IfSuccess(x => Assert.Equal(20, x))
+                .IfFailure(_ => Assert.True(false));
 
             testObject = Exceptional<int>.Failure(new ArgumentNullException("test"));
             mappedObject = testObject.Map(x => x * 2);
 
             testObject
-                .IfSuccess(_ => Assert.Fail())
-                .IfFailure(x => Assert.IsInstanceOfType(x, typeof(ArgumentException)));
+                .IfSuccess(_ => Assert.True(false))
+                .IfFailure(x => Assert.IsType<ArgumentNullException>(x));
 
             mappedObject
-                .IfSuccess(_ => Assert.Fail())
-                .IfFailure(x => Assert.IsInstanceOfType(x, typeof(ArgumentException)));
+                .IfSuccess(_ => Assert.True(false))
+                .IfFailure(x => Assert.IsType<ArgumentNullException>(x));
         }
 
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.Success(T)"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void SuccessTest()
         {
             var testObject = Exceptional<int>.Success(5, new PagingInfo(10, 5));
 
-            Assert.AreEqual(true, testObject.IsSuccess, "The Result was expected to be a success, but it was a failure.");
-            Assert.AreEqual(5, testObject.Value, "The Result value did not match the expected result.");
+            Assert.True(testObject.IsSuccess);
+            Assert.Equal(5, testObject.Value);
         }
 
         /// <summary>
         /// Tests the <see cref="Exceptional{T}.Then{TNewValue}(Func{T, Exceptional{TNewValue}})"/> method.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ThenTest()
         {
             var testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
@@ -155,46 +155,46 @@ namespace MtgApiManager.Lib.Test.Core
             {
                 // Test exception is thrown.
                 testObject.Then<int>(null);
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (ArgumentNullException ex)
             {
-                Assert.AreEqual("function", ex.ParamName);
+                Assert.Equal("function", ex.ParamName);
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
 
             testObject
-                .IfSuccess(x => Assert.AreEqual(10, x))
-                .IfFailure(_ => Assert.Fail());
+                .IfSuccess(x => Assert.Equal(10, x))
+                .IfFailure(_ => Assert.True(false));
 
             mappedObject
-                .IfSuccess(x => Assert.AreEqual(20, x))
-                .IfFailure(_ => Assert.Fail());
+                .IfSuccess(x => Assert.Equal(20, x))
+                .IfFailure(_ => Assert.True(false));
 
             testObject = Exceptional<int>.Success(10, new PagingInfo(10, 5));
             mappedObject = testObject.Then(x => Exceptional<int>.Failure(new ArgumentNullException("test")));
 
             testObject
-                .IfSuccess(x => Assert.AreEqual(10, x))
-                .IfFailure(_ => Assert.Fail());
+                .IfSuccess(x => Assert.Equal(10, x))
+                .IfFailure(_ => Assert.True(false));
 
             mappedObject
-                .IfSuccess(_ => Assert.Fail())
-                .IfFailure(x => Assert.IsInstanceOfType(x, typeof(ArgumentException)));
+                .IfSuccess(_ => Assert.True(false))
+                .IfFailure(x => Assert.IsType<ArgumentNullException>(x));
 
             testObject = Exceptional<int>.Failure(new ArgumentNullException("test"));
             mappedObject = testObject.Then(x => Exceptional<int>.Failure(new ArgumentNullException("test")));
 
             testObject
-                .IfSuccess(_ => Assert.Fail())
-                .IfFailure(x => Assert.IsInstanceOfType(x, typeof(ArgumentException)));
+                .IfSuccess(_ => Assert.True(false))
+                .IfFailure(x => Assert.IsType<ArgumentNullException>(x));
 
             mappedObject
-                .IfSuccess(_ => Assert.Fail())
-                .IfFailure(x => Assert.IsInstanceOfType(x, typeof(ArgumentException)));
+                .IfSuccess(_ => Assert.True(false))
+                .IfFailure(x => Assert.IsType<ArgumentNullException>(x));
         }
     }
 }

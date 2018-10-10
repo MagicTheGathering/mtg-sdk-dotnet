@@ -5,22 +5,23 @@
 namespace MtgApiManager.Lib.Test.Core
 {
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using MtgApiManager.Lib.Core;
+    using Xunit;
 
     /// <summary>
     /// Tests the <see cref="MtgApiError"/> enumeration.
     /// </summary>
-    [TestClass]
+
     public class MtgApiErrorTest
     {
         /// <summary>
         /// Tests the <see cref="MtgApiError.BadRequest"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void BadRequestTest()
         {
-            Assert.AreEqual(400, (int)MtgApiError.BadRequest);
+            Assert.Equal(400, (int)MtgApiError.BadRequest);
 
             var attribute = MtgApiError.BadRequest
                     .GetType()
@@ -28,17 +29,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("Your request is not valid", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("Your request is not valid", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="MtgApiError.Forbidden"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ForbiddenTest()
         {
-            Assert.AreEqual(403, (int)MtgApiError.Forbidden);
+            Assert.Equal(403, (int)MtgApiError.Forbidden);
 
             var attribute = MtgApiError.Forbidden
                     .GetType()
@@ -46,17 +47,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("You have exceeded the rate limit", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("You have exceeded the rate limit", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="MtgApiError.InternalServerError"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void InternalServerErrorTest()
         {
-            Assert.AreEqual(500, (int)MtgApiError.InternalServerError);
+            Assert.Equal(500, (int)MtgApiError.InternalServerError);
 
             var attribute = MtgApiError.InternalServerError
                     .GetType()
@@ -64,17 +65,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("We had a problem with our server. Try again later.", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("We had a problem with our server. Try again later.", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="MtgApiError.None"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NoneTest()
         {
-            Assert.AreEqual(0, (int)MtgApiError.None);
+            Assert.Equal(0, (int)MtgApiError.None);
 
             var attribute = MtgApiError.None
                     .GetType()
@@ -82,17 +83,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("none", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("none", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="MtgApiError.NotFound"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void NotFoundTest()
         {
-            Assert.AreEqual(404, (int)MtgApiError.NotFound);
+            Assert.Equal(404, (int)MtgApiError.NotFound);
 
             var attribute = MtgApiError.NotFound
                     .GetType()
@@ -100,17 +101,17 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("The specified resource could not be found", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("The specified resource could not be found", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
 
         /// <summary>
         /// Tests the <see cref="MtgApiError.ServiceUnavailable"/> enumeration.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void ServiceUnavailableTest()
         {
-            Assert.AreEqual(503, (int)MtgApiError.ServiceUnavailable);
+            Assert.Equal(503, (int)MtgApiError.ServiceUnavailable);
 
             var attribute = MtgApiError.ServiceUnavailable
                     .GetType()
@@ -118,8 +119,8 @@ namespace MtgApiManager.Lib.Test.Core
                     .GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false)
                     .SingleOrDefault();
 
-            Assert.IsNotNull(attribute);
-            Assert.AreEqual("We’re temporarily off line for maintenance. Please try again later.", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
+            Assert.NotNull(attribute);
+            Assert.Equal("We’re temporarily off line for maintenance. Please try again later.", ((System.ComponentModel.DescriptionAttribute)attribute).Description);
         }
     }
 }
