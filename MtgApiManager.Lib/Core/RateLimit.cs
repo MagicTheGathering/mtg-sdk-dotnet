@@ -16,7 +16,7 @@ namespace MtgApiManager.Lib.Core
         /// <summary>
         /// The calls that have been made to the web service.
         /// </summary>
-        private List<DateTime> _webServiceCalls;
+        private readonly List<DateTime> _webServiceCalls;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RateLimit"/> class.

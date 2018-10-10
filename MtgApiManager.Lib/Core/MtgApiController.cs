@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("MtgApiManager.Lib.Test")]
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 /// </summary>
 internal static class MtgApiController
 {
+    private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+
     /// <summary>
     /// The rate limit which controls the calls to the API.
     /// </summary>
@@ -79,14 +82,32 @@ internal static class MtgApiController
 
     public async static Task HandleRateLimit()
     {
-        int delayInMilliseconds = _apiRateLimit.GetDelay(MtgApiController.RatelimitLimit);
+        await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
 
-        if (delayInMilliseconds > 0)
+        try
         {
-            await Task.Delay(delayInMilliseconds);
-        }
+            int delayInMilliseconds = _apiRateLimit.GetDelay(RatelimitLimit);
 
-        _apiRateLimit.AddApiCall();
+            if (delayInMilliseconds > 0)
+            {
+                await Task.Delay(delayInMilliseconds).ConfigureAwait(false);
+            }
+
+            _apiRateLimit.AddApiCall();
+        }
+        finally
+        {
+            _semaphoreSlim.Release();
+        }
+    }
+
+    public static void ResetRateLimit()
+    {
+        _semaphoreSlim.Wait();
+
+        _apiRateLimit = new RateLimit();
+
+        _semaphoreSlim.Release();
     }
 
     /// <summary>
@@ -100,34 +121,43 @@ internal static class MtgApiController
             throw new ArgumentNullException("headers");
         }
 
-        if (headers.TryGetValues("Link", out IEnumerable<string> resultHeaders))
-        {
-            Link = resultHeaders.FirstOrDefault();
-        }
+        _semaphoreSlim.Wait();
 
-        if (headers.TryGetValues("Page-Size", out resultHeaders))
+        try
         {
-            PageSize = int.Parse(resultHeaders.FirstOrDefault());
-        }
+            if (headers.TryGetValues("Link", out IEnumerable<string> resultHeaders))
+            {
+                Link = resultHeaders.FirstOrDefault();
+            }
 
-        if (headers.TryGetValues("Count", out resultHeaders))
-        {
-            Count = int.Parse(resultHeaders.FirstOrDefault());
-        }
+            if (headers.TryGetValues("Page-Size", out resultHeaders))
+            {
+                PageSize = int.Parse(resultHeaders.FirstOrDefault());
+            }
 
-        if (headers.TryGetValues("Total-Count", out resultHeaders))
-        {
-            TotalCount = int.Parse(resultHeaders.FirstOrDefault());
-        }
+            if (headers.TryGetValues("Count", out resultHeaders))
+            {
+                Count = int.Parse(resultHeaders.FirstOrDefault());
+            }
 
-        if (headers.TryGetValues("Ratelimit-Limit", out resultHeaders))
-        {
-            RatelimitLimit = int.Parse(resultHeaders.FirstOrDefault());
-        }
+            if (headers.TryGetValues("Total-Count", out resultHeaders))
+            {
+                TotalCount = int.Parse(resultHeaders.FirstOrDefault());
+            }
 
-        if (headers.TryGetValues("Ratelimit-Remaining", out resultHeaders))
+            if (headers.TryGetValues("Ratelimit-Limit", out resultHeaders))
+            {
+                RatelimitLimit = int.Parse(resultHeaders.FirstOrDefault());
+            }
+
+            if (headers.TryGetValues("Ratelimit-Remaining", out resultHeaders))
+            {
+                RatelimitRemaining = int.Parse(resultHeaders.FirstOrDefault());
+            }
+        }
+        finally
         {
-            RatelimitRemaining = int.Parse(resultHeaders.FirstOrDefault());
+            _semaphoreSlim.Release();
         }
     }
 }

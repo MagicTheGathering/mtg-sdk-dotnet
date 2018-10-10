@@ -24,7 +24,7 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// The list of queries to apply.
         /// </summary>
-        private NameValueCollection _whereQueries = null;
+        private readonly NameValueCollection _whereQueries;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the API.
@@ -48,8 +48,9 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
         /// <param name="version">The version of the API</param>
-        public CardService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version)
-            : base(serviceAdapter, version, ApiEndPoint.Cards)
+        /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
+        public CardService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, bool rateLimitOn = true)
+            : base(serviceAdapter, version, ApiEndPoint.Cards, rateLimitOn)
         {
             _whereQueries = new NameValueCollection();
         }
@@ -63,7 +64,7 @@ namespace MtgApiManager.Lib.Service
         {
             if (cardListDto == null)
             {
-                throw new ArgumentNullException("cardListDto");
+                throw new ArgumentNullException(nameof(cardListDto));
             }
 
             if (cardListDto.Cards == null)
@@ -319,12 +320,12 @@ namespace MtgApiManager.Lib.Service
         {
             if (property == null)
             {
-                throw new ArgumentNullException("property");
+                throw new ArgumentNullException(nameof(property));
             }
 
-            if (value == null)
+            if (EqualityComparer<U>.Default.Equals(value, default(U)))
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             MemberExpression expression = property.Body as MemberExpression;
@@ -333,8 +334,7 @@ namespace MtgApiManager.Lib.Service
             Type valueType = value.GetType();
             if (valueType.IsArray)
             {
-                string val = string.Join("|", (IEnumerable<object>)value);
-                _whereQueries[queryName] = val;
+                _whereQueries[queryName] = string.Join("|", (IEnumerable<object>)value);
             }
             else
             {

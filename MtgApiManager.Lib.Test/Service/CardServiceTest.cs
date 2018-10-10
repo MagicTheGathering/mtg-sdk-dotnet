@@ -131,7 +131,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
             service = service.Where(x => x.Name, "name1");
 
             var result = await service.AllAsync();
@@ -275,7 +275,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
             service = service.Where(x => x.Name, "name1");
 
             var result = service.All();
@@ -375,7 +375,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.FindAsync(1);
             Assert.False(result.IsSuccess);
@@ -518,7 +518,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.Find(1);
             Assert.False(result.IsSuccess);
@@ -628,7 +628,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSubTypeDto() { SubTypes = cardSubTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.GetCardSubTypesAsync();
             Assert.False(result.IsSuccess);
@@ -692,7 +692,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSubTypeDto() { SubTypes = cardSubTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.GetCardSubTypes();
             Assert.False(result.IsSuccess);
@@ -757,7 +757,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSuperTypeDto() { SuperTypes = cardSuperTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.GetCardSuperTypesAsync();
             Assert.False(result.IsSuccess);
@@ -821,7 +821,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSuperTypeDto() { SuperTypes = cardSuperTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.GetCardSuperTypes();
             Assert.False(result.IsSuccess);
@@ -886,7 +886,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardTypeDto() { Types = cardTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.GetCardTypesAsync();
             Assert.False(result.IsSuccess);
@@ -950,7 +950,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardTypeDto() { Types = cardTypes });
 
-            var service = new CardService(moqAdapter.Object);
+            var service = new CardService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.GetCardTypes();
             Assert.False(result.IsSuccess);

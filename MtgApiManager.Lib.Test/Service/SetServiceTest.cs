@@ -102,7 +102,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetListDto() { Sets = sets });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
             service = service.Where(x => x.Name, "name1");
 
             var result = await service.AllAsync();
@@ -211,7 +211,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetListDto() { Sets = sets });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
             service = service.Where(x => x.Name, "name1");
 
             var result = service.All();
@@ -296,7 +296,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetDto() { Set = setDto });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.FindAsync("code1");
             Assert.False(result.IsSuccess);
@@ -379,7 +379,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetDto() { Set = setDto });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.Find("code1");
             Assert.False(result.IsSuccess);
@@ -523,7 +523,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = await service.GenerateBoosterAsync("ktk");
             Assert.False(result.IsSuccess);
@@ -666,7 +666,7 @@ namespace MtgApiManager.Lib.Test.Service
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var service = new SetService(moqAdapter.Object);
+            var service = new SetService(moqAdapter.Object, ApiVersion.V1_0, false);
 
             var result = service.GenerateBooster("ktk");
             Assert.False(result.IsSuccess);

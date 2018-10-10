@@ -21,7 +21,7 @@ namespace MtgApiManager.Lib.Test.Service
         /// Initializes a new instance of the <see cref="ServiceBaseObjectService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
         public ServiceBaseObjectService()
-            : base(new MtgApiServiceAdapter(), ApiVersion.V1_0, ApiEndPoint.Cards)
+            : base(new MtgApiServiceAdapter(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
         {
         }
 
@@ -30,7 +30,7 @@ namespace MtgApiManager.Lib.Test.Service
         /// </summary>
         /// <param name="adapter">The adapter to use.</param>
         public ServiceBaseObjectService(IMtgApiServiceAdapter adapter)
-            : base(adapter, ApiVersion.V1_0, ApiEndPoint.Cards)
+            : base(adapter, ApiVersion.V1_0, ApiEndPoint.Cards, false)
         {
         }
 

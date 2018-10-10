@@ -26,20 +26,7 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         protected const string BaseMtgUrl = "https://api.magicthegathering.io";
 
-        /// <summary>
-        /// The adapter used to interact with the MTG API.
-        /// </summary>
-        private IMtgApiServiceAdapter _adapter = null;
-
-        /// <summary>
-        /// The end point for the service.
-        /// </summary>
-        private ApiEndPoint _endpoint;
-
-        /// <summary>
-        /// The version of the API.
-        /// </summary>
-        private ApiVersion _version;
+        private readonly bool _isRateLimitOn;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceBase{TService, TModel}"/> class.
@@ -47,45 +34,29 @@ namespace MtgApiManager.Lib.Service
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
         /// <param name="version">The version of the API (currently only 1 version.)</param>
         /// <param name="endpoint">The end point of the service.</param>
-        public ServiceBase(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, ApiEndPoint endpoint)
+        /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
+        public ServiceBase(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, ApiEndPoint endpoint, bool rateLimitOn)
         {
-            _adapter = serviceAdapter;
-            _version = version;
-            _endpoint = endpoint;
+            Adapter = serviceAdapter;
+            Version = version;
+            EndPoint = endpoint;
+            _isRateLimitOn = rateLimitOn;
         }
 
         /// <summary>
         /// Gets the adapter used to interact with the MTG API.
         /// </summary>
-        protected IMtgApiServiceAdapter Adapter
-        {
-            get
-            {
-                return _adapter;
-            }
-        }
+        protected IMtgApiServiceAdapter Adapter { get; }
 
         /// <summary>
         /// Gets the end point of the service.
         /// </summary>
-        protected ApiEndPoint EndPoint
-        {
-            get
-            {
-                return _endpoint;
-            }
-        }
+        protected ApiEndPoint EndPoint { get; }
 
         /// <summary>
         /// Gets the version of the MTG API.
         /// </summary>
-        protected ApiVersion Version
-        {
-            get
-            {
-                return _version;
-            }
-        }
+        protected ApiVersion Version { get; }
 
         /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
@@ -114,7 +85,7 @@ namespace MtgApiManager.Lib.Service
             var urlBuilder = new UriBuilder(
                 new Uri(
                     new Uri(BaseMtgUrl),
-                    string.Concat(_version.GetDescription(), "/", _endpoint.GetDescription())));
+                    string.Concat(Version.GetDescription(), "/", EndPoint.GetDescription())));
 
             var query = HttpUtility.ParseQueryString(urlBuilder.Query);
             query.Add(parameters);
@@ -137,7 +108,7 @@ namespace MtgApiManager.Lib.Service
 
             return new Uri(
                 new Uri(BaseMtgUrl),
-                string.Concat(_version.GetDescription(), "/", _endpoint.GetDescription(), "/", parameterValue));
+                string.Concat(Version.GetDescription(), "/", EndPoint.GetDescription(), "/", parameterValue));
         }
 
         /// <summary>
@@ -154,10 +125,11 @@ namespace MtgApiManager.Lib.Service
                 throw new ArgumentNullException("requestUri");
             }
 
-            // Makes sure that th rate limit is not reached. 
-            await MtgApiController.HandleRateLimit();
+            // Makes sure that th rate limit is not reached.
+            if (_isRateLimitOn)
+                await MtgApiController.HandleRateLimit().ConfigureAwait(false);
 
-            return await _adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
+            return await Adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
         }
     }
 }

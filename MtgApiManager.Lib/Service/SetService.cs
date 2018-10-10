@@ -50,8 +50,9 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
         /// <param name="version">The version of the API</param>
-        public SetService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version)
-            : base(serviceAdapter, version, ApiEndPoint.Sets)
+        /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
+        public SetService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, bool rateLimitOn = true)
+            : base(serviceAdapter, version, ApiEndPoint.Sets, rateLimitOn)
         {
             _whereQueries = new NameValueCollection();
         }
@@ -65,7 +66,7 @@ namespace MtgApiManager.Lib.Service
         {
             if (setListDto == null)
             {
-                throw new ArgumentNullException("setListDto");
+                throw new ArgumentNullException(nameof(setListDto));
             }
 
             if (setListDto.Sets == null)
@@ -207,12 +208,12 @@ namespace MtgApiManager.Lib.Service
         {
             if (property == null)
             {
-                throw new ArgumentNullException("property");
+                throw new ArgumentNullException(nameof(property));
             }
 
-            if (value == null)
+            if (EqualityComparer<U>.Default.Equals(value, default(U)))
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             MemberExpression expression = property.Body as MemberExpression;
