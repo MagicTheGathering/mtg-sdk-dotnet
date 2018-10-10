@@ -41,18 +41,6 @@ var buildTask = Task("BuildSolution")
             Configuration = configuration,
             NoRestore = true,
             ArgumentCustomization = arg => arg.AppendSwitch("/p:DebugType","=","Full")
-        });        
-
-    Information("Building Test Application");
-    MSBuild(
-        "./MtgApiManager.Lib.TestApp/MtgApiManager.Lib.TestApp.csproj",
-        new MSBuildSettings 
-        {
-            Restore = true,
-            Verbosity = Verbosity.Minimal,
-            ToolVersion = MSBuildToolVersion.VS2017,
-            Configuration = "Release",
-            PlatformTarget = PlatformTarget.MSIL
         });
 });
 
