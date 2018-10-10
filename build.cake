@@ -48,6 +48,7 @@ var buildTask = Task("BuildSolution")
         "./MtgApiManager.Lib.TestApp/MtgApiManager.Lib.TestApp.csproj",
         new MSBuildSettings 
         {
+            Restore = true,
             Verbosity = Verbosity.Minimal,
             ToolVersion = MSBuildToolVersion.VS2017,
             Configuration = "Release",
