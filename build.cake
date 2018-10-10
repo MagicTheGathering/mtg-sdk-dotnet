@@ -9,7 +9,7 @@ var cleanTask = Task("Clean")
     .Does(() =>
 {
     Information("Cleaning solution");
-    DotNetCoreClean("./src");
+    DotNetCoreClean("./");
 });
 
 var nugetTask = Task("NuGetRestorePackages")
@@ -24,14 +24,34 @@ var buildTask = Task("BuildSolution")
     .IsDependentOn(nugetTask)
     .Does(() =>
 {
-    Information("Building solution");
+    Information("Building Library");
     DotNetCoreBuild(
-        "./MtgApiManager.sln",
+        "./MtgApiManager.Lib/MtgApiManager.Lib.csproj",
         new DotNetCoreBuildSettings()
         {
             Configuration = configuration,
             NoRestore = true,
             ArgumentCustomization = arg => arg.AppendSwitch("/p:DebugType","=","Full")
+        });
+
+    DotNetCoreBuild(
+        "./MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",
+        new DotNetCoreBuildSettings()
+        {
+            Configuration = configuration,
+            NoRestore = true,
+            ArgumentCustomization = arg => arg.AppendSwitch("/p:DebugType","=","Full")
+        });        
+
+    Information("Building Test Application");
+    MSBuild(
+        "./MtgApiManager.Lib.TestApp/MtgApiManager.Lib.TestApp.csproj",
+        new MSBuildSettings 
+        {
+            Verbosity = Verbosity.Minimal,
+            ToolVersion = MSBuildToolVersion.VS2017,
+            Configuration = "Release",
+            PlatformTarget = PlatformTarget.MSIL
         });
 });
 
@@ -59,13 +79,12 @@ var unitTestsTask = Task("RunUnitTests")
             OldStyle = true 
         }
         .WithFilter("+[MtgApiManager.Lib]*")
-        .WithFilter("-[MtgApiManager.Lib]MtgApiManager.Lib.Properties.*")
-        .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
+        .WithFilter("-[MtgApiManager.Lib]MtgApiManager.Lib.Properties.*"));
 
     Codecov("./OpenCoverResults.xml", "6f30231e-7bab-4c5f-b705-a1729f1badfd");
 });
 
 Task("Default")
-    .IsDependentOn("unitTestsTask");
+    .IsDependentOn(unitTestsTask);
 
 RunTarget(target);
