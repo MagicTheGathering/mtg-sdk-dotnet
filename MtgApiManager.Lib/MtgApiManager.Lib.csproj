@@ -2,6 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>MtgApiManager.Lib</PackageId>
+    <Version>1.2</Version>
+    <Authors>Jason Regnier</Authors>
+    <Company>Jason Regnier</Company>
+    <Description>This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of magicthegathering.io.</Description>
+    <Copyright>Copyright ©  2016</Copyright>
+    <PackageLicenseUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</PackageProjectUrl>
+    <PackageTags>magicthegathering mtg magic sdk api web</PackageTags>
+    <PackageReleaseNotes>Converted library to .net standard 2</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/12780729?s=200&amp;v=4</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,7 +26,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="OpenCover" Version="4.6.519" />
   </ItemGroup>
 
   <ItemGroup>
