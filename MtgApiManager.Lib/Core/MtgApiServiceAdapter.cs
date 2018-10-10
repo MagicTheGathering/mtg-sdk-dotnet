@@ -4,19 +4,17 @@
 // <author>Jason Regnier</author>
 namespace MtgApiManager.Lib.Core
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using Dto;
     using Exceptions;
     using Newtonsoft.Json;
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     using Utility;
 
     /// <summary>
     /// Used to make web service calls, and can easily be mocked for testing.
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public class MtgApiServiceAdapter : IMtgApiServiceAdapter
     {
         /// <summary>

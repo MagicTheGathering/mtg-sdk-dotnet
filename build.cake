@@ -53,7 +53,7 @@ var unitTestsTask = Task("RunUnitTests")
 
     OpenCover(tool => {
         tool.DotNetCoreTest(
-            "./MtgApiManager.Lib.Test/bin/**/MtgApiManager.Lib.Test.dll",   
+            "./MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",   
             new DotNetCoreTestSettings()
             {
                 Configuration = configuration,
@@ -68,7 +68,7 @@ var unitTestsTask = Task("RunUnitTests")
             OldStyle = true 
         }
         .WithFilter("+[MtgApiManager.Lib]*")
-        .WithFilter("-[MtgApiManager.Lib]MtgApiManager.Lib.Properties.*"));
+        .WithFilter("-[MtgApiManager.Lib.Test]*"));
 
     Codecov("./OpenCoverResults.xml", "6f30231e-7bab-4c5f-b705-a1729f1badfd");
 });
