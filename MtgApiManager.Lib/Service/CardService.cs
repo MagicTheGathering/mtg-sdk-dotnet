@@ -120,14 +120,14 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <param name="multiverseId">The multi verse identifier to query for.</param>
         /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
-        public Exceptional<Card> Find(int multiverseId) => FindAsync(multiverseId.ToString()).Wait();
+        public Exceptional<Card> Find(int multiverseId) => FindAsync(multiverseId.ToString()).Result;
 
         /// <summary>
         /// Find a specific card by its multi verse identifier.
         /// </summary>
         /// <param name="id">The identifier to query for.</param>
         /// <returns>A <see cref="Exceptional{Card}"/> representing the result containing a <see cref="Card"/> or an exception.</returns>
-        public Exceptional<Card> Find(string id) => FindAsync(id).Wait();
+        public Exceptional<Card> Find(string id) => FindAsync(id).Result;
 
         /// <summary>
         /// Find a specific card by its multi verse identifier.
