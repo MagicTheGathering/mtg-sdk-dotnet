@@ -463,7 +463,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Toughness = "tough",
                     Type = "type2",
                     Types = new string[] { "type1", "type2" },
-                    Variations = new [] { Guid.Empty.ToString() },
+                    Variations = new string[] { Guid.Empty.ToString() },
                     Watermark = "watermark"
                 },
                 new CardDto()
@@ -505,7 +505,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Toughness = "tough",
                     Type = "type2",
                     Types = new string[] { "type1", "type2" },
-                    Variations = new [] { Guid.Empty.ToString() },
+                    Variations = new string[] { Guid.Empty.ToString() },
                     Watermark = "watermark"
                 }
             };
@@ -606,7 +606,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Toughness = "tough",
                     Type = "type2",
                     Types = new string[] { "type1", "type2" },
-                    Variations = new [] { Guid.Empty.ToString() },
+                    Variations = new string[] { Guid.Empty.ToString() },
                     Watermark = "watermark"
                 },
                 new CardDto()
@@ -648,7 +648,7 @@ namespace MtgApiManager.Lib.Test.Service
                     Toughness = "tough",
                     Type = "type2",
                     Types = new string[] { "type1", "type2" },
-                    Variations = new [] { Guid.Empty.ToString() },
+                    Variations = new string[] { Guid.Empty.ToString() },
                     Watermark = "watermark"
                 }
             };
