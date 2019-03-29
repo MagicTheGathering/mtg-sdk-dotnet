@@ -33,7 +33,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the multiverse identifier of the card for the foreign name.
         /// </summary>
-        public int MultiverseId
+        public int? MultiverseId
         {
             get;
             private set;

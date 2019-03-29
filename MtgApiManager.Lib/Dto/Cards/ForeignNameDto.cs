@@ -16,7 +16,7 @@ namespace MtgApiManager.Lib.Dto
         }
 
         [JsonProperty(PropertyName = "multiverseid")]
-        public int MultiverseId
+        public int? MultiverseId
         {
             get;
             set;
