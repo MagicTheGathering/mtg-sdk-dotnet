@@ -408,7 +408,10 @@ namespace MtgApiManager.Lib.Model
 
             Hand = item.Hand;
             Id = item.Id;
-            ImageUrl = item.ImageUrl;
+            if (Uri.TryCreate(item.ImageUrl, UriKind.Absolute, out var url))
+            {
+                ImageUrl = url;
+            }
             Layout = item.Layout;
             if (item.Legalities != null)
             {

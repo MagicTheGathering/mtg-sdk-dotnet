@@ -49,7 +49,7 @@ namespace MtgApiManager.Lib.Test.Model
                 ForeignNames = new ForeignNameDto[] { new ForeignNameDto() { Language = "english", MultiverseId = 222, Name = "name2" } },
                 Hand = 222,
                 Id = "12345",
-                ImageUrl = new System.Uri("http://fake/url"),
+                ImageUrl = "http://fake/url",
                 Layout = "layout1",
                 Legalities = new LegalityDto[] { new LegalityDto() { Format = "format2", LegalityName = "legality name 2" } },
                 Life = 333,
@@ -92,7 +92,7 @@ namespace MtgApiManager.Lib.Test.Model
             Assert.Equal(dto.ForeignNames.Count(), model.ForeignNames.Count);
             Assert.Equal(dto.Hand, model.Hand);
             Assert.Equal(dto.Id, model.Id);
-            Assert.Equal(dto.ImageUrl, model.ImageUrl);
+            Assert.Equal(dto.ImageUrl, model.ImageUrl.ToString());
             Assert.Equal(dto.Layout, model.Layout);
             Assert.Equal(dto.Legalities.Count(), model.Legalities.Count);
             Assert.Equal(dto.Life, model.Life);

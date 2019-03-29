@@ -73,7 +73,7 @@ namespace MtgApiManager.Lib.Dto
         }
 
         [JsonProperty(PropertyName = "imageUrl")]
-        public Uri ImageUrl
+        public string ImageUrl
         {
             get;
             set;
