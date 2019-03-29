@@ -368,7 +368,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets if a card has alternate art (for example, 4 different Forests, or the 2 Brothers Yamazaki) then each other variation’s multiverseid will be listed here, NOT including the current card’s multiverseid.
         /// </summary>
-        public int[] Variations
+        public string[] Variations
         {
             get;
             private set;
