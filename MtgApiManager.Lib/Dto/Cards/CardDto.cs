@@ -276,7 +276,7 @@ namespace MtgApiManager.Lib.Dto
         }
 
         [JsonProperty(PropertyName = "variations")]
-        public int[] Variations
+        public string[] Variations
         {
             get;
             set;
