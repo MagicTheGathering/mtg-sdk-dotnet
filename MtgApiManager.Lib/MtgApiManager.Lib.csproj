@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,7 +8,7 @@
     <Company>Jason Regnier</Company>
     <Description>This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of magicthegathering.io.</Description>
     <Copyright>Copyright ©  2016</Copyright>
-    <PackageLicenseUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</PackageProjectUrl>
     <PackageTags>magicthegathering mtg magic sdk api web</PackageTags>
     <PackageReleaseNotes>Converted library to .net standard 2</PackageReleaseNotes>
@@ -17,6 +17,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/12780729?s=200&amp;v=4</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
