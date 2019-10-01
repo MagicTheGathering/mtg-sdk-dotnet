@@ -24,11 +24,6 @@ namespace MtgApiManager.Lib.Service
         : ServiceBase<SetService, Set>, IMtgQueryable<SetService, SetQueryParameter>
     {
         /// <summary>
-        /// The list of queries to apply.
-        /// </summary>
-        private NameValueCollection _whereQueries = null;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SetService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
@@ -54,7 +49,6 @@ namespace MtgApiManager.Lib.Service
         public SetService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, bool rateLimitOn = true)
             : base(serviceAdapter, version, ApiEndPoint.Sets, rateLimitOn)
         {
-            _whereQueries = new NameValueCollection();
         }
 
         /// <summary>
@@ -87,7 +81,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = BuildUri(_whereQueries);
+                var query = BuildUri(WhereQueries);
                 var rootSetList = CallWebServiceGet<RootSetListDto>(query).Result;
 
                 return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
@@ -106,7 +100,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = BuildUri(_whereQueries);
+                var query = BuildUri(WhereQueries);
                 var rootSetList = await CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
 
                 return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
@@ -218,7 +212,7 @@ namespace MtgApiManager.Lib.Service
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<SetQueryParameter>(expression.Member.Name);
-            _whereQueries[queryName] = Convert.ToString(value);
+            WhereQueries[queryName] = Convert.ToString(value);
 
             return this;
         }

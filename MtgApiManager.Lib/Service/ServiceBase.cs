@@ -7,6 +7,7 @@ namespace MtgApiManager.Lib.Service
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
     using Core;
@@ -41,6 +42,7 @@ namespace MtgApiManager.Lib.Service
             Version = version;
             EndPoint = endpoint;
             _isRateLimitOn = rateLimitOn;
+            WhereQueries = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -59,6 +61,11 @@ namespace MtgApiManager.Lib.Service
         protected ApiVersion Version { get; }
 
         /// <summary>
+        /// Gets the list of where queries.
+        /// </summary>
+        protected Dictionary<string, string> WhereQueries { get; }
+
+        /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
         /// </summary>
         /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
@@ -75,7 +82,7 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <param name="parameters">The list of parameters to add to the query.</param>
         /// <returns>The URL to make the call with.</returns>
-        protected Uri BuildUri(NameValueCollection parameters)
+        protected Uri BuildUri(Dictionary<string, string> parameters)
         {
             if (parameters == null)
             {
@@ -87,9 +94,11 @@ namespace MtgApiManager.Lib.Service
                     new Uri(BaseMtgUrl),
                     string.Concat(Version.GetDescription(), "/", EndPoint.GetDescription())));
 
-            var query = HttpUtility.ParseQueryString(urlBuilder.Query);
-            query.Add(parameters);
-            urlBuilder.Query = query.ToString();
+            var paramList = parameters
+                .Select(p => $"{p.Key}={p.Value}")
+                .ToList();
+
+            urlBuilder.Query = Uri.EscapeUriString(string.Join("&", paramList));
 
             return urlBuilder.Uri;
         }

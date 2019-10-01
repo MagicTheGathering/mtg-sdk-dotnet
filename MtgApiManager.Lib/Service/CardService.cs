@@ -10,6 +10,7 @@ namespace MtgApiManager.Lib.Service
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using System.Web;
     using Dto;
     using Model;
     using MtgApiManager.Lib.Core;
@@ -21,11 +22,6 @@ namespace MtgApiManager.Lib.Service
     public class CardService
         : ServiceBase<CardService, Card>, IMtgQueryable<CardService, CardQueryParameter>
     {
-        /// <summary>
-        /// The list of queries to apply.
-        /// </summary>
-        private readonly NameValueCollection _whereQueries;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
@@ -52,7 +48,6 @@ namespace MtgApiManager.Lib.Service
         public CardService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, bool rateLimitOn = true)
             : base(serviceAdapter, version, ApiEndPoint.Cards, rateLimitOn)
         {
-            _whereQueries = new NameValueCollection();
         }
 
         /// <summary>
@@ -85,7 +80,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = BuildUri(_whereQueries);
+                var query = BuildUri(WhereQueries);
                 var rootCardList = CallWebServiceGet<RootCardListDto>(query).Result;
 
                 return Exceptional<List<Card>>.Success(MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
@@ -104,7 +99,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = BuildUri(_whereQueries);
+                var query = BuildUri(WhereQueries);
                 var rootCardList = await CallWebServiceGet<RootCardListDto>(query).ConfigureAwait(false);
 
                 return Exceptional<List<Card>>.Success(MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
@@ -295,11 +290,11 @@ namespace MtgApiManager.Lib.Service
             Type valueType = value.GetType();
             if (valueType.IsArray)
             {
-                _whereQueries[queryName] = string.Join("|", (IEnumerable<object>)value);
+                WhereQueries[queryName] = string.Join("|", (IEnumerable<object>)value);
             }
             else
             {
-                _whereQueries[queryName] = Convert.ToString(value);
+                WhereQueries[queryName] = Uri.UnescapeDataString(Convert.ToString(value));
             }
 
             return this;
