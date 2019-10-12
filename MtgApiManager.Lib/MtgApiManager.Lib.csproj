@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/MagicTheGathering/mtg-sdk-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageIconUrl>icon.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
