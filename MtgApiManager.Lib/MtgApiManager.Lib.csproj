@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>MtgApiManager.Lib</PackageId>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
     <Authors>Jason Regnier</Authors>
     <Company>Jason Regnier</Company>
     <Description>This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of magicthegathering.io.</Description>
