@@ -1,18 +1,13 @@
-﻿// <copyright file="ServiceBase.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MtgApiManager.Lib.Core;
+using MtgApiManager.Lib.Model;
+using MtgApiManager.Lib.Utility;
+
 namespace MtgApiManager.Lib.Service
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Web;
-    using Core;
-    using Utility;
-
     /// <summary>
     /// Base class for a service.
     /// </summary>
@@ -36,40 +31,33 @@ namespace MtgApiManager.Lib.Service
         /// <param name="version">The version of the API (currently only 1 version.)</param>
         /// <param name="endpoint">The end point of the service.</param>
         /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
-        public ServiceBase(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, ApiEndPoint endpoint, bool rateLimitOn)
+        protected ServiceBase(
+            IMtgApiServiceAdapter serviceAdapter,
+            IModelMapper modelMapper,
+            ApiVersion version,
+            ApiEndPoint endpoint,
+            bool rateLimitOn)
         {
             Adapter = serviceAdapter;
+            ModelMapper = modelMapper;
             Version = version;
             EndPoint = endpoint;
             _isRateLimitOn = rateLimitOn;
             WhereQueries = new Dictionary<string, string>();
         }
 
-        /// <summary>
-        /// Gets the adapter used to interact with the MTG API.
-        /// </summary>
         protected IMtgApiServiceAdapter Adapter { get; }
 
-        /// <summary>
-        /// Gets the end point of the service.
-        /// </summary>
         protected ApiEndPoint EndPoint { get; }
 
-        /// <summary>
-        /// Gets the version of the MTG API.
-        /// </summary>
+        protected IModelMapper ModelMapper { get; }
+
         protected ApiVersion Version { get; }
 
         /// <summary>
         /// Gets the list of where queries.
         /// </summary>
         protected Dictionary<string, string> WhereQueries { get; }
-
-        /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
-        /// </summary>
-        /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
-        public abstract Exceptional<List<TModel>> All();
 
         /// <summary>
         /// Gets all the <see cref="TModel"/> defined by the query parameters.
@@ -86,7 +74,7 @@ namespace MtgApiManager.Lib.Service
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             var urlBuilder = new UriBuilder(
@@ -112,7 +100,7 @@ namespace MtgApiManager.Lib.Service
         {
             if (string.IsNullOrWhiteSpace(parameterValue))
             {
-                throw new ArgumentNullException("parameterValue");
+                throw new ArgumentNullException(nameof(parameterValue));
             }
 
             return new Uri(
@@ -126,14 +114,18 @@ namespace MtgApiManager.Lib.Service
         /// <typeparam name="T">The type of object to serialize the response into.</typeparam>
         /// <param name="requestUri">The URL to call.</param>
         /// <returns>The response of the GET serialized into the specified object.</returns>
-        protected async Task<T> CallWebServiceGet<T>(Uri requestUri)
-            where T : Dto.MtgResponseBase
+        protected Task<T> CallWebServiceGet<T>(Uri requestUri) where T : Dto.MtgResponseBase
         {
             if (requestUri == null)
             {
-                throw new ArgumentNullException("requestUri");
+                throw new ArgumentNullException(nameof(requestUri));
             }
 
+            return CallWebServiceGetInternal<T>(requestUri);
+        }
+
+        protected async Task<T> CallWebServiceGetInternal<T>(Uri requestUri) where T : Dto.MtgResponseBase
+        {
             // Makes sure that th rate limit is not reached.
             if (_isRateLimitOn)
                 await MtgApiController.HandleRateLimit().ConfigureAwait(false);

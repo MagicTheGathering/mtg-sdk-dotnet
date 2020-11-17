@@ -88,7 +88,7 @@ namespace MtgApiManager.Lib.Core
         {
             if (action == null)
             {
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             }
 
             if (!IsSuccess)
@@ -109,7 +109,7 @@ namespace MtgApiManager.Lib.Core
         {
             if (action == null)
             {
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             }
 
             if (IsSuccess)
@@ -131,7 +131,7 @@ namespace MtgApiManager.Lib.Core
         {
             if (function == null)
             {
-                throw new ArgumentNullException("function");
+                throw new ArgumentNullException(nameof(function));
             }
 
             if (IsSuccess)
@@ -158,7 +158,7 @@ namespace MtgApiManager.Lib.Core
         {
             if (function == null)
             {
-                throw new ArgumentNullException("function");
+                throw new ArgumentNullException(nameof(function));
             }
 
             if (IsSuccess)

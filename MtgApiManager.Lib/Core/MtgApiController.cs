@@ -118,7 +118,7 @@ internal static class MtgApiController
     {
         if (headers == null)
         {
-            throw new ArgumentNullException("headers");
+            throw new ArgumentNullException(nameof(headers));
         }
 
         _semaphoreSlim.Wait();

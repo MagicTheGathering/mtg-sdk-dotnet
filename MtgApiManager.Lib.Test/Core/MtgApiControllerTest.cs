@@ -36,7 +36,6 @@ namespace MtgApiManager.Lib.Test.Core
                 Assert.True(false);
             }
 
-            HttpClient client = new HttpClient();
             HttpResponseMessage response = new HttpResponseMessage();
 
             // No headers.

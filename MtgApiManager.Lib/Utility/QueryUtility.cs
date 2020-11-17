@@ -1,13 +1,9 @@
-﻿// <copyright file="QueryUtility.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System;
+using System.Linq;
+using System.Text.Json.Serialization;
+
 namespace MtgApiManager.Lib.Utility
 {
-    using System;
-    using System.Linq;
-    using Newtonsoft.Json;
-
     /// <summary>
     /// Utility methods dealing with queries.
     /// </summary>
@@ -23,7 +19,7 @@ namespace MtgApiManager.Lib.Utility
         {
             if (string.IsNullOrEmpty(propertyName))
             {
-                throw new ArgumentNullException("propertyName");
+                throw new ArgumentNullException(nameof(propertyName));
             }
 
             var property = typeof(T).GetProperty(propertyName);
@@ -33,14 +29,14 @@ namespace MtgApiManager.Lib.Utility
                 return null;
             }
 
-            var attribute = property.GetCustomAttributes(true).SingleOrDefault(x => x is JsonPropertyAttribute);
+            var attribute = property.GetCustomAttributes(true).SingleOrDefault(x => x is JsonPropertyNameAttribute);
 
             if (attribute == null)
             {
                 return null;
             }
 
-            return (attribute as JsonPropertyAttribute).PropertyName;
+            return (attribute as JsonPropertyNameAttribute).Name;
         }
     }
 }

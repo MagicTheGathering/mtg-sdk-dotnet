@@ -1,8 +1,4 @@
-﻿// <copyright file="Extensions.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Utility
+﻿namespace MtgApiManager.Lib.Utility
 {
     using System;
     using System.ComponentModel;
@@ -22,7 +18,7 @@ namespace MtgApiManager.Lib.Utility
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             var attr = value

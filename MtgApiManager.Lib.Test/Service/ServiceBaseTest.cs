@@ -1,14 +1,11 @@
-﻿// <copyright file="ServiceBaseTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Service
+﻿namespace MtgApiManager.Lib.Test.Service
 {
+    using System;
+    using System.Threading.Tasks;
     using Lib.Core;
     using Lib.Dto;
     using Moq;
     using MtgApiManager.Lib.Service;
-    using System;
     using Xunit;
 
     /// <summary>
@@ -21,24 +18,13 @@ namespace MtgApiManager.Lib.Test.Service
         /// Tests the CallWebServiceGet method.
         /// </summary>
         [Fact]
-        public void CallWebServiceGetTest()
+        public async Task CallWebServiceGetTest()
         {
-            ServiceBaseObjectService service = new ServiceBaseObjectService();            
+            ServiceBaseObjectService service = new();
 
-            try
-            {
-                // Test exception is thrown.
-                service.CallWebServiceGetTestMethod(null);
-                Assert.True(false);
-            }
-            catch (AggregateException ex)
-            {
-                Assert.Equal("requestUri", ((ArgumentNullException)ex.Flatten().InnerException).ParamName);
-            }
-            catch(Exception)
-            {
-                Assert.True(false);
-            }
+            // Test exception is thrown.
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => service.CallWebServiceGetTestMethod(null));
+            Assert.Equal("requestUri", exception.ParamName);
 
             var moqAdapter = new Mock<IMtgApiServiceAdapter>();
             moqAdapter
@@ -47,7 +33,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             service = new ServiceBaseObjectService(moqAdapter.Object);
 
-            var result = service.CallWebServiceGetTestMethod(new Uri("http://fake/url"));
+            await service.CallWebServiceGetTestMethod(new Uri("http://fake/url"));
         }
     }
 }
