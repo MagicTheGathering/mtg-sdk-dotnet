@@ -1,12 +1,7 @@
-﻿// <copyright file="RulingTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Model
+﻿namespace MtgApiManager.Lib.Test.Model
 {
     using Lib.Dto;
     using MtgApiManager.Lib.Model;
-    using System;
     using Xunit;
 
     /// <summary>
@@ -15,36 +10,21 @@ namespace MtgApiManager.Lib.Test.Model
 
     public class RulingTest
     {
+        private readonly ModelMapper _modelMapper = new ModelMapper();
+
         /// <summary>
         /// Tests the <see cref="Ruling.Ruling(RulingDto)"/> method.
         /// </summary>
         [Fact]
         public void ContructorTest()
         {
-            Ruling model;
-
-            try
-            {
-                // Test exception is thrown.
-                model = new Ruling(null);
-                Assert.True(false);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.Equal("item", ex.ParamName);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
-
             var dto = new RulingDto()
             {
                 Date = "2016, 10, 2",
                 Text = "testing"
             };
 
-            model = new Ruling(dto);
+            var model = _modelMapper.MapRuling(dto);
 
             Assert.Equal(dto.Date, model.Date);
             Assert.Equal(dto.Text, model.Text);

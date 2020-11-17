@@ -1,14 +1,10 @@
-﻿// <copyright file="WebUtilityTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Core
+﻿namespace MtgApiManager.Lib.Test.Core
 {
     using Lib.Core;
     using Lib.Dto;
     using System;
+    using System.Threading.Tasks;
     using Xunit;
-
 
     /// <summary>
     /// Tests the functionality of the <see cref="MtgApiServiceAdapter"/> class.
@@ -20,24 +16,13 @@ namespace MtgApiManager.Lib.Test.Core
         /// Tests the <see cref="MtgApiServiceAdapter.WebGetAsync(Uri)"/> method.
         /// </summary>
         [Fact]
-        public void WebGetAsyncTest()
+        public async Task WebGetAsyncTest()
         {
             MtgApiServiceAdapter adapter = new MtgApiServiceAdapter();
 
-            try
-            {
-                // Test exception is thrown.
-                var result = adapter.WebGetAsync<RootCardDto>(null).Result;
-                Assert.True(false);
-            }
-            catch (AggregateException ex)
-            {
-                Assert.Equal("requestUri", ((ArgumentNullException)ex.Flatten().InnerException).ParamName);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
+            // Test exception is thrown.
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => adapter.WebGetAsync<RootCardDto>(null));
+            Assert.Equal("requestUri", exception.ParamName);
         }
     }
 }

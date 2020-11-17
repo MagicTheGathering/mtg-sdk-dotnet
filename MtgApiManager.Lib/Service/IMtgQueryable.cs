@@ -1,8 +1,4 @@
-﻿// <copyright file="IMtgQueryable.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Service
+﻿namespace MtgApiManager.Lib.Service
 {
     using System;
     using System.Linq.Expressions;

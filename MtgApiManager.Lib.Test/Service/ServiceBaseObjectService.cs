@@ -1,8 +1,4 @@
-﻿// <copyright file="ServiceBaseObjectService.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Service
+﻿namespace MtgApiManager.Lib.Test.Service
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +17,7 @@ namespace MtgApiManager.Lib.Test.Service
         /// Initializes a new instance of the <see cref="ServiceBaseObjectService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
         public ServiceBaseObjectService()
-            : base(new MtgApiServiceAdapter(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
+            : base(new MtgApiServiceAdapter(), new ModelMapper(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
         {
         }
 
@@ -30,17 +26,8 @@ namespace MtgApiManager.Lib.Test.Service
         /// </summary>
         /// <param name="adapter">The adapter to use.</param>
         public ServiceBaseObjectService(IMtgApiServiceAdapter adapter)
-            : base(adapter, ApiVersion.V1_0, ApiEndPoint.Cards, false)
+            : base(adapter, new ModelMapper(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
         {
-        }
-
-        /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
-        /// </summary>
-        /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
-        public override Exceptional<List<Card>> All()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -56,9 +43,9 @@ namespace MtgApiManager.Lib.Test.Service
         /// Used to help with the testing of <see cref="ServiceBase{TService, TModel}.CallWebServiceGet{T}(Uri)"/>.
         /// </summary>
         /// <param name="fakeUri"></param>
-        public RootCardDto CallWebServiceGetTestMethod(Uri fakeUri)
+        public Task<RootCardDto> CallWebServiceGetTestMethod(Uri fakeUri)
         {
-            return this.CallWebServiceGet<RootCardDto>(fakeUri).Result;
+            return CallWebServiceGet<RootCardDto>(fakeUri);
         }
     }
 }

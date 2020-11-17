@@ -1,22 +1,17 @@
-﻿// <copyright file="SetService.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using MtgApiManager.Lib.Core;
+using MtgApiManager.Lib.Dto;
+using MtgApiManager.Lib.Dto.Set;
+using MtgApiManager.Lib.Model;
+using MtgApiManager.Lib.Utility;
+
 namespace MtgApiManager.Lib.Service
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.IO;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using Dto;
-    using Dto.Set;
-    using Model;
-    using MtgApiManager.Lib.Core;
-    using Utility;
-
     /// <summary>
     /// Object representing a MTG set.
     /// </summary>
@@ -26,17 +21,8 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="SetService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
-        /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
-        public SetService(IMtgApiServiceAdapter serviceAdapter)
-            : this(serviceAdapter, ApiVersion.V1_0)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SetService"/> class. Defaults to version 1.0 of the API.
-        /// </summary>
         public SetService()
-            : this(new MtgApiServiceAdapter(), ApiVersion.V1_0)
+            : this(new MtgApiServiceAdapter(), new ModelMapper(), ApiVersion.V1_0)
         {
         }
 
@@ -46,50 +32,13 @@ namespace MtgApiManager.Lib.Service
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
         /// <param name="version">The version of the API</param>
         /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
-        public SetService(IMtgApiServiceAdapter serviceAdapter, ApiVersion version, bool rateLimitOn = true)
-            : base(serviceAdapter, version, ApiEndPoint.Sets, rateLimitOn)
+        public SetService(
+            IMtgApiServiceAdapter serviceAdapter,
+            IModelMapper modelMapper,
+            ApiVersion version,
+            bool rateLimitOn = true)
+            : base(serviceAdapter, modelMapper, version, ApiEndPoint.Sets, rateLimitOn)
         {
-        }
-
-        /// <summary>
-        /// Maps a collection of set DTO objects to the set model.
-        /// </summary>
-        /// <param name="setListDto">The list of sets DTO objects.</param>
-        /// <returns>A list of set models.</returns>
-        public static List<Set> MapSetsList(RootSetListDto setListDto)
-        {
-            if (setListDto == null)
-            {
-                throw new ArgumentNullException(nameof(setListDto));
-            }
-
-            if (setListDto.Sets == null)
-            {
-                return null;
-            }
-
-            return setListDto.Sets
-                .Select(x => new Set(x))
-                .ToList();
-        }
-
-        /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
-        /// </summary>
-        /// <returns>A <see cref="Exceptional{List{Set}}"/> representing the result containing all the items.</returns>
-        public override Exceptional<List<Set>> All()
-        {
-            try
-            {
-                var query = BuildUri(WhereQueries);
-                var rootSetList = CallWebServiceGet<RootSetListDto>(query).Result;
-
-                return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
-            }
-            catch (AggregateException ex)
-            {
-                return Exceptional<List<Set>>.Failure(ex.Flatten().InnerException);
-            }
         }
 
         /// <summary>
@@ -102,32 +51,11 @@ namespace MtgApiManager.Lib.Service
             {
                 var query = BuildUri(WhereQueries);
                 var rootSetList = await CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
-
                 return Exceptional<List<Set>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
                 return Exceptional<List<Set>>.Failure(ex);
-            }
-        }
-
-        /// <summary>
-        /// Find a specific set by its set code.
-        /// </summary>
-        /// <param name="code">The set code to query for.</param>
-        /// <returns>A <see cref="Exceptional{Set}"/> representing the result containing a <see cref="Set"/> or an exception.</returns>
-        public Exceptional<Set> Find(string code)
-        {
-            try
-            {
-                var rootSet = CallWebServiceGet<RootSetDto>(BuildUri(code)).Result;
-                var model = new Set(rootSet.Set);
-
-                return Exceptional<Set>.Success(model, MtgApiController.CreatePagingInfo());
-            }
-            catch (AggregateException ex)
-            {
-                return Exceptional<Set>.Failure(ex.Flatten().InnerException);
             }
         }
 
@@ -141,33 +69,13 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var rootSet = await CallWebServiceGet<RootSetDto>(BuildUri(code)).ConfigureAwait(false);
-                var model = new Set(rootSet.Set);
+                var model = ModelMapper.MapSet(rootSet.Set);
 
                 return Exceptional<Set>.Success(model, MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
                 return Exceptional<Set>.Failure(ex);
-            }
-        }
-
-        /// <summary>
-        ///  Generates a booster pack for a specific set.
-        /// </summary>
-        /// <param name="code">The set code to generate a booster for.</param>
-        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
-        public Exceptional<List<Card>> GenerateBooster(string code)
-        {
-            try
-            {
-                var url = new Uri(Path.Combine(BuildUri(code).AbsoluteUri, "booster"), UriKind.Absolute);
-                var rootCardList = CallWebServiceGet<RootCardListDto>(url).Result;
-
-                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
-            }
-            catch (AggregateException ex)
-            {
-                return Exceptional<List<Card>>.Failure(ex.Flatten().InnerException);
             }
         }
 
@@ -183,7 +91,11 @@ namespace MtgApiManager.Lib.Service
                 var url = new Uri(Path.Combine(BuildUri(code).AbsoluteUri, "booster"));
                 var rootCardList = await CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
 
-                return Exceptional<List<Card>>.Success(CardService.MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
+                var cards = rootCardList.Cards
+                .Select(x => ModelMapper.MapCard(x))
+                .ToList();
+
+                return Exceptional<List<Card>>.Success(cards, MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
@@ -205,7 +117,7 @@ namespace MtgApiManager.Lib.Service
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (EqualityComparer<U>.Default.Equals(value, default(U)))
+            if (EqualityComparer<U>.Default.Equals(value, default))
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -215,6 +127,23 @@ namespace MtgApiManager.Lib.Service
             WhereQueries[queryName] = Convert.ToString(value);
 
             return this;
+        }
+
+        private List<Set> MapSetsList(RootSetListDto setListDto)
+        {
+            if (setListDto == null)
+            {
+                throw new ArgumentNullException(nameof(setListDto));
+            }
+
+            if (setListDto.Sets == null)
+            {
+                return new List<Set>();
+            }
+
+            return setListDto.Sets
+                .Select(x => ModelMapper.MapSet(x))
+                .ToList();
         }
     }
 }

@@ -1,11 +1,7 @@
-﻿// <copyright file="EnumTestObject.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Utility
+﻿namespace MtgApiManager.Lib.Test.Utility
 {
     using System.ComponentModel;
-    using Newtonsoft.Json;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// Enumeration used for testing
@@ -17,7 +13,7 @@ namespace MtgApiManager.Lib.Test.Utility
         /// </summary>
         NoDescription = 0,
 
-        [JsonProperty(PropertyName = "notDescriptionAttribute")]
+        [JsonPropertyName("notDescriptionAttribute")]
         DifferentAttribute = 1,
 
         /// <summary>

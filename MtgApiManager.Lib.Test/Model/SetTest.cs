@@ -1,14 +1,7 @@
-﻿// <copyright file="SetTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Model
+﻿namespace MtgApiManager.Lib.Test.Model
 {
     using Lib.Dto;
     using MtgApiManager.Lib.Model;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.Collections.Generic;
     using Xunit;
 
     /// <summary>
@@ -17,46 +10,17 @@ namespace MtgApiManager.Lib.Test.Model
 
     public class SetTest
     {
+        private readonly ModelMapper _modelMapper = new ModelMapper();
+
         /// <summary>
         /// Tests the <see cref="Set.MapSet(SetDto)"/> method.
         /// </summary>
         [Fact]
         public void MapSetTest()
         {
-            Set model;
-
-            try
-            {
-                // Test exception is thrown.
-                model = new Set(null);
-                Assert.True(false);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.Equal("item", ex.ParamName);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
-
             var dto = new SetDto()
             {
                 Block = "block1",
-                Booster = new object[2]
-                {
-                    new JValue("booster1"),
-                    new JArray()
-                    {
-                        new JValue("booster2"),
-                        new JValue("booster3"),
-                        new JArray()
-                        {
-                            new JValue("booster4"),
-                            new JValue("booster5")
-                        }
-                    }
-                },
                 Border = "border1",
                 Code = "code1",
                 Expansion = "expansion1",
@@ -68,7 +32,7 @@ namespace MtgApiManager.Lib.Test.Model
                 ReleaseDate = "2016, 1, 1"
             };
 
-            model = new Set(dto);
+            var model = _modelMapper.MapSet(dto);
 
             Assert.Equal(dto.Block, model.Block);
             Assert.Equal(dto.Border, model.Border);

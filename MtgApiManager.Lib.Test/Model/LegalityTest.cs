@@ -1,12 +1,7 @@
-﻿// <copyright file="LegalityTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Test.Model
+﻿namespace MtgApiManager.Lib.Test.Model
 {
     using Lib.Dto;
     using MtgApiManager.Lib.Model;
-    using System;
     using Xunit;
 
     /// <summary>
@@ -15,39 +10,24 @@ namespace MtgApiManager.Lib.Test.Model
 
     public class LegalityTest
     {
+        private readonly ModelMapper _modelMapper = new ModelMapper();
+
         /// <summary>
         /// Tests the <see cref="Legality.Legality(LegalityDto)"/> method.
         /// </summary>
         [Fact]
         public void ContructorTest()
         {
-            Legality model;
-
-            try
-            {
-                // Test exception is thrown.
-                model = new Legality(null);
-                Assert.True(false);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.Equal("item", ex.ParamName);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
-
             var dto = new LegalityDto()
             {
                 Format = "format1",
-                LegalityName = "fake name"
+                Legality = "fake name"
             };
 
-            model = new Legality(dto);
+            var model = _modelMapper.MapLegality(dto);
 
             Assert.Equal(dto.Format, model.Format);
-            Assert.Equal(dto.LegalityName, model.LegalityName);
+            Assert.Equal(dto.Legality, model.LegalityName);
         }
     }
 }
