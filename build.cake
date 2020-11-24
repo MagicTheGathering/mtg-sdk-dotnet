@@ -9,7 +9,7 @@ var cleanTask = Task("Clean")
     .Does(() =>
 {
     Information("Cleaning solution");
-    DotNetCoreClean("./");
+    DotNetCoreClean("./src");
 });
 
 var nugetTask = Task("NuGetRestorePackages")
@@ -17,7 +17,7 @@ var nugetTask = Task("NuGetRestorePackages")
     .Does(() =>
 {
     Information("Restoring Nuget packages for solution");
-    DotNetCoreRestore("./MtgApiManager.sln");
+    DotNetCoreRestore("./src/MtgApiManager.sln");
 });
 
 var buildTask = Task("BuildSolution")
@@ -26,7 +26,7 @@ var buildTask = Task("BuildSolution")
 {
     Information("Building Library");
     DotNetCoreBuild(
-        "./MtgApiManager.Lib/MtgApiManager.Lib.csproj",
+        "./src/MtgApiManager.Lib/MtgApiManager.Lib.csproj",
         new DotNetCoreBuildSettings()
         {
             Configuration = configuration,
@@ -35,7 +35,7 @@ var buildTask = Task("BuildSolution")
         });
 
     DotNetCoreBuild(
-        "./MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",
+        "./src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",
         new DotNetCoreBuildSettings()
         {
             Configuration = configuration,
@@ -53,7 +53,7 @@ var unitTestsTask = Task("RunUnitTests")
 
     OpenCover(tool => {
         tool.DotNetCoreTest(
-            "./MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",   
+            "./src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj",   
             new DotNetCoreTestSettings()
             {
                 Configuration = configuration,
