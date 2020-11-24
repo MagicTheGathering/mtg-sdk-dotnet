@@ -61,5 +61,10 @@ namespace MtgApiManager.Lib.Model
         /// Gets when the set was released. For promo sets, the date the first card was released.
         /// </summary>
         public string ReleaseDate { get; init; }
+
+        /// <summary>
+        /// Gets the set type.
+        /// </summary>
+        public string Type { get; init; }
     }
 }

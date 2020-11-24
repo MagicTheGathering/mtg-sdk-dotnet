@@ -62,70 +62,6 @@ namespace MtgApiManager.Lib.Model
             };
         }
 
-        public Set MapSet(SetDto setDto)
-        {
-            if (setDto == null)
-            {
-                throw new ArgumentNullException(nameof(setDto));
-            }
-
-            List<object> booster = new();
-            if (setDto.Booster.ValueKind == JsonValueKind.Array)
-            {
-                booster = setDto.Booster
-                    .EnumerateArray()
-                    .Select(x => GetBoosterValue(x))
-                    .ToList();
-            }
-
-            return new Set
-            {
-                Block = setDto.Block,
-                Booster = booster,
-                Border = setDto.Border,
-                Code = setDto.Code,
-                Expansion = setDto.Expansion,
-                GathererCode = setDto.GathererCode,
-                MagicCardsInfoCode = setDto.MagicCardsInfoCode,
-                Name = setDto.Name,
-                OldCode = setDto.OldCode,
-                OnlineOnly = setDto.OnlineOnly,
-                ReleaseDate = setDto.ReleaseDate,
-            };
-        }
-
-        private static List<object> GetBoosterAsArray(JsonElement jsonElement)
-        {
-            List<object> items = new();
-            foreach (var item in jsonElement.EnumerateArray())
-            {
-                if (item.ValueKind == JsonValueKind.String)
-                {
-                    items.Add(GetBoosterValue(item));
-                }
-                else
-                {
-                    items.Add(GetBoosterAsArray(item));
-                }
-            }
-
-            return items;
-        }
-
-        private static object GetBoosterValue(JsonElement jsonElement)
-        {
-            if (jsonElement.ValueKind == JsonValueKind.String)
-            {
-                return jsonElement.GetString();
-            }
-            else if (jsonElement.ValueKind == JsonValueKind.Array)
-            {
-                return GetBoosterAsArray(jsonElement);
-            }
-
-            return null;
-        }
-
         public ForeignName MapForeignName(ForeignNameDto foreignNameDto)
         {
             if (foreignNameDto == null)
@@ -167,6 +103,71 @@ namespace MtgApiManager.Lib.Model
                 Date = rulingDto.Date,
                 Text = rulingDto.Text,
             };
+        }
+
+        public Set MapSet(SetDto setDto)
+        {
+            if (setDto == null)
+            {
+                throw new ArgumentNullException(nameof(setDto));
+            }
+
+            List<object> booster = new();
+            if (setDto.Booster.ValueKind == JsonValueKind.Array)
+            {
+                booster = setDto.Booster
+                    .EnumerateArray()
+                    .Select(x => GetBoosterValue(x))
+                    .ToList();
+            }
+
+            return new Set
+            {
+                Block = setDto.Block,
+                Booster = booster,
+                Border = setDto.Border,
+                Code = setDto.Code,
+                Expansion = setDto.Expansion,
+                GathererCode = setDto.GathererCode,
+                MagicCardsInfoCode = setDto.MagicCardsInfoCode,
+                Name = setDto.Name,
+                OldCode = setDto.OldCode,
+                OnlineOnly = setDto.OnlineOnly,
+                ReleaseDate = setDto.ReleaseDate,
+                Type = setDto.Type,
+            };
+        }
+
+        private static List<object> GetBoosterAsArray(JsonElement jsonElement)
+        {
+            List<object> items = new();
+            foreach (var item in jsonElement.EnumerateArray())
+            {
+                if (item.ValueKind == JsonValueKind.String)
+                {
+                    items.Add(GetBoosterValue(item));
+                }
+                else
+                {
+                    items.Add(GetBoosterAsArray(item));
+                }
+            }
+
+            return items;
+        }
+
+        private static object GetBoosterValue(JsonElement jsonElement)
+        {
+            if (jsonElement.ValueKind == JsonValueKind.String)
+            {
+                return jsonElement.GetString();
+            }
+            else if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                return GetBoosterAsArray(jsonElement);
+            }
+
+            return null;
         }
     }
 }
