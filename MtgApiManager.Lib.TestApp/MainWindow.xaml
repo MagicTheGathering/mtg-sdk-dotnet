@@ -241,6 +241,10 @@
                             <Label Content="OnlineOnly:" />
                             <Label Content="{Binding Path=SelectedSet.OnlineOnly}" />
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Type:" />
+                            <Label Content="{Binding Path=SelectedSet.Type}" />
+                        </StackPanel>
                     </StackPanel>
                     <ListView
                         Grid.Row="2"

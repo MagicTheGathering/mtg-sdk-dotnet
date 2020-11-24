@@ -37,5 +37,8 @@ namespace MtgApiManager.Lib.Dto
 
         [JsonPropertyName("ReleaseDate")]
         public string ReleaseDate { get; set; }
+
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
     }
 }
