@@ -14,7 +14,7 @@ namespace MtgApiManager.Lib.Service
     /// Object representing a MTG card.
     /// </summary>
     public class CardService
-        : ServiceBase<CardService, Card>, IMtgQueryable<CardService, CardQueryParameter>
+        : ServiceBase<Card>, IMtgQueryable<CardService, CardQueryParameter>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CardService"/> class. Defaults to version 1.0 of the API.
@@ -28,6 +28,7 @@ namespace MtgApiManager.Lib.Service
         /// Initializes a new instance of the <see cref="CardService"/> class.
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+        /// <param name="modelMapper">Used to map entity objects to models.</param>
         /// <param name="version">The version of the API</param>
         /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
         public CardService(
@@ -40,9 +41,9 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
+        /// Gets all the <see cref="Card"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing all the items.</returns>
+        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing all the items.</returns>
         public async override Task<Exceptional<List<Card>>> AllAsync()
         {
             try

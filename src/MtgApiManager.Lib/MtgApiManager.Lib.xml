@@ -923,14 +923,15 @@
             Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.CardService"/> class.
             </summary>
             <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+            <param name="modelMapper">Used to map entity objects to models.</param>
             <param name="version">The version of the API</param>
             <param name="rateLimitOn">Turn the rate limit on or off.</param>
         </member>
         <member name="M:MtgApiManager.Lib.Service.CardService.AllAsync">
             <summary>
-            Gets all the <see cref="!:TModel"/> defined by the query parameters.
+            Gets all the <see cref="T:MtgApiManager.Lib.Model.Card"/> defined by the query parameters.
             </summary>
-            <returns>A <see cref="!:Exceptional&lt;List&lt;Card&gt;&gt;"/> representing the result containing all the items.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.CardService.Find(System.Int32)">
             <summary>
@@ -1026,53 +1027,48 @@
             Base class for query parameters.
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Service.ServiceBase`2">
+        <member name="T:MtgApiManager.Lib.Service.ServiceBase`1">
             <summary>
             Base class for a service.
             </summary>
-            <typeparam name="TService">The type of service.</typeparam>
             <typeparam name="TModel">The type of model used by the service.</typeparam>
         </member>
-        <member name="F:MtgApiManager.Lib.Service.ServiceBase`2.BaseMtgUrl">
+        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.#ctor(MtgApiManager.Lib.Core.IMtgApiServiceAdapter,MtgApiManager.Lib.Model.IModelMapper,MtgApiManager.Lib.Core.ApiVersion,MtgApiManager.Lib.Core.ApiEndPoint,System.Boolean)">
             <summary>
-            The base URL to the MTG API.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`2.#ctor(MtgApiManager.Lib.Core.IMtgApiServiceAdapter,MtgApiManager.Lib.Model.IModelMapper,MtgApiManager.Lib.Core.ApiVersion,MtgApiManager.Lib.Core.ApiEndPoint,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.ServiceBase`2"/> class.
+            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.ServiceBase`1"/> class.
             </summary>
             <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+            <param name="modelMapper">Used to map entity objects to models.</param>
             <param name="version">The version of the API (currently only 1 version.)</param>
             <param name="endpoint">The end point of the service.</param>
             <param name="rateLimitOn">Turn the rate limit on or off.</param>
         </member>
-        <member name="P:MtgApiManager.Lib.Service.ServiceBase`2.WhereQueries">
+        <member name="P:MtgApiManager.Lib.Service.ServiceBase`1.WhereQueries">
             <summary>
             Gets the list of where queries.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`2.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.AllAsync">
             <summary>
-            Gets all the <see cref="!:TModel"/> defined by the query parameters.
+            Gets all the objects defined by the query parameters.
             </summary>
-            <returns>A <see cref="!:Exceptional&lt;List&lt;TModel&gt;&gt;"/> representing the result containing all the items.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`2.BuildUri(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.BuildUri(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             Builds the URL to call the web service.
             </summary>
             <param name="parameters">The list of parameters to add to the query.</param>
             <returns>The URL to make the call with.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`2.BuildUri(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.BuildUri(System.String)">
             <summary>
             Builds the URL to call the web service.
             </summary>
             <param name="parameterValue">The parameter value to add.</param>
             <returns>The URL to make the call with.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`2.CallWebServiceGet``1(System.Uri)">
+        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.CallWebServiceGet``1(System.Uri)">
             <summary>
             Makes a GET call to the web service.
             </summary>
@@ -1110,14 +1106,15 @@
             Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.SetService"/> class.
             </summary>
             <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+            <param name="modelMapper">Used to map entity objects to models.</param>
             <param name="version">The version of the API</param>
             <param name="rateLimitOn">Turn the rate limit on or off.</param>
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.AllAsync">
             <summary>
-            Gets all the <see cref="!:TModel"/> defined by the query parameters.
+            Gets all the <see cref="T:MtgApiManager.Lib.Model.Set"/> defined by the query parameters.
             </summary>
-            <returns>A <see cref="!:Exceptional&lt;List&lt;Set&gt;&gt;"/> representing the result containing all the items.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.FindAsync(System.String)">
             <summary>
@@ -1131,7 +1128,7 @@
              Generates a booster pack for a specific set asynchronously.
             </summary>
             <param name="code">The set code to generate a booster for.</param>
-            <returns>A <see cref="!:Exceptional&lt;List&lt;Card&gt;&gt;"/> representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.SetQueryParameter,``0}},``0)">
             <summary>
@@ -1165,7 +1162,7 @@
             </summary>
             <typeparam name="T">The type to look for the property in.</typeparam>
             <param name="propertyName">The name of the property to get the query parameter for.</param>
-            <returns>A <see cref="T:System.String"/> representing the query name defined in the <see cref="!:JsonProperty"/></returns>
+            <returns>A <see cref="T:System.String"/> representing the query name defined in the JSON property</returns>
         </member>
         <member name="T:MtgApiController">
             <summary>

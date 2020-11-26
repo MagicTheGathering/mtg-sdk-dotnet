@@ -16,7 +16,7 @@ namespace MtgApiManager.Lib.Service
     /// Object representing a MTG set.
     /// </summary>
     public class SetService
-        : ServiceBase<SetService, Set>, IMtgQueryable<SetService, SetQueryParameter>
+        : ServiceBase<Set>, IMtgQueryable<SetService, SetQueryParameter>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SetService"/> class. Defaults to version 1.0 of the API.
@@ -30,6 +30,7 @@ namespace MtgApiManager.Lib.Service
         /// Initializes a new instance of the <see cref="SetService"/> class.
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+        /// <param name="modelMapper">Used to map entity objects to models.</param>
         /// <param name="version">The version of the API</param>
         /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
         public SetService(
@@ -42,9 +43,9 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
+        /// Gets all the <see cref="Set"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="Exceptional{List{Set}}"/> representing the result containing all the items.</returns>
+        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing all the items.</returns>
         public async override Task<Exceptional<List<Set>>> AllAsync()
         {
             try
@@ -83,7 +84,7 @@ namespace MtgApiManager.Lib.Service
         ///  Generates a booster pack for a specific set asynchronously.
         /// </summary>
         /// <param name="code">The set code to generate a booster for.</param>
-        /// <returns>A <see cref="Exceptional{List{Card}}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
+        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
         public async Task<Exceptional<List<Card>>> GenerateBoosterAsync(string code)
         {
             try

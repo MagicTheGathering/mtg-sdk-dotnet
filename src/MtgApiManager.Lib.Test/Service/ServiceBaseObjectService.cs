@@ -11,7 +11,7 @@
     /// <summary>
     /// Object used to test the abstract <see cref="ServiceBase{TService, TModel}"/> class.
     /// </summary>
-    public class ServiceBaseObjectService : ServiceBase<CardService, Card>
+    public class ServiceBaseObjectService : ServiceBase<Card>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceBaseObjectService"/> class. Defaults to version 1.0 of the API.

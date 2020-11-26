@@ -11,23 +11,19 @@ namespace MtgApiManager.Lib.Service
     /// <summary>
     /// Base class for a service.
     /// </summary>
-    /// <typeparam name="TService">The type of service.</typeparam>
     /// <typeparam name="TModel">The type of model used by the service.</typeparam>
-    public abstract class ServiceBase<TService, TModel>
-        where TService : class
+    public abstract class ServiceBase<TModel>
         where TModel : class
     {
-        /// <summary>
-        /// The base URL to the MTG API.
-        /// </summary>
-        protected const string BaseMtgUrl = "https://api.magicthegathering.io";
+        private const string BASE_URL = "https://api.magicthegathering.io";
 
         private readonly bool _isRateLimitOn;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceBase{TService, TModel}"/> class.
+        /// Initializes a new instance of the <see cref="ServiceBase{TModel}"/> class.
         /// </summary>
         /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
+        /// <param name="modelMapper">Used to map entity objects to models.</param>
         /// <param name="version">The version of the API (currently only 1 version.)</param>
         /// <param name="endpoint">The end point of the service.</param>
         /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
@@ -47,7 +43,7 @@ namespace MtgApiManager.Lib.Service
         }
 
         protected IMtgApiServiceAdapter Adapter { get; }
-
+        protected string BaseMtgUrl => BASE_URL;
         protected ApiEndPoint EndPoint { get; }
 
         protected IModelMapper ModelMapper { get; }
@@ -60,9 +56,9 @@ namespace MtgApiManager.Lib.Service
         protected Dictionary<string, string> WhereQueries { get; }
 
         /// <summary>
-        /// Gets all the <see cref="TModel"/> defined by the query parameters.
+        /// Gets all the objects defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="Exceptional{List{TModel}}"/> representing the result containing all the items.</returns>
+        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing all the items.</returns>
         public abstract Task<Exceptional<List<TModel>>> AllAsync();
 
         /// <summary>
