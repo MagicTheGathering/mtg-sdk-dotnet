@@ -482,6 +482,11 @@
             Gets the image URL for a card. Only exists if the card has a multiverse id.
             </summary>
         </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
+            <summary>
+            Gets a value indicating whether the card has more than a single color.
+            </summary>
+        </member>
         <member name="P:MtgApiManager.Lib.Model.Card.Layout">
             <summary>
             Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard

@@ -59,6 +59,11 @@
         public Uri ImageUrl { get; init; }
 
         /// <summary>
+        /// Gets a value indicating whether the card has more than a single color.
+        /// </summary>
+        public bool IsMultiColor => Colors?.Length > 1;
+
+        /// <summary>
         /// Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard
         /// </summary>
         public string Layout { get; init; }
