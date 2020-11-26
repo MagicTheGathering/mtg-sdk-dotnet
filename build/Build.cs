@@ -99,11 +99,15 @@ internal class Build : NukeBuild
 
     private Target Pack => _ => _
         .DependsOn(PublishCodeCoverage)
+        .Requires(() => Configuration == Configuration.Release)
         .Executes(() =>
         {
             DotNetPack(s => s
+                .EnableNoRestore()
+                .EnableNoBuild()
                 .SetProject(Solution.GetProject("MtgApiManager.Lib"))
                 .SetConfiguration(Configuration)
-                .SetOutputDirectory(ArtifactsDirectory));
+                .SetOutputDirectory(ArtifactsDirectory)
+                .SetVersion(GitVersion.NuGetVersionV2));
         });
 }
