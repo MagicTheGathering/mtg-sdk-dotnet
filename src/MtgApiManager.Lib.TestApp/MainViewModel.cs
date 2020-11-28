@@ -8,6 +8,7 @@ namespace MtgApiManager.Lib.TestApp
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IMtgServiceProvider _serviceProvider;
         private ObservableCollection<Card> _cardsCollection = null;
         private RelayCommand _cardSearchCommand;
         private string _cardSearchString = null;
@@ -33,6 +34,7 @@ namespace MtgApiManager.Lib.TestApp
         {
             _cardsCollection = new ObservableCollection<Card>();
             _setsCollection = new ObservableCollection<Set>();
+            _serviceProvider = new MtgServiceProvider();
         }
 
         public ObservableCollection<Card> CardsCollection
@@ -48,7 +50,7 @@ namespace MtgApiManager.Lib.TestApp
                 return _cardSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
 
                         if (!string.IsNullOrWhiteSpace(_cardSearchString))
                         {
@@ -90,7 +92,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.FindAsync(_selectedCardId);
 
                         if (result.IsSuccess)
@@ -113,7 +115,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
                         var result = await setService.FindAsync(_selectedSetCode);
 
                         if (result.IsSuccess)
@@ -136,7 +138,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
                         var result = await setService.GenerateBoosterAsync(_selectedSetCode);
 
                         if (result.IsSuccess)
@@ -165,7 +167,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardSubTypesAsync();
 
                         if (result.IsSuccess)
@@ -187,7 +189,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardSuperTypesAsync();
 
                         if (result.IsSuccess)
@@ -209,7 +211,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardTypesAsync();
 
                         if (result.IsSuccess)
@@ -265,7 +267,7 @@ namespace MtgApiManager.Lib.TestApp
                 return _setSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
 
                         if (!string.IsNullOrWhiteSpace(_setSearchString))
                         {

@@ -7,7 +7,7 @@
     /// <summary>
     /// Contains extension methods.
     /// </summary>
-    public static class Extensions
+    internal static class Extensions
     {
         /// <summary>
         /// Extracts the description attribute from an <see cref="Enum"/> type.

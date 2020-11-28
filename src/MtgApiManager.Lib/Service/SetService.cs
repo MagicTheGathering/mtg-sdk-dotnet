@@ -12,27 +12,8 @@ using MtgApiManager.Lib.Utility;
 
 namespace MtgApiManager.Lib.Service
 {
-    /// <summary>
-    /// Object representing a MTG set.
-    /// </summary>
-    public class SetService
-        : ServiceBase<Set>, IMtgQueryable<SetService, SetQueryParameter>
+    internal class SetService : ServiceBase<Set>, ISetService
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SetService"/> class. Defaults to version 1.0 of the API.
-        /// </summary>
-        public SetService()
-            : this(new MtgApiServiceAdapter(), new ModelMapper(), ApiVersion.V1_0)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SetService"/> class.
-        /// </summary>
-        /// <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
-        /// <param name="modelMapper">Used to map entity objects to models.</param>
-        /// <param name="version">The version of the API</param>
-        /// <param name="rateLimitOn">Turn the rate limit on or off.</param>
         public SetService(
             IMtgApiServiceAdapter serviceAdapter,
             IModelMapper modelMapper,
@@ -42,10 +23,7 @@ namespace MtgApiManager.Lib.Service
         {
         }
 
-        /// <summary>
-        /// Gets all the <see cref="Set"/> defined by the query parameters.
-        /// </summary>
-        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing all the items.</returns>
+        /// <inheritdoc />
         public async override Task<Exceptional<List<Set>>> AllAsync()
         {
             try
@@ -60,11 +38,7 @@ namespace MtgApiManager.Lib.Service
             }
         }
 
-        /// <summary>
-        /// Find a specific card by its set code.
-        /// </summary>
-        /// <param name="code">The set code to query for.</param>
-        /// <returns>A <see cref="Exceptional{Set}"/> representing the result containing a <see cref="Set"/> or an exception.</returns>
+        /// <inheritdoc />
         public async Task<Exceptional<Set>> FindAsync(string code)
         {
             try
@@ -80,11 +54,7 @@ namespace MtgApiManager.Lib.Service
             }
         }
 
-        /// <summary>
-        ///  Generates a booster pack for a specific set asynchronously.
-        /// </summary>
-        /// <param name="code">The set code to generate a booster for.</param>
-        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
+        /// <inheritdoc />
         public async Task<Exceptional<List<Card>>> GenerateBoosterAsync(string code)
         {
             try
@@ -104,14 +74,8 @@ namespace MtgApiManager.Lib.Service
             }
         }
 
-        /// <summary>
-        /// Adds a query parameter.
-        /// </summary>
-        /// <typeparam name="U">The type of property to add the query for.</typeparam>
-        /// <param name="property">The property to add the query for.</param>
-        /// <param name="value">The value of the query.</param>
-        /// <returns>The instance of its self with the new query parameter.</returns>
-        public SetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
+        /// <inheritdoc />
+        public ISetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
         {
             if (property == null)
             {

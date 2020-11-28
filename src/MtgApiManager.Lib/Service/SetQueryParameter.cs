@@ -5,7 +5,7 @@ namespace MtgApiManager.Lib.Service
     /// <summary>
     /// Query parameters for the <see cref="Model.Set"/> object.
     /// </summary>
-    public class SetQueryParameter : QueryParameterBase
+    public class SetQueryParameter : IQueryParameter
     {
         /// <summary>
         /// Gets or sets the block the set is in.

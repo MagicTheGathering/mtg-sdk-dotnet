@@ -2,7 +2,7 @@ using MtgApiManager.Lib.Dto;
 
 namespace MtgApiManager.Lib.Model
 {
-    public interface IModelMapper
+    internal interface IModelMapper
     {
         Card MapCard(CardDto cardDto);
 

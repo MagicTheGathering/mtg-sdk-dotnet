@@ -9,7 +9,7 @@
     /// <typeparam name="TService">The type of service.</typeparam>
     /// <typeparam name="TQuery">The type of query.</typeparam>
     public interface IMtgQueryable<TService, TQuery>
-        where TQuery : QueryParameterBase
+        where TQuery : IQueryParameter
     {
         /// <summary>
         /// Adds a query parameter.

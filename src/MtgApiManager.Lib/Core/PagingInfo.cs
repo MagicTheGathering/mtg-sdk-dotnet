@@ -1,9 +1,4 @@
-﻿// <copyright file="PagingInfo.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-
-namespace MtgApiManager.Lib.Core
+﻿namespace MtgApiManager.Lib.Core
 {
     /// <summary>
     /// Represents paging information

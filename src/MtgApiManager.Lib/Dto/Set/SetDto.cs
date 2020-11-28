@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MtgApiManager.Lib.Dto
 {
-    public class SetDto
+    internal class SetDto
     {
         [JsonPropertyName("block")]
         public string Block { get; set; }

@@ -1,8 +1,4 @@
-﻿// <copyright file="MtgExceptionBase.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Core.Exceptions
+﻿namespace MtgApiManager.Lib.Core.Exceptions
 {
     using System;
     using System.Globalization;
