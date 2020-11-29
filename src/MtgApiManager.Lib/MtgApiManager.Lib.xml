@@ -387,274 +387,402 @@
             <param name="requestsPerHour">The number of calls permitted per hour.</param>
             <returns>the delay in milliseconds.</returns>
         </member>
-        <member name="T:MtgApiManager.Lib.Dto.RootCardDto">
-            <summary>
-            Object representing a the root wrapper to read a single card.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.RootCardListDto">
-            <summary>
-            Object representing a the root wrapper to read a list of cards.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.MtgResponseBase">
-            <summary>
-            Base class for an MTG response.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.RootCardSubTypeDto">
-            <summary>
-            Object representing a root wrapper to read in card sub types.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.RootCardSuperTypeDto">
-            <summary>
-            Object representing a root wrapper to read in card super types.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.RootCardTypeDto">
-            <summary>
-            Object representing a root wrapper to read in card types.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.Set.RootSetDto">
-            <summary>
-            Object representing a root wrapper to read a single set.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Dto.Set.RootSetListDto">
-            <summary>
-            Object representing a the root wrapper to read a list of sets.
-            </summary>
-        </member>
         <member name="T:MtgApiManager.Lib.Model.Card">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Artist">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Border">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Cmc">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.ColorIdentity">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Colors">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Flavor">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.ForeignNames">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Hand">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.ImageUrl">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Layout">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Legalities">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Life">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Loyalty">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.ManaCost">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.MultiverseId">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Names">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Number">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.OriginalText">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.OriginalType">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Power">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Printings">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Rarity">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.ReleaseDate">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Reserved">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Rulings">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Set">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.SetName">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Source">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Starter">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.SubTypes">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.SuperTypes">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Text">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Timeshifted">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Toughness">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Type">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Types">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Variations">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.Watermark">
+            <inheritdoc />
+        </member>
+        <member name="T:MtgApiManager.Lib.Model.ForeignName">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ForeignName.Language">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ForeignName.MultiverseId">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ForeignName.Name">
+            <inheritdoc />
+        </member>
+        <member name="T:MtgApiManager.Lib.Model.ICard">
             <summary>
             Object representing a MTG card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Artist">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Artist">
             <summary>
             Gets the artist of the card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Border">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Border">
             <summary>
             Gets the border of the card. If the border for this specific card is DIFFERENT than the border specified in the top level set JSON, then it will be specified here. (Example: Unglued has silver borders, except for the lands which are black bordered)
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Cmc">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Cmc">
             <summary>
             Gets the converted Mana cost.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.ColorIdentity">
+        <member name="P:MtgApiManager.Lib.Model.ICard.ColorIdentity">
             <summary>
             Gets the card colors by color code. [“Red”, “Blue”] becomes [“R”, “U”]
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Colors">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Colors">
             <summary>
             Gets the card colors. Usually this is derived from the casting cost, but some cards are special (like the back of dual sided cards and Ghostfire).
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Flavor">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Flavor">
             <summary>
             Gets the flavor text of the card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.ForeignNames">
+        <member name="P:MtgApiManager.Lib.Model.ICard.ForeignNames">
             <summary>
             Gets the foreign language names for the card, if this card in this set was printed in another language. Not available for all sets.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Hand">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Hand">
             <summary>
             Gets the maximum hand size modifier. Only exists for Vanguard cards.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Id">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Id">
             <summary>
             Gets the identifier of the card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.ImageUrl">
+        <member name="P:MtgApiManager.Lib.Model.ICard.ImageUrl">
             <summary>
             Gets the image URL for a card. Only exists if the card has a multiverse id.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
+        <member name="P:MtgApiManager.Lib.Model.ICard.IsMultiColor">
             <summary>
             Gets a value indicating whether the card has more than a single color.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Layout">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Layout">
             <summary>
             Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Legalities">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Legalities">
             <summary>
             Gets which formats this card is legal, restricted or banned
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Life">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Life">
             <summary>
             Gets the starting life total modifier. Only exists for Vanguard cards.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Loyalty">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Loyalty">
             <summary>
             Gets the loyalty of the card. This is only present for planeswalkers.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.ManaCost">
+        <member name="P:MtgApiManager.Lib.Model.ICard.ManaCost">
             <summary>
             Gets the mana cost of this card. Consists of one or more Mana symbols.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.MultiverseId">
+        <member name="P:MtgApiManager.Lib.Model.ICard.MultiverseId">
             <summary>
             Gets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Name">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Name">
             <summary>
             Gets the card name. For split, double-faced and flip cards, just the name of one side of the card. Basically each ‘sub-card’ has its own record.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Names">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Names">
             <summary>
             Gets the names of the card. Only used for split, flip and dual cards. Will contain all the names on this card, front or back.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Number">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Number">
             <summary>
             Gets the card number. This is printed at the bottom-center of the card in small text..
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.OriginalText">
+        <member name="P:MtgApiManager.Lib.Model.ICard.OriginalText">
             <summary>
             Gets the original text on the card at the time it was printed. This field is not available for promo cards.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.OriginalType">
+        <member name="P:MtgApiManager.Lib.Model.ICard.OriginalType">
             <summary>
             Gets the original type on the card at the time it was printed. This field is not available for promo cards.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Power">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Power">
             <summary>
             Gets the power of the card. This is only present for creatures.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Printings">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Printings">
             <summary>
             Gets the sets that this card was printed in, expressed as an array of set codes.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Rarity">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Rarity">
             <summary>
             Gets the rarity of the card. Examples: Common, Uncommon, Rare, Mythic Rare, Special, Basic Land
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.ReleaseDate">
+        <member name="P:MtgApiManager.Lib.Model.ICard.ReleaseDate">
             <summary>
             Gets the date this card was released. This is only set for promo cards. The date may not be accurate to an exact day and month, thus only a partial date may be set (YYYY-MM-DD or YYYY-MM or YYYY). Some promo cards do not have a known release date.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Reserved">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Reserved">
             <summary>
             Gets a value indicating whether this card is reserved by Wizards Official Reprint Policy.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Rulings">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Rulings">
             <summary>
             Gets the rulings for the card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Set">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Set">
             <summary>
             Gets the set the card belongs to (set code).
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.SetName">
+        <member name="P:MtgApiManager.Lib.Model.ICard.SetName">
             <summary>
             Gets the set the card belongs to.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Source">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Source">
             <summary>
             Gets where this card was originally obtained for promo cards. For box sets that are theme decks, this is which theme deck the card is from.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Starter">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Starter">
             <summary>
             Gets a value indicating whether this card was only released as part of a core box set. These are technically part of the core sets and are tournament legal despite not being available in boosters.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.SubTypes">
+        <member name="P:MtgApiManager.Lib.Model.ICard.SubTypes">
             <summary>
             Gets the he subtypes of the card. These appear to the right of the dash in a card type. Usually each word is its own subtype. Example values: Trap, Arcane, Equipment, Aura, Human, Rat, Squirrel, etc.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.SuperTypes">
+        <member name="P:MtgApiManager.Lib.Model.ICard.SuperTypes">
             <summary>
             Gets the super types of the card. These appear to the far left of the card type. Example values: Basic, Legendary, Snow, World, Ongoing
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Text">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Text">
             <summary>
             Gets the oracle text of the card. May contain mana symbols and other symbols.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Timeshifted">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Timeshifted">
             <summary>
             Gets the a value indicating whether this card was a time shifted card in the set.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Toughness">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Toughness">
             <summary>
             Gets the toughness of the card. This is only present for creatures.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Type">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Type">
             <summary>
             Gets the card type. This is the type you would see on the card if printed today. Note: The dash is a UTF8 'long dash’ as per the MTG rules
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Types">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Types">
             <summary>
             Gets the types of the card. These appear to the left of the dash in a card type. Example values: Instant, Sorcery, Artifact, Creature, Enchantment, Land, Planeswalker
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Variations">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Variations">
             <summary>
             Gets if a card has alternate art (for example, 4 different Forests, or the 2 Brothers Yamazaki) then each other variation’s multiverseid will be listed here, NOT including the current card’s multiverseid.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.Watermark">
+        <member name="P:MtgApiManager.Lib.Model.ICard.Watermark">
             <summary>
             Gets the watermark on the card. Note: Split cards don’t currently have this field set, despite having a watermark on each side of the split card.
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Model.ForeignName">
+        <member name="T:MtgApiManager.Lib.Model.IForeignName">
             <summary>
             Object representing a foreign name for an MTG card.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.ForeignName.Language">
+        <member name="P:MtgApiManager.Lib.Model.IForeignName.Language">
             <summary>
             Gets the language it was printed in.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.ForeignName.MultiverseId">
+        <member name="P:MtgApiManager.Lib.Model.IForeignName.MultiverseId">
             <summary>
             Gets the multiverse identifier of the card for the foreign name.
             </summary>
         </member>
-        <member name="P:MtgApiManager.Lib.Model.ForeignName.Name">
+        <member name="P:MtgApiManager.Lib.Model.IForeignName.Name">
             <summary>
             Gets the name of the card in the foreign language.
+            </summary>
+        </member>
+        <member name="T:MtgApiManager.Lib.Model.ILegality">
+            <summary>
+            Object representing the legality of a card.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ILegality.Format">
+            <summary>
+            Gets or sets the format of the legality.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ILegality.LegalityName">
+            <summary>
+            Gets or sets the name of the legality.
+            </summary>
+        </member>
+        <member name="T:MtgApiManager.Lib.Model.IRuling">
+            <summary>
+            Object representing a ruling for a card.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.IRuling.Date">
+            <summary>
+            Gets or sets the date of the ruling.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.IRuling.Text">
+            <summary>
+            Gets or sets the text of the ruling.
             </summary>
         </member>
         <member name="T:MtgApiManager.Lib.Model.Legality">
@@ -663,14 +791,10 @@
             </summary>
         </member>
         <member name="P:MtgApiManager.Lib.Model.Legality.Format">
-            <summary>
-            Gets or sets the format of the legality.
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="P:MtgApiManager.Lib.Model.Legality.LegalityName">
-            <summary>
-            Gets or sets the name of the legality.
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="T:MtgApiManager.Lib.Model.Ruling">
             <summary>
@@ -678,13 +802,74 @@
             </summary>
         </member>
         <member name="P:MtgApiManager.Lib.Model.Ruling.Date">
-            <summary>
-            Gets or sets the date of the ruling.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Ruling.Text">
+            <inheritdoc />
+        </member>
+        <member name="T:MtgApiManager.Lib.Model.ISet">
             <summary>
-            Gets or sets the text of the ruling.
+            Object representing a MTG Set.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Block">
+            <summary>
+            Gets the block the set is in.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Booster">
+            <summary>
+            Gets the booster contents for this set.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Border">
+            <summary>
+            Gets the type of border on the cards, either “white”, “black” or “silver”.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Code">
+            <summary>
+            Gets the code name of the set.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Expansion">
+            <summary>
+            Gets the type of set. One of: “core”, “expansion”, “reprint”, “box”, “un”, “from the vault”, “premium deck”, “duel deck”, “starter”, “commander”, “planechase”, “archenemy”, “promo”, “vanguard”, “masters”.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.GathererCode">
+            <summary>
+            Gets the code that Gatherer uses for the set. Only present if different than <see cref="P:MtgApiManager.Lib.Model.ISet.Code"/>.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.MagicCardsInfoCode">
+            <summary>
+            Gets the code that magiccards.info uses for the set. Only present if magiccards.info has this set.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Name">
+            <summary>
+            Gets the name of the set.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.OldCode">
+            <summary>
+            Gets an old style code used by some Magic software. Only present if different than <see cref="P:MtgApiManager.Lib.Model.ISet.GathererCode"/> and <see cref="P:MtgApiManager.Lib.Model.ISet.Code"/>.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.OnlineOnly">
+            <summary>
+            Gets a value indicating whether the set was only released on line.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.ReleaseDate">
+            <summary>
+            Gets when the set was released. For promo sets, the date the first card was released.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ISet.Type">
+            <summary>
+            Gets the set type.
             </summary>
         </member>
         <member name="T:MtgApiManager.Lib.Model.Set">
@@ -693,64 +878,38 @@
             </summary>
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Block">
-            <summary>
-            Gets the block the set is in.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Booster">
-            <summary>
-            Gets the booster contents for this set.
-            </summary>
+            <inheritdoc />
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Set.Border">
-            <summary>
-            Gets the type of border on the cards, either “white”, “black” or “silver”.
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "P:MtgApiManager.Lib.Model.Set.Border" -->
         <member name="P:MtgApiManager.Lib.Model.Set.Code">
-            <summary>
-            Gets the code name of the set.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Expansion">
-            <summary>
-            Gets the type of set. One of: “core”, “expansion”, “reprint”, “box”, “un”, “from the vault”, “premium deck”, “duel deck”, “starter”, “commander”, “planechase”, “archenemy”, “promo”, “vanguard”, “masters”.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.GathererCode">
-            <summary>
-            Gets the code that Gatherer uses for the set. Only present if different than <see cref="P:MtgApiManager.Lib.Model.Set.Code"/>.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.MagicCardsInfoCode">
-            <summary>
-            Gets the code that magiccards.info uses for the set. Only present if magiccards.info has this set.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Name">
-            <summary>
-            Gets the name of the set.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.OldCode">
-            <summary>
-            Gets an old style code used by some Magic software. Only present if different than <see cref="P:MtgApiManager.Lib.Model.Set.GathererCode"/> and <see cref="P:MtgApiManager.Lib.Model.Set.Code"/>.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.OnlineOnly">
-            <summary>
-            Gets a value indicating whether the set was only released on line.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.ReleaseDate">
-            <summary>
-            Gets when the set was released. For promo sets, the date the first card was released.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Type">
-            <summary>
-            Gets the set type.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="T:MtgApiManager.Lib.Properties.Resources">
             <summary>
@@ -908,103 +1067,69 @@
             Gets or sets the types of the card. These appear to the left of the dash in a card type. Example values: Instant, Sorcery, Artifact, Creature, Enchantment, Land, Planeswalker
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Service.CardService">
+        <member name="M:MtgApiManager.Lib.Service.CardService.AllAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSubTypesAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSuperTypesAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.CardQueryParameter,``0}},``0)">
+            <inheritdoc />
+        </member>
+        <member name="T:MtgApiManager.Lib.Service.ICardService">
             <summary>
             Object representing a MTG card.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.CardService"/> class. Defaults to version 1.0 of the API.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.#ctor(MtgApiManager.Lib.Core.IMtgApiServiceAdapter,MtgApiManager.Lib.Model.IModelMapper,MtgApiManager.Lib.Core.ApiVersion,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.CardService"/> class.
-            </summary>
-            <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
-            <param name="modelMapper">Used to map entity objects to models.</param>
-            <param name="version">The version of the API</param>
-            <param name="rateLimitOn">Turn the rate limit on or off.</param>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.AllAsync">
             <summary>
             Gets all the <see cref="T:MtgApiManager.Lib.Model.Card"/> defined by the query parameters.
             </summary>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.Find(System.Int32)">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.Int32)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="multiverseId">The multi verse identifier to query for.</param>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.Find(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.String)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="id">The identifier to query for.</param>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.Int32)">
-            <summary>
-            Find a specific card by its multi verse identifier.
-            </summary>
-            <param name="multiverseId">The multi verse identifier to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.String)">
-            <summary>
-            Find a specific card by its multi verse identifier.
-            </summary>
-            <param name="id">The identifier to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSubTypes">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSubTypesAsync">
             <summary>
             Gets a list of all the card sub types.
             </summary>
             <returns>A list of all the card super types.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSubTypesAsync">
-            <summary>
-            Gets a list of all the card sub types.
-            </summary>
-            <returns>A list of all the card super types.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSuperTypes">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSuperTypesAsync">
             <summary>
             Gets a list of all the card super types.
             </summary>
             <returns>A list of all the card super types.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSuperTypesAsync">
-            <summary>
-            Gets a list of all the card super types.
-            </summary>
-            <returns>A list of all the card super types.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypes">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardTypesAsync">
             <summary>
             Gets a list of all the card types.
             </summary>
             <returns>A list of all the card types.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync">
-            <summary>
-            Gets a list of all the card types.
-            </summary>
-            <returns>A list of all the card types.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.CardQueryParameter,``0}},``0)">
-            <summary>
-            Adds a query parameter.
-            </summary>
-            <typeparam name="U">The type of property to add the query for.</typeparam>
-            <param name="property">The property to add the query for.</param>
-            <param name="value">The value of the query.</param>
-            <returns>The instance of its self with the new query parameter.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Service.IMtgQueryable`2">
             <summary>
@@ -1022,59 +1147,66 @@
             <param name="value">The value of the query.</param>
             <returns>The instance of its self with the new query parameter.</returns>
         </member>
-        <member name="T:MtgApiManager.Lib.Service.QueryParameterBase">
+        <member name="T:MtgApiManager.Lib.Service.IQueryParameter">
             <summary>
-            Base class for query parameters.
+            Defines a query parameter
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Service.ServiceBase`1">
+        <member name="T:MtgApiManager.Lib.Service.IMtgServiceProvider">
             <summary>
-            Base class for a service.
-            </summary>
-            <typeparam name="TModel">The type of model used by the service.</typeparam>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.#ctor(MtgApiManager.Lib.Core.IMtgApiServiceAdapter,MtgApiManager.Lib.Model.IModelMapper,MtgApiManager.Lib.Core.ApiVersion,MtgApiManager.Lib.Core.ApiEndPoint,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.ServiceBase`1"/> class.
-            </summary>
-            <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
-            <param name="modelMapper">Used to map entity objects to models.</param>
-            <param name="version">The version of the API (currently only 1 version.)</param>
-            <param name="endpoint">The end point of the service.</param>
-            <param name="rateLimitOn">Turn the rate limit on or off.</param>
-        </member>
-        <member name="P:MtgApiManager.Lib.Service.ServiceBase`1.WhereQueries">
-            <summary>
-            Gets the list of where queries.
+            Used to get an instance of a service class.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.IMtgServiceProvider.GetCardService">
             <summary>
-            Gets all the objects defined by the query parameters.
+            Gets an instance of the card service.
+            </summary>
+            <returns>An instance of the card service.</returns>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.IMtgServiceProvider.GetSetService">
+            <summary>
+            Gets an instance of the set service.
+            </summary>
+            <returns>An instance of the set service.</returns>
+        </member>
+        <member name="T:MtgApiManager.Lib.Service.ISetService">
+            <summary>
+            Object representing a MTG set.
+            </summary>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.ISetService.AllAsync">
+            <summary>
+            Gets all the <see cref="T:MtgApiManager.Lib.Model.Set"/> defined by the query parameters.
             </summary>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.BuildUri(System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:MtgApiManager.Lib.Service.ISetService.FindAsync(System.String)">
             <summary>
-            Builds the URL to call the web service.
+            Find a specific card by its set code.
             </summary>
-            <param name="parameters">The list of parameters to add to the query.</param>
-            <returns>The URL to make the call with.</returns>
+            <param name="code">The set code to query for.</param>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Set"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.BuildUri(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ISetService.GenerateBoosterAsync(System.String)">
             <summary>
-            Builds the URL to call the web service.
+             Generates a booster pack for a specific set asynchronously.
             </summary>
-            <param name="parameterValue">The parameter value to add.</param>
-            <returns>The URL to make the call with.</returns>
+            <param name="code">The set code to generate a booster for.</param>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ServiceBase`1.CallWebServiceGet``1(System.Uri)">
+        <member name="T:MtgApiManager.Lib.Service.MtgServiceProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.MtgServiceProvider.#ctor">
             <summary>
-            Makes a GET call to the web service.
+            Initializes a new instance of the service provider.
             </summary>
-            <typeparam name="T">The type of object to serialize the response into.</typeparam>
-            <param name="requestUri">The URL to call.</param>
-            <returns>The response of the GET serialized into the specified object.</returns>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.MtgServiceProvider.GetCardService">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.MtgServiceProvider.GetSetService">
+            <inheritdoc />
         </member>
         <member name="T:MtgApiManager.Lib.Service.SetQueryParameter">
             <summary>
@@ -1091,53 +1223,17 @@
             Gets or sets the name of the set.
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Service.SetService">
-            <summary>
-            Object representing a MTG set.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.SetService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.SetService"/> class. Defaults to version 1.0 of the API.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Service.SetService.#ctor(MtgApiManager.Lib.Core.IMtgApiServiceAdapter,MtgApiManager.Lib.Model.IModelMapper,MtgApiManager.Lib.Core.ApiVersion,System.Boolean)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Service.SetService"/> class.
-            </summary>
-            <param name="serviceAdapter">The service adapter used to interact with the MTG API.</param>
-            <param name="modelMapper">Used to map entity objects to models.</param>
-            <param name="version">The version of the API</param>
-            <param name="rateLimitOn">Turn the rate limit on or off.</param>
-        </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.AllAsync">
-            <summary>
-            Gets all the <see cref="T:MtgApiManager.Lib.Model.Set"/> defined by the query parameters.
-            </summary>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
+            <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.FindAsync(System.String)">
-            <summary>
-            Find a specific card by its set code.
-            </summary>
-            <param name="code">The set code to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Set"/> or an exception.</returns>
+            <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.GenerateBoosterAsync(System.String)">
-            <summary>
-             Generates a booster pack for a specific set asynchronously.
-            </summary>
-            <param name="code">The set code to generate a booster for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
+            <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.SetQueryParameter,``0}},``0)">
-            <summary>
-            Adds a query parameter.
-            </summary>
-            <typeparam name="U">The type of property to add the query for.</typeparam>
-            <param name="property">The property to add the query for.</param>
-            <param name="value">The value of the query.</param>
-            <returns>The instance of its self with the new query parameter.</returns>
+            <inheritdoc />
         </member>
         <member name="T:MtgApiManager.Lib.Utility.Extensions">
             <summary>

@@ -2,16 +2,16 @@ using MtgApiManager.Lib.Dto;
 
 namespace MtgApiManager.Lib.Model
 {
-    public interface IModelMapper
+    internal interface IModelMapper
     {
-        Card MapCard(CardDto cardDto);
+        ICard MapCard(CardDto cardDto);
 
-        Set MapSet(SetDto setDto);
+        IForeignName MapForeignName(ForeignNameDto foreignNameDto);
 
-        ForeignName MapForeignName(ForeignNameDto foreignNameDto);
+        ILegality MapLegality(LegalityDto legalityDto);
 
-        Legality MapLegality(LegalityDto legalityDto);
+        IRuling MapRuling(RulingDto rulingDto);
 
-        Ruling MapRuling(RulingDto rulingDto);
+        ISet MapSet(SetDto setDto);
     }
 }

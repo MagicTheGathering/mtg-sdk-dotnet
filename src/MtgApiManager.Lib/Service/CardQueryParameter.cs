@@ -5,7 +5,7 @@ namespace MtgApiManager.Lib.Service
     /// <summary>
     /// Query parameters for the <see cref="Model.Card"/> object.
     /// </summary>
-    public class CardQueryParameter : QueryParameterBase
+    public class CardQueryParameter : IQueryParameter
     {
         /// <summary>
         /// Gets or sets the artist of the card.

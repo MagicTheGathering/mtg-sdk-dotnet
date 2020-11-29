@@ -8,7 +8,7 @@ namespace MtgApiManager.Lib.Model
 {
     internal class ModelMapper : IModelMapper
     {
-        public Card MapCard(CardDto cardDto)
+        public ICard MapCard(CardDto cardDto)
         {
             if (cardDto == null)
             {
@@ -62,7 +62,7 @@ namespace MtgApiManager.Lib.Model
             };
         }
 
-        public ForeignName MapForeignName(ForeignNameDto foreignNameDto)
+        public IForeignName MapForeignName(ForeignNameDto foreignNameDto)
         {
             if (foreignNameDto == null)
             {
@@ -77,7 +77,7 @@ namespace MtgApiManager.Lib.Model
             };
         }
 
-        public Legality MapLegality(LegalityDto legalityDto)
+        public ILegality MapLegality(LegalityDto legalityDto)
         {
             if (legalityDto == null)
             {
@@ -91,7 +91,7 @@ namespace MtgApiManager.Lib.Model
             };
         }
 
-        public Ruling MapRuling(RulingDto rulingDto)
+        public IRuling MapRuling(RulingDto rulingDto)
         {
             if (rulingDto == null)
             {
@@ -105,14 +105,14 @@ namespace MtgApiManager.Lib.Model
             };
         }
 
-        public Set MapSet(SetDto setDto)
+        public ISet MapSet(SetDto setDto)
         {
             if (setDto == null)
             {
                 throw new ArgumentNullException(nameof(setDto));
             }
 
-            List<object> booster = new();
+            var booster = new List<object>();
             if (setDto.Booster.ValueKind == JsonValueKind.Array)
             {
                 booster = setDto.Booster
@@ -140,7 +140,7 @@ namespace MtgApiManager.Lib.Model
 
         private static List<object> GetBoosterAsArray(JsonElement jsonElement)
         {
-            List<object> items = new();
+            var items = new List<object>();
             foreach (var item in jsonElement.EnumerateArray())
             {
                 if (item.ValueKind == JsonValueKind.String)

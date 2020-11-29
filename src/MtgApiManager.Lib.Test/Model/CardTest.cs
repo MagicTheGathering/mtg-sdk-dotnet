@@ -62,7 +62,7 @@
                 Watermark = "watermark"
             };
 
-            Card model = _modelMapper.MapCard(dto);
+            var model = _modelMapper.MapCard(dto);
 
             Assert.Equal(dto.Artist, model.Artist);
             Assert.Equal(dto.Border, model.Border);

@@ -2,7 +2,7 @@
 
 namespace MtgApiManager.Lib.Dto
 {
-    public class CardDto
+    internal class CardDto
     {
         [JsonPropertyName("artist")]
         public string Artist { get; set; }

@@ -8,22 +8,23 @@ namespace MtgApiManager.Lib.TestApp
 {
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<Card> _cardsCollection = null;
+        private readonly IMtgServiceProvider _serviceProvider;
+        private ObservableCollection<ICard> _cardsCollection = null;
         private RelayCommand _cardSearchCommand;
         private string _cardSearchString = null;
         private RelayCommand _findSelectedCardCommand;
         private RelayCommand _findSelectedSetCommand;
         private RelayCommand _generateBoosterCommand;
-        private ObservableCollection<Card> _generatedBoosterCollection = null;
+        private ObservableCollection<ICard> _generatedBoosterCollection = null;
         private RelayCommand _getCardSubTypesCommand;
         private RelayCommand _getCardSuperTypesCommand;
         private RelayCommand _getCardTypesCommand;
         private bool _isLoading = false;
-        private Card _selectedCard = null;
+        private ICard _selectedCard = null;
         private string _selectedCardId = null;
-        private Set _selectedSet = null;
+        private ISet _selectedSet = null;
         private string _selectedSetCode = null;
-        private ObservableCollection<Set> _setsCollection = null;
+        private ObservableCollection<ISet> _setsCollection = null;
         private RelayCommand _setSearchCommand;
         private string _setSearchString = null;
 
@@ -31,11 +32,12 @@ namespace MtgApiManager.Lib.TestApp
 
         public MainViewModel()
         {
-            _cardsCollection = new ObservableCollection<Card>();
-            _setsCollection = new ObservableCollection<Set>();
+            _cardsCollection = new ObservableCollection<ICard>();
+            _setsCollection = new ObservableCollection<ISet>();
+            _serviceProvider = new MtgServiceProvider();
         }
 
-        public ObservableCollection<Card> CardsCollection
+        public ObservableCollection<ICard> CardsCollection
         {
             get => _cardsCollection;
             set => Set(() => CardsCollection, ref _cardsCollection, value);
@@ -48,7 +50,7 @@ namespace MtgApiManager.Lib.TestApp
                 return _cardSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
 
                         if (!string.IsNullOrWhiteSpace(_cardSearchString))
                         {
@@ -90,7 +92,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.FindAsync(_selectedCardId);
 
                         if (result.IsSuccess)
@@ -113,7 +115,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
                         var result = await setService.FindAsync(_selectedSetCode);
 
                         if (result.IsSuccess)
@@ -136,12 +138,12 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
                         var result = await setService.GenerateBoosterAsync(_selectedSetCode);
 
                         if (result.IsSuccess)
                         {
-                            GeneratedBoosterCollection = new ObservableCollection<Card>(result.Value);
+                            GeneratedBoosterCollection = new ObservableCollection<ICard>(result.Value);
                         }
 
                         IsLoading = false;
@@ -150,7 +152,7 @@ namespace MtgApiManager.Lib.TestApp
             }
         }
 
-        public ObservableCollection<Card> GeneratedBoosterCollection
+        public ObservableCollection<ICard> GeneratedBoosterCollection
         {
             get => _generatedBoosterCollection;
             set => Set(() => GeneratedBoosterCollection, ref _generatedBoosterCollection, value);
@@ -165,7 +167,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardSubTypesAsync();
 
                         if (result.IsSuccess)
@@ -187,7 +189,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardSuperTypesAsync();
 
                         if (result.IsSuccess)
@@ -209,7 +211,7 @@ namespace MtgApiManager.Lib.TestApp
                     {
                         IsLoading = true;
 
-                        CardService cardService = new();
+                        ICardService cardService = _serviceProvider.GetCardService();
                         var result = await cardService.GetCardTypesAsync();
 
                         if (result.IsSuccess)
@@ -228,7 +230,7 @@ namespace MtgApiManager.Lib.TestApp
             set => Set(() => IsLoading, ref _isLoading, value);
         }
 
-        public Card SelectedCard
+        public ICard SelectedCard
         {
             get => _selectedCard;
             set => Set(() => SelectedCard, ref _selectedCard, value);
@@ -240,7 +242,7 @@ namespace MtgApiManager.Lib.TestApp
             set => Set(() => SelectedCardId, ref _selectedCardId, value);
         }
 
-        public Set SelectedSet
+        public ISet SelectedSet
         {
             get => _selectedSet;
             set => Set(() => SelectedSet, ref _selectedSet, value);
@@ -252,7 +254,7 @@ namespace MtgApiManager.Lib.TestApp
             set => Set(() => SelectedSetCode, ref _selectedSetCode, value);
         }
 
-        public ObservableCollection<Set> SetsCollection
+        public ObservableCollection<ISet> SetsCollection
         {
             get => _setsCollection;
             set => Set(() => SetsCollection, ref _setsCollection, value);
@@ -265,7 +267,7 @@ namespace MtgApiManager.Lib.TestApp
                 return _setSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        SetService setService = new();
+                        ISetService setService = _serviceProvider.GetSetService();
 
                         if (!string.IsNullOrWhiteSpace(_setSearchString))
                         {

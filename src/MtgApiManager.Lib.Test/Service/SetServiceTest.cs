@@ -67,7 +67,8 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetListDto() { Sets = sets });
 
-            var service = new SetService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1_0, false);
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var service = serviceProvider.GetSetService();
             service = service.Where(x => x.Name, "name1");
 
             var result = await service.AllAsync();
@@ -138,7 +139,8 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetDto() { Set = setDto });
 
-            var service = new SetService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1_0, false);
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var service = serviceProvider.GetSetService();
 
             var result = await service.FindAsync("code1");
             Assert.False(result.IsSuccess);
@@ -282,7 +284,8 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var service = new SetService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1_0, false);
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var service = serviceProvider.GetSetService();
 
             var result = await service.GenerateBoosterAsync("ktk");
             Assert.False(result.IsSuccess);
@@ -324,7 +327,8 @@
         [Fact]
         public void WhereTest()
         {
-            SetService service = new SetService();
+            var serviceProvider = new MtgServiceProvider();
+            var service = serviceProvider.GetSetService();
 
             try
             {

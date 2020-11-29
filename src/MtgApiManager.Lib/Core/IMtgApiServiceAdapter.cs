@@ -7,7 +7,7 @@
     /// <summary>
     /// Used to make web service calls.
     /// </summary>
-    public interface IMtgApiServiceAdapter
+    internal interface IMtgApiServiceAdapter
     {
         /// <summary>
         /// Do a Web Get for the given request Uri .
@@ -15,6 +15,6 @@
         /// <typeparam name="T">The type to serialize into.</typeparam>
         /// <param name="requestUri">The URL to call.</param>
         /// <returns>The serialized response.</returns>
-        Task<T> WebGetAsync<T>(Uri requestUri) where T : MtgResponseBase;
+        Task<T> WebGetAsync<T>(Uri requestUri) where T : IMtgResponse;
     }
 }

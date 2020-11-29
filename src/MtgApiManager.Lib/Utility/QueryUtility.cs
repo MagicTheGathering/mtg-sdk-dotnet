@@ -7,7 +7,7 @@ namespace MtgApiManager.Lib.Utility
     /// <summary>
     /// Utility methods dealing with queries.
     /// </summary>
-    public static class QueryUtility
+    internal static class QueryUtility
     {
         /// <summary>
         /// Gets the property name from a member expression.

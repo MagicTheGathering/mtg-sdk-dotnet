@@ -13,7 +13,7 @@
     /// </summary>
     internal class MtgApiServiceAdapter : IMtgApiServiceAdapter
     {
-        public static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : MtgResponseBase
+        public static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
         {
             using var client = new HttpClient();
             using var response = await client.GetAsync(requestUri).ConfigureAwait(false);
@@ -39,7 +39,7 @@
                         throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
                     default:
                         response.EnsureSuccessStatusCode();
-                        return null;
+                        return default;
                 }
             }
         }
@@ -50,7 +50,7 @@
         /// <typeparam name="T">The type to serialize into.</typeparam>
         /// <param name="requestUri">The URL to call.</param>
         /// <returns>The serialized response.</returns>
-        public Task<T> WebGetAsync<T>(Uri requestUri) where T : MtgResponseBase
+        public Task<T> WebGetAsync<T>(Uri requestUri) where T : IMtgResponse
         {
             if (requestUri == null)
             {

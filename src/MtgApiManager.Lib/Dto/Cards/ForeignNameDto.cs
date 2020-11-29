@@ -2,7 +2,7 @@
 
 namespace MtgApiManager.Lib.Dto
 {
-    public class ForeignNameDto
+    internal class ForeignNameDto
     {
         [JsonPropertyName("language")]
         public string Language { get; set; }

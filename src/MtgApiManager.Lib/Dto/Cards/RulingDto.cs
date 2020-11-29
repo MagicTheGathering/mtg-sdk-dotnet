@@ -2,7 +2,7 @@
 
 namespace MtgApiManager.Lib.Dto
 {
-    public class RulingDto
+    internal class RulingDto
     {
         [JsonPropertyName("date")]
         public string Date { get; set; }

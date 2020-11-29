@@ -1,12 +1,9 @@
-﻿namespace MtgApiManager.Lib.Dto
-{
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-    /// <summary>
-    /// Object representing a the root wrapper to read a list of cards.
-    /// </summary>
-    public class RootCardListDto : MtgResponseBase
+namespace MtgApiManager.Lib.Dto
+{
+    internal class RootCardListDto : IMtgResponse
     {
         [JsonPropertyName("cards")]
         public List<CardDto> Cards { get; set; }

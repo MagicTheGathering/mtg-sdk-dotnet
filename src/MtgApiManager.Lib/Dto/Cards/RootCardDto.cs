@@ -2,10 +2,7 @@
 
 namespace MtgApiManager.Lib.Dto
 {
-    /// <summary>
-    /// Object representing a the root wrapper to read a single card.
-    /// </summary>
-    public class RootCardDto : MtgResponseBase
+    internal class RootCardDto : IMtgResponse
     {
         [JsonPropertyName("card")]
         public CardDto Card { get; set; }

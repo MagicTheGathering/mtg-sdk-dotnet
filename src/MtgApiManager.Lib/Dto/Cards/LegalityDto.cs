@@ -2,7 +2,7 @@
 
 namespace MtgApiManager.Lib.Dto
 {
-    public class LegalityDto
+    internal class LegalityDto
     {
         [JsonPropertyName("format")]
         public string Format { get; set; }
