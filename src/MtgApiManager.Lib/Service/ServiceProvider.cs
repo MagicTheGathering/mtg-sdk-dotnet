@@ -7,9 +7,9 @@ namespace MtgApiManager.Lib.Service
     public class MtgServiceProvider : IMtgServiceProvider
     {
         private readonly ApiVersion _apiVersion;
-        private readonly IMtgApiServiceAdapter _serviceAdapter;
         private readonly IModelMapper _modelMapper;
         private readonly bool _rateLimitOn;
+        private readonly IMtgApiServiceAdapter _serviceAdapter;
         private ICardService _cardService;
         private ISetService _setService;
 
@@ -35,14 +35,13 @@ namespace MtgApiManager.Lib.Service
         /// <inheritdoc />
         public ICardService GetCardService()
         {
-            return _cardService ??= new CardService(_serviceAdapter, _modelMapper, _apiVersion, _rateLimitOn);
+            return _cardService ?? (_cardService = new CardService(_serviceAdapter, _modelMapper, _apiVersion, _rateLimitOn));
         }
 
         /// <inheritdoc />
         public ISetService GetSetService()
         {
-            return _setService ??= new SetService(_serviceAdapter, _modelMapper, _apiVersion, _rateLimitOn);
+            return _setService ?? (_setService = new SetService(_serviceAdapter, _modelMapper, _apiVersion, _rateLimitOn));
         }
     }
-
 }
