@@ -23,7 +23,7 @@ IMtgServiceProvider serviceProvider = new MtgServiceProvider();
 ```
 The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 Exceptional<List<ICard>> result = service.AllAsync();
 if (result.IsSuccess)
 {
@@ -36,65 +36,65 @@ else
 ```
 #### Find a card by id
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.FindAsync("f2eb06047a3a8e515bff62b55f29468fcde6332a");
 ```
 #### Find a card by multiverse id
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.FindAsync(123);
 ```
 #### Filter Cards via query parameters
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.Where(x => x.Set, "ktk")
                           .Where(x => x.SubTypes, "warrior,human")
                           .AllAsync()                  
 ```    
 #### Find all cards (limited by default page size)
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.AllAsync()
 ```      
 #### Get all cards with pagination
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.Where(x => x.Page, 5)
                           .Where(x => x.PageSize, 250)
                           .AllAsync()
 ```
 #### Get all card types
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.GetCardTypesAsync();
 ```
 #### Get all card supertypes
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.GetCardSuperTypesAsync();
 ```
 #### Get all card subtypes
 ```cs
-CardService service = serviceProvider.GetCardService();
+ICardService service = serviceProvider.GetCardService();
 var result = await service.GetCardSubTypesAsync();
 ```
 #### Find a set by code
 ```cs
-SetService service = serviceProvider.GetSetService();
+ISetService service = serviceProvider.GetSetService();
 var result = await service.FindAsync("ktk");
 ```    
 #### Filter sets via query parameters
 ```cs
-SetService service = serviceProvider.GetSetService();
+ISetService service = serviceProvider.GetSetService();
 var result = await service.Where(x => x.Name, "khans").AllAsync()
 ```     
 #### Get all Sets
 ```cs
-SetService service = serviceProvider.GetSetService();
+ISetService service = serviceProvider.GetSetService();
 var result = await service.AllAsync()
 ```
 #### Generate booster
 ```cs
-SetService service = serviceProvider.GetSetService();
+ISetService service = serviceProvider.GetSetService();
 var result = await service.GenerateBoosterAsync("ktk")
 ```
