@@ -3,16 +3,12 @@
     /// <summary>
     /// Object representing a ruling for a card.
     /// </summary>
-    public class Ruling
+    internal class Ruling : IRuling
     {
-        /// <summary>
-        /// Gets or sets the date of the ruling.
-        /// </summary>
-        public string Date { get; init; }
+        /// <inheritdoc />
+        public string Date { get; set; }
 
-        /// <summary>
-        /// Gets or sets the text of the ruling.
-        /// </summary>
-        public string Text { get; init; }
+        /// <inheritdoc />
+        public string Text { get; set; }
     }
 }

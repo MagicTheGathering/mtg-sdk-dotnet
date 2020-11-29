@@ -10,7 +10,7 @@ using MtgApiManager.Lib.Utility;
 
 namespace MtgApiManager.Lib.Service
 {
-    internal class CardService : ServiceBase<Card>, ICardService
+    internal class CardService : ServiceBase<ICard>, ICardService
     {
         public CardService(
             IMtgApiServiceAdapter serviceAdapter,
@@ -22,37 +22,37 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async override Task<Exceptional<List<Card>>> AllAsync()
+        public async override Task<Exceptional<List<ICard>>> AllAsync()
         {
             try
             {
                 var query = BuildUri(WhereQueries);
                 var rootCardList = await CallWebServiceGet<RootCardListDto>(query).ConfigureAwait(false);
 
-                return Exceptional<List<Card>>.Success(MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
+                return Exceptional<List<ICard>>.Success(MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<Card>>.Failure(ex);
+                return Exceptional<List<ICard>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public Task<Exceptional<Card>> FindAsync(int multiverseId) => FindAsync(multiverseId.ToString());
+        public Task<Exceptional<ICard>> FindAsync(int multiverseId) => FindAsync(multiverseId.ToString());
 
         /// <inheritdoc />
-        public async Task<Exceptional<Card>> FindAsync(string id)
+        public async Task<Exceptional<ICard>> FindAsync(string id)
         {
             try
             {
                 var rootCard = await CallWebServiceGet<RootCardDto>(BuildUri(id)).ConfigureAwait(false);
                 var model = ModelMapper.MapCard(rootCard.Card);
 
-                return Exceptional<Card>.Success(model, MtgApiController.CreatePagingInfo());
+                return Exceptional<ICard>.Success(model, MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<Card>.Failure(ex);
+                return Exceptional<ICard>.Failure(ex);
             }
         }
 
@@ -104,7 +104,6 @@ namespace MtgApiManager.Lib.Service
             }
         }
 
-
         /// <inheritdoc />
         public ICardService Where<U>(Expression<Func<CardQueryParameter, U>> property, U value)
         {
@@ -134,7 +133,7 @@ namespace MtgApiManager.Lib.Service
             return this;
         }
 
-        private List<Card> MapCardsList(RootCardListDto cardListDto)
+        private List<ICard> MapCardsList(RootCardListDto cardListDto)
         {
             if (cardListDto == null)
             {
@@ -143,7 +142,7 @@ namespace MtgApiManager.Lib.Service
 
             if (cardListDto.Cards == null)
             {
-                return new();
+                return new List<ICard>();
             }
 
             return cardListDto.Cards

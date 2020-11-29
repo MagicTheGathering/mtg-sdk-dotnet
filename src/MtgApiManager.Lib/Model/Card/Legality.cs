@@ -3,16 +3,12 @@
     /// <summary>
     /// Object representing the legality of a card.
     /// </summary>
-    public class Legality
+    internal class Legality : ILegality
     {
-        /// <summary>
-        /// Gets or sets the format of the legality.
-        /// </summary>
-        public string Format { get; init; }
+        /// <inheritdoc/>
+        public string Format { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the legality.
-        /// </summary>
-        public string LegalityName { get; init; }
+        /// <inheritdoc/>
+        public string LegalityName { get; set; }
     }
 }

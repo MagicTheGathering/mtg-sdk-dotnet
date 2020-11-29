@@ -5,66 +5,42 @@ namespace MtgApiManager.Lib.Model
     /// <summary>
     /// Object representing a MTG Set.
     /// </summary>
-    public class Set
+    internal class Set : ISet
     {
-        /// <summary>
-        /// Gets the block the set is in.
-        /// </summary>
-        public string Block { get; init; }
+        /// <inheritdoc />
+        public string Block { get; set; }
 
-        /// <summary>
-        /// Gets the booster contents for this set.
-        /// </summary>
-        public List<object> Booster { get; init; }
+        /// <inheritdoc />
+        public List<object> Booster { get; set; }
 
-        /// <summary>
-        /// Gets the type of border on the cards, either “white”, “black” or “silver”.
-        /// </summary>
-        public string Border { get; init; }
+        /// <inheritdoc />
+        public string Border { get; set; }
 
-        /// <summary>
-        /// Gets the code name of the set.
-        /// </summary>
-        public string Code { get; init; }
+        /// <inheritdoc />
+        public string Code { get; set; }
 
-        /// <summary>
-        /// Gets the type of set. One of: “core”, “expansion”, “reprint”, “box”, “un”, “from the vault”, “premium deck”, “duel deck”, “starter”, “commander”, “planechase”, “archenemy”, “promo”, “vanguard”, “masters”.
-        /// </summary>
-        public string Expansion { get; init; }
+        /// <inheritdoc />
+        public string Expansion { get; set; }
 
-        /// <summary>
-        /// Gets the code that Gatherer uses for the set. Only present if different than <see cref="Code"/>.
-        /// </summary>
-        public string GathererCode { get; init; }
+        /// <inheritdoc />
+        public string GathererCode { get; set; }
 
-        /// <summary>
-        /// Gets the code that magiccards.info uses for the set. Only present if magiccards.info has this set.
-        /// </summary>
-        public string MagicCardsInfoCode { get; init; }
+        /// <inheritdoc />
+        public string MagicCardsInfoCode { get; set; }
 
-        /// <summary>
-        /// Gets the name of the set.
-        /// </summary>
-        public string Name { get; init; }
+        /// <inheritdoc />
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Gets an old style code used by some Magic software. Only present if different than <see cref="GathererCode"/> and <see cref="Code"/>.
-        /// </summary>
-        public string OldCode { get; init; }
+        /// <inheritdoc />
+        public string OldCode { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the set was only released on line.
-        /// </summary>
-        public bool? OnlineOnly { get; init; }
+        /// <inheritdoc />
+        public bool? OnlineOnly { get; set; }
 
-        /// <summary>
-        /// Gets when the set was released. For promo sets, the date the first card was released.
-        /// </summary>
-        public string ReleaseDate { get; init; }
+        /// <inheritdoc />
+        public string ReleaseDate { get; set; }
 
-        /// <summary>
-        /// Gets the set type.
-        /// </summary>
-        public string Type { get; init; }
+        /// <inheritdoc />
+        public string Type { get; set; }
     }
 }

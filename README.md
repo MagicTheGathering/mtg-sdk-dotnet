@@ -24,7 +24,7 @@ IMtgServiceProvider serviceProvider = new MtgServiceProvider();
 The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
 ```cs
 CardService service = serviceProvider.GetCardService();
-Exceptional<List<Card>> result = service.AllAsync();
+Exceptional<List<ICard>> result = service.AllAsync();
 if (result.IsSuccess)
 {
   var value = result.Value;
