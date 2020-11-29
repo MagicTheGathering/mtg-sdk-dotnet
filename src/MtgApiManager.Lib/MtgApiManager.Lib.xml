@@ -883,7 +883,9 @@
         <member name="P:MtgApiManager.Lib.Model.Set.Booster">
             <inheritdoc />
         </member>
-        <!-- Badly formed XML comment ignored for member "P:MtgApiManager.Lib.Model.Set.Border" -->
+        <member name="P:MtgApiManager.Lib.Model.Set.Border">
+            <inheritdoc />
+        </member>
         <member name="P:MtgApiManager.Lib.Model.Set.Code">
             <inheritdoc />
         </member>

@@ -15,31 +15,35 @@
     {
         public static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
         {
-            using var client = new HttpClient();
-            using var response = await client.GetAsync(requestUri).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                MtgApiController.ParseHeaders(response.Headers);
-                var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                return await JsonSerializer.DeserializeAsync<T>(stream).ConfigureAwait(false);
-            }
-            else
-            {
-                switch ((int)response.StatusCode)
+                using (var response = await client.GetAsync(requestUri).ConfigureAwait(false))
                 {
-                    case (int)MtgApiError.BadRequest:
-                        throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.GetDescription());
-                    case (int)MtgApiError.Forbidden:
-                        throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.GetDescription());
-                    case (int)MtgApiError.InternalServerError:
-                        throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.GetDescription());
-                    case (int)MtgApiError.NotFound:
-                        throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.GetDescription());
-                    case (int)MtgApiError.ServiceUnavailable:
-                        throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
-                    default:
-                        response.EnsureSuccessStatusCode();
-                        return default;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MtgApiController.ParseHeaders(response.Headers);
+                        var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        return await JsonSerializer.DeserializeAsync<T>(stream).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        switch ((int)response.StatusCode)
+                        {
+                            case (int)MtgApiError.BadRequest:
+                                throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.GetDescription());
+                            case (int)MtgApiError.Forbidden:
+                                throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.GetDescription());
+                            case (int)MtgApiError.InternalServerError:
+                                throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.GetDescription());
+                            case (int)MtgApiError.NotFound:
+                                throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.GetDescription());
+                            case (int)MtgApiError.ServiceUnavailable:
+                                throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
+                            default:
+                                response.EnsureSuccessStatusCode();
+                                return default;
+                        }
+                    }
                 }
             }
         }

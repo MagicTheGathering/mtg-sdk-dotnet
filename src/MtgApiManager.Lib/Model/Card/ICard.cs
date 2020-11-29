@@ -61,7 +61,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets a value indicating whether the card has more than a single color.
         /// </summary>
-        bool IsMultiColor => Colors?.Length > 1;
+        bool IsMultiColor { get; }
 
         /// <summary>
         /// Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard

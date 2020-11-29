@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets or sets the date of the ruling.
         /// </summary>
-        public string Date { get; }
+        string Date { get; }
 
         /// <summary>
         /// Gets or sets the text of the ruling.
         /// </summary>
-        public string Text { get; }
+        string Text { get; }
     }
 }
