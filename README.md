@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/pb5y2hxl53yo9lwu?svg=true)](https://ci.appveyor.com/project/adback03/mtg-sdk-dotnet)
 [![codecov](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet)
-[![NuGet](https://img.shields.io/badge/nuget-v2.0.0-blue.svg)](https://www.nuget.org/packages/MtgApiManager.Lib/)
+[![NuGet](https://img.shields.io/badge/nuget-v2.1.0-blue.svg)](https://www.nuget.org/packages/MtgApiManager.Lib/)
 
 This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of [magicthegathering.io](http://magicthegathering.io/).
 
