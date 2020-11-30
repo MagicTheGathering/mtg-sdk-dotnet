@@ -35,7 +35,7 @@ namespace MtgApiManager.Lib.Dto
         [JsonPropertyName("onlineOnly")]
         public bool? OnlineOnly { get; set; }
 
-        [JsonPropertyName("ReleaseDate")]
+        [JsonPropertyName("releaseDate")]
         public string ReleaseDate { get; set; }
 
         [JsonPropertyName("type")]
