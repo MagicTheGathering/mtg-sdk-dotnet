@@ -1,26 +1,13 @@
-﻿// <copyright file="ApiVersion.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Core
+﻿namespace MtgApiManager.Lib.Core
 {
-    using System.ComponentModel;
-
-    /// <summary>
-    /// Represents the API versions.
-    /// </summary>
-    public enum ApiVersion
+    internal class ApiVersion : Enumeration
     {
-        /// <summary>
-        /// No API version.
-        /// </summary>
-        [Description("none")]
-        None = 0,
+        public static readonly ApiVersion None = new ApiVersion(0, nameof(None).ToLower());
+        public static readonly ApiVersion V1 = new ApiVersion(1, nameof(V1).ToLower());
 
-        /// <summary>
-        /// Version 1.0.
-        /// </summary>
-        [Description("v1")]
-        V1_0 = 1
+        private ApiVersion(int id, string name)
+            : base(id, name)
+        {
+        }
     }
 }
