@@ -1,8 +1,8 @@
-﻿namespace MtgApiManager.Lib.Service
-{
-    using System;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
+namespace MtgApiManager.Lib.Service
+{
     /// <summary>
     /// Defines an object to be query able against the MTG API.
     /// </summary>
@@ -11,6 +11,11 @@
     public interface IMtgQueryable<TService, TQuery>
         where TQuery : IQueryParameter
     {
+        /// <summary>
+        /// Reset the active query.
+        /// </summary>
+        void Reset();
+
         /// <summary>
         /// Adds a query parameter.
         /// </summary>

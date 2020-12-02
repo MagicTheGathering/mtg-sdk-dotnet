@@ -1002,6 +1002,9 @@
         <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync">
             <inheritdoc />
         </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.Reset">
+            <inheritdoc />
+        </member>
         <member name="M:MtgApiManager.Lib.Service.CardService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.CardQueryParameter,``0}},``0)">
             <inheritdoc />
         </member>
@@ -1054,6 +1057,11 @@
             </summary>
             <typeparam name="TService">The type of service.</typeparam>
             <typeparam name="TQuery">The type of query.</typeparam>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.IMtgQueryable`2.Reset">
+            <summary>
+            Reset the active query.
+            </summary>
         </member>
         <member name="M:MtgApiManager.Lib.Service.IMtgQueryable`2.Where``1(System.Linq.Expressions.Expression{System.Func{`1,``0}},``0)">
             <summary>
@@ -1147,6 +1155,9 @@
             <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.GenerateBoosterAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.SetService.Reset">
             <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.SetQueryParameter,``0}},``0)">
