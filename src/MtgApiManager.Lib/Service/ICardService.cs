@@ -47,5 +47,11 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         /// <returns>A list of all the card types.</returns>
         Task<Exceptional<List<string>>> GetCardTypesAsync();
+
+        /// <summary>
+        /// Gets a list of all game formats.
+        /// </summary>
+        /// <returns>A list of all game formats.</returns>
+        Task<Exceptional<List<string>>> GetFormatsAsync();
     }
 }

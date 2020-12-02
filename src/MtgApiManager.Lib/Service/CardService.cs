@@ -106,6 +106,22 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
+        public async Task<Exceptional<List<string>>> GetFormatsAsync()
+        {
+            try
+            {
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.Name, "/", ApiEndPoint.Formats.Name));
+                var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url).ConfigureAwait(false);
+
+                return Exceptional<List<string>>.Success(rootFormatsList.Formats, MtgApiController.CreatePagingInfo());
+            }
+            catch (Exception ex)
+            {
+                return Exceptional<List<string>>.Failure(ex);
+            }
+        }
+
+        /// <inheritdoc />
         public void Reset() => WhereQueries.Clear();
 
         /// <inheritdoc />
