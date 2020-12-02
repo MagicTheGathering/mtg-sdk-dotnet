@@ -21,7 +21,7 @@ Creating a new service provider used to fetch the different services available.
 ```cs
 IMtgServiceProvider serviceProvider = new MtgServiceProvider();
 ```
-The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
+The result of all service calls resturns a generic **Exception Monad** containing the results of the call. It's also important to note that the active query that were added with the Where method will be cleared after a query is performed with the AllAsync method.
 ```cs
 ICardService service = serviceProvider.GetCardService();
 Exceptional<List<ICard>> result = service.AllAsync();
