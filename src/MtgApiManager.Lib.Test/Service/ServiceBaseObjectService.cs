@@ -17,7 +17,7 @@
         /// Initializes a new instance of the <see cref="ServiceBaseObjectService"/> class. Defaults to version 1.0 of the API.
         /// </summary>
         public ServiceBaseObjectService()
-            : base(new MtgApiServiceAdapter(), new ModelMapper(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
+            : base(new MtgApiServiceAdapter(), new ModelMapper(), ApiVersion.V1, ApiEndPoint.Cards, false)
         {
         }
 
@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="adapter">The adapter to use.</param>
         public ServiceBaseObjectService(IMtgApiServiceAdapter adapter)
-            : base(adapter, new ModelMapper(), ApiVersion.V1_0, ApiEndPoint.Cards, false)
+            : base(adapter, new ModelMapper(), ApiVersion.V1, ApiEndPoint.Cards, false)
         {
         }
 

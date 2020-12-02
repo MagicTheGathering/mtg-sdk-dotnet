@@ -4,56 +4,6 @@
         <name>MtgApiManager.Lib</name>
     </assembly>
     <members>
-        <member name="T:MtgApiManager.Lib.Core.ApiEndPoint">
-            <summary>
-            The MTG API endpoints.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.None">
-            <summary>
-            No end point.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.Cards">
-            <summary>
-            The endpoint which handles the cards.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.Sets">
-            <summary>
-            The endpoint which handles the sets.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.CardTypes">
-            <summary>
-            The endpoint which handles the card types.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.CardSuperTypes">
-            <summary>
-            The endpoint which handles the card super types.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiEndPoint.CardSubTypes">
-            <summary>
-            The endpoint which handles the card sub types.
-            </summary>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.ApiVersion">
-            <summary>
-            Represents the API versions.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiVersion.None">
-            <summary>
-            No API version.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.ApiVersion.V1_0">
-            <summary>
-            Version 1.0.
-            </summary>
-        </member>
         <member name="T:MtgApiManager.Lib.Core.Exceptional`1">
             <summary>
             Contains the result of an operation that may or may not succeed. (Exception monad)
@@ -210,41 +160,6 @@
             <typeparam name="T">The type to serialize into.</typeparam>
             <param name="requestUri">The URL to call.</param>
             <returns>The serialized response.</returns>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.MtgApiError">
-            <summary>
-            Represents the API errors.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.None">
-            <summary>
-            No error.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.BadRequest">
-            <summary>
-            The request is not valid
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.Forbidden">
-            <summary>
-            The rate limit has been exceeded.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.NotFound">
-            <summary>
-            The specified resource could not be found
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.InternalServerError">
-            <summary>
-            Issue with the server.
-            </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.MtgApiError.ServiceUnavailable">
-            <summary>
-            The service is temporarily unavailable.
-            </summary>
         </member>
         <member name="T:MtgApiManager.Lib.Core.MtgApiException`1">
             <summary>
@@ -1236,18 +1151,6 @@
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.SetQueryParameter,``0}},``0)">
             <inheritdoc />
-        </member>
-        <member name="T:MtgApiManager.Lib.Utility.Extensions">
-            <summary>
-            Contains extension methods.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Utility.Extensions.GetDescription(System.Enum)">
-            <summary>
-            Extracts the description attribute from an <see cref="T:System.Enum"/> type.
-            </summary>
-            <param name="value">A <see cref="T:System.Enum"/> value to get the description for.</param>
-            <returns>A <see cref="T:System.String"/> for the description of the value.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Utility.QueryUtility">
             <summary>

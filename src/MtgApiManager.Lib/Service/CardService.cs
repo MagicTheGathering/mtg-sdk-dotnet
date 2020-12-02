@@ -61,7 +61,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.GetDescription(), "/", ApiEndPoint.CardSubTypes.GetDescription()));
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.Name, "/", ApiEndPoint.SubTypes.Name));
                 var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url).ConfigureAwait(false);
 
                 return Exceptional<List<string>>.Success(rootTypeList.SubTypes, MtgApiController.CreatePagingInfo());
@@ -77,7 +77,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.GetDescription(), "/", ApiEndPoint.CardSuperTypes.GetDescription()));
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.Name, "/", ApiEndPoint.SuperTypes.Name));
                 var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url).ConfigureAwait(false);
 
                 return Exceptional<List<string>>.Success(rootTypeList.SuperTypes, MtgApiController.CreatePagingInfo());
@@ -93,7 +93,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.GetDescription(), "/", ApiEndPoint.CardTypes.GetDescription()));
+                var url = new Uri(new Uri(BaseMtgUrl), string.Concat(Version.Name, "/", ApiEndPoint.Types.Name));
                 var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url).ConfigureAwait(false);
 
                 return Exceptional<List<string>>.Success(rootTypeList.Types, MtgApiController.CreatePagingInfo());

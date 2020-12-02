@@ -227,7 +227,7 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
-            var service = new CardService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1_0, false);
+            var service = new CardService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1, false);
 
             var result = await service.FindAsync(1);
             Assert.False(result.IsSuccess);

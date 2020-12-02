@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Model;
-using MtgApiManager.Lib.Utility;
 
 namespace MtgApiManager.Lib.Service
 {
@@ -32,10 +31,8 @@ namespace MtgApiManager.Lib.Service
             WhereQueries = new Dictionary<string, string>();
         }
 
-        protected IMtgApiServiceAdapter Adapter { get; }
-
         protected static string BaseMtgUrl => BASE_URL;
-
+        protected IMtgApiServiceAdapter Adapter { get; }
         protected IModelMapper ModelMapper { get; }
 
         protected ApiVersion Version { get; }
@@ -54,7 +51,7 @@ namespace MtgApiManager.Lib.Service
             var urlBuilder = new UriBuilder(
                 new Uri(
                     new Uri(BaseMtgUrl),
-                    string.Concat(Version.GetDescription(), "/", _endPoint.GetDescription())));
+                    string.Concat(Version.Name, "/", _endPoint.Name)));
 
             var paramList = parameters
                 .Select(p => $"{p.Key}={p.Value}")
@@ -74,7 +71,7 @@ namespace MtgApiManager.Lib.Service
 
             return new Uri(
                 new Uri(BaseMtgUrl),
-                string.Concat(Version.GetDescription(), "/", _endPoint.GetDescription(), "/", parameterValue));
+                string.Concat(Version.Name, "/", _endPoint.Name, "/", parameterValue));
         }
 
         protected Task<T> CallWebServiceGet<T>(Uri requestUri) where T : IMtgResponse

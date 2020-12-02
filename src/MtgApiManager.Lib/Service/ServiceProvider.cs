@@ -27,7 +27,7 @@ namespace MtgApiManager.Lib.Service
             _serviceAdapter = serviceAdapter;
             _modelMapper = modelMapper;
             _rateLimitOn = rateLimitOn;
-            _apiVersion = ApiVersion.V1_0;
+            _apiVersion = ApiVersion.V1;
         }
 
         /// <inheritdoc />
