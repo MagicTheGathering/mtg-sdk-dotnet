@@ -30,6 +30,8 @@ namespace MtgApiManager.Lib.Service
             {
                 var query = BuildUri(WhereQueries);
                 var rootSetList = await CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
+                Reset();
+
                 return Exceptional<List<ISet>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
             }
             catch (Exception ex)
@@ -73,6 +75,9 @@ namespace MtgApiManager.Lib.Service
                 return Exceptional<List<ICard>>.Failure(ex);
             }
         }
+
+        /// <inheritdoc />
+        public void Reset() => WhereQueries.Clear();
 
         /// <inheritdoc />
         public ISetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
