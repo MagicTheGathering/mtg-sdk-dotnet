@@ -1002,6 +1002,9 @@
         <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync">
             <inheritdoc />
         </member>
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetFormatsAsync">
+            <inheritdoc />
+        </member>
         <member name="M:MtgApiManager.Lib.Service.CardService.Reset">
             <inheritdoc />
         </member>
@@ -1050,6 +1053,12 @@
             Gets a list of all the card types.
             </summary>
             <returns>A list of all the card types.</returns>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetFormatsAsync">
+            <summary>
+            Gets a list of all game formats.
+            </summary>
+            <returns>A list of all game formats.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Service.IMtgQueryable`2">
             <summary>

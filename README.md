@@ -78,6 +78,11 @@ var result = await service.GetCardSuperTypesAsync();
 ICardService service = serviceProvider.GetCardService();
 var result = await service.GetCardSubTypesAsync();
 ```
+#### Get all game formats
+```cs
+ICardService service = serviceProvider.GetCardService();
+var result = await service.GetFormatsAsync();
+```
 #### Find a set by code
 ```cs
 ISetService service = serviceProvider.GetSetService();

@@ -18,10 +18,6 @@
 
     public class CardServiceTest
     {
-        /// <summary>
-        /// Tests the <see cref="CardService.AllAsync"/> method.
-        /// </summary>
-        /// <returns>The asynchronous task.</returns>
         [Fact]
         public async Task AllAsyncTest()
         {
@@ -164,10 +160,6 @@
             Assert.NotNull(result.Value);
         }
 
-        /// <summary>
-        /// Tests the <see cref="CardService.FindAsync(int)"/> methods.
-        /// </summary>
-        /// <returns>The asynchronous task.</returns>
         [Fact]
         public async Task FindAsyncTest()
         {
@@ -308,10 +300,6 @@
             Assert.NotNull(result.Value);
         }
 
-        /// <summary>
-        /// Tests the <see cref="CardService.GetCardSubTypesAsync"/> method.
-        /// </summary>
-        /// <returns>The asynchronous task.</returns>
         [Fact]
         public async Task GetCardSubTypesAsyncTest()
         {
@@ -440,10 +428,6 @@
             Assert.NotNull(result.Value);
         }
 
-        /// <summary>
-        /// Tests the <see cref="CardService.GetCardTypesAsync"/> method.
-        /// </summary>
-        /// <returns>The asynchronous task.</returns>
         [Fact]
         public async Task GetCardTypesAsyncTest()
         {
@@ -506,9 +490,52 @@
             Assert.NotNull(result.Value);
         }
 
-        /// <summary>
-        /// Tests the <see cref="CardService.Where{U}(System.Linq.Expressions.Expression{Func{CardDto, U}}, string)"/> method.
-        /// </summary>
+        [Fact]
+        public async Task GetFormatsAsync_Failure()
+        {
+            // Given
+            const string EXCEPTION_MESSAGE = "didn't work";
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>(MockBehavior.Strict);
+            moqAdapter
+                .Setup(x => x.WebGetAsync<RootCardFormatsDto>(new Uri("https://api.magicthegathering.io/v1/formats")))
+                .Throws(new Exception(EXCEPTION_MESSAGE));
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var service = serviceProvider.GetCardService();
+
+            // When
+            var result = await service.GetFormatsAsync();
+
+            // Then
+            Assert.False(result.IsSuccess);
+            Assert.NotNull(result.Exception);
+        }
+
+        [Fact]
+        public async Task GetFormatsAsync_Success()
+        {
+            // Given
+            var formats = new List<string>
+            {
+                "format1",
+                "format2",
+                "format3",
+            };
+
+            var moqAdapter = new Mock<IMtgApiServiceAdapter>(MockBehavior.Strict);
+            moqAdapter
+                .Setup(x => x.WebGetAsync<RootCardFormatsDto>(new Uri("https://api.magicthegathering.io/v1/formats")))
+                .ReturnsAsync(new RootCardFormatsDto { Formats = formats });
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var service = serviceProvider.GetCardService();
+
+            // When
+            var result = await service.GetFormatsAsync();
+
+            // Then
+            Assert.True(result.IsSuccess);
+            Assert.Equal(formats.Count, result.Value.Count);
+        }
+
         [Fact]
         public void WhereTest()
         {

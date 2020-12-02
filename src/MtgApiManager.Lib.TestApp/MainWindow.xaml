@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MtgApiManager.Lib.TestApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="900"
+    Width="1000"
     Height="700"
     mc:Ignorable="d">
     <Window.DataContext>
@@ -30,7 +30,7 @@
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="250" />
                         <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="250" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.ColumnDefinitions>
@@ -63,19 +63,18 @@
                         Grid.Column="4"
                         Orientation="Horizontal">
                         <Button
-                            Width="75"
                             Margin="0,0,5,0"
                             Command="{Binding Path=GetCardTypesCommand}"
                             Content="Types" />
                         <Button
-                            Width="75"
                             Margin="0,0,5,0"
                             Command="{Binding Path=GetCardSuperTypesCommand}"
                             Content="Super Types" />
                         <Button
-                            Width="75"
+                            Margin="0,0,5,0"
                             Command="{Binding Path=GetCardSubTypesCommand}"
                             Content="Sub Types" />
+                        <Button Command="{Binding Path=GetCardFormatsCommand}" Content="Formats" />
                     </StackPanel>
                     <ListView
                         Grid.Row="2"
