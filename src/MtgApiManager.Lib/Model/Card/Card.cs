@@ -40,6 +40,9 @@ namespace MtgApiManager.Lib.Model
         public bool IsMultiColor => Colors?.Length > 1;
 
         /// <inheritdoc />
+        public bool IsColorless => Colors?.Length < 1;
+
+        /// <inheritdoc />
         public string Layout { get; set; }
 
         /// <inheritdoc />
