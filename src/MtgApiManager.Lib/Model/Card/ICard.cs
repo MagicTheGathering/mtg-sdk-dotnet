@@ -64,6 +64,11 @@ namespace MtgApiManager.Lib.Model
         bool IsMultiColor { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the card has no colors and is colorless.
+        /// </summary>
+        bool IsColorless { get; }
+
+        /// <summary>
         /// Gets the card layout. Possible values: normal, split, flip, double-faced, token, plane, scheme, phenomenon, leveler, vanguard
         /// </summary>
         string Layout { get; set; }
