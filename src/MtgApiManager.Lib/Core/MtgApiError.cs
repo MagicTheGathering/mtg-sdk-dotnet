@@ -1,50 +1,20 @@
-﻿// <copyright file="MtgApiError.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Core
+﻿namespace MtgApiManager.Lib.Core
 {
-    using System.ComponentModel;
-
-    /// <summary>
-    /// Represents the API errors.
-    /// </summary>
-    public enum MtgApiError
+    internal class MtgApiError : Enumeration
     {
-        /// <summary>
-        /// No error.
-        /// </summary>
-        [Description("none")]
-        None = 0,
+        public static readonly MtgApiError BadRequest = new MtgApiError(400, nameof(BadRequest), "Your request is not valid");
+        public static readonly MtgApiError Forbidden = new MtgApiError(403, nameof(Forbidden), "You have exceeded the rate limit");
+        public static readonly MtgApiError InternalServerError = new MtgApiError(500, nameof(InternalServerError), "We had a problem with our server. Try again later");
+        public static readonly MtgApiError None = new MtgApiError(0, nameof(None), string.Empty);
+        public static readonly MtgApiError NotFound = new MtgApiError(404, nameof(NotFound), "The specified resource could not be found");
+        public static readonly MtgApiError ServiceUnavailable = new MtgApiError(503, nameof(ServiceUnavailable), "We’re temporarily off line for maintenance. Please try again later.");
 
-        /// <summary>
-        /// The request is not valid
-        /// </summary>
-        [Description("Your request is not valid")]
-        BadRequest = 400,
+        private MtgApiError(int id, string name, string description)
+            : base(id, name)
+        {
+            Description = description;
+        }
 
-        /// <summary>
-        /// The rate limit has been exceeded.
-        /// </summary>
-        [Description("You have exceeded the rate limit")]
-        Forbidden = 403,
-
-        /// <summary>
-        /// The specified resource could not be found
-        /// </summary>
-        [Description("The specified resource could not be found")]
-        NotFound = 404,
-
-        /// <summary>
-        /// Issue with the server.
-        /// </summary>
-        [Description("We had a problem with our server. Try again later.")]
-        InternalServerError = 500,
-
-        /// <summary>
-        /// The service is temporarily unavailable.
-        /// </summary>
-        [Description("We’re temporarily off line for maintenance. Please try again later.")]
-        ServiceUnavailable = 503
+        public string Description { get; }
     }
 }

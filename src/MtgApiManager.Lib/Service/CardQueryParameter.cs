@@ -23,13 +23,13 @@ namespace MtgApiManager.Lib.Service
         /// Gets or sets the card colors by color code. [“Red”, “Blue”] becomes [“R”, “U”].
         /// </summary>
         [JsonPropertyName("colorIdentity")]
-        public string[] ColorIdentity { get; set; }
+        public string ColorIdentity { get; set; }
 
         /// <summary>
         /// Gets or sets the card colors. Usually this is derived from the casting cost, but some cards are special (like the back of dual sided cards and Ghostfire).
         /// </summary>
         [JsonPropertyName("colors")]
-        public string[] Colors { get; set; }
+        public string Colors { get; set; }
 
         /// <summary>
         /// Gets or sets the flavor text of the card.
@@ -131,13 +131,13 @@ namespace MtgApiManager.Lib.Service
         /// Gets or sets the he subtypes of the card. These appear to the right of the dash in a card type. Usually each word is its own subtype. Example values: Trap, Arcane, Equipment, Aura, Human, Rat, Squirrel, etc.
         /// </summary>
         [JsonPropertyName("subtypes")]
-        public string[] SubTypes { get; set; }
+        public string SubTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the super types of the card. These appear to the far left of the card type. Example values: Basic, Legendary, Snow, World, Ongoing
         /// </summary>
         [JsonPropertyName("supertypes")]
-        public string[] SuperTypes { get; set; }
+        public string SuperTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the oracle text of the card. May contain mana symbols and other symbols.

@@ -1,53 +1,17 @@
-﻿namespace MtgApiManager.Lib.Core
-{
-    using Dto;
-    using Exceptions;
-    using System;
-    using System.Net.Http;
-    using System.Text.Json;
-    using System.Threading.Tasks;
-    using Utility;
+﻿using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using MtgApiManager.Lib.Core.Exceptions;
+using MtgApiManager.Lib.Dto;
 
+namespace MtgApiManager.Lib.Core
+{
     /// <summary>
     /// Used to make web service calls, and can easily be mocked for testing.
     /// </summary>
     internal class MtgApiServiceAdapter : IMtgApiServiceAdapter
     {
-        public static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
-        {
-            using (var client = new HttpClient())
-            {
-                using (var response = await client.GetAsync(requestUri).ConfigureAwait(false))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MtgApiController.ParseHeaders(response.Headers);
-                        var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                        return await JsonSerializer.DeserializeAsync<T>(stream).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        switch ((int)response.StatusCode)
-                        {
-                            case (int)MtgApiError.BadRequest:
-                                throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.GetDescription());
-                            case (int)MtgApiError.Forbidden:
-                                throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.GetDescription());
-                            case (int)MtgApiError.InternalServerError:
-                                throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.GetDescription());
-                            case (int)MtgApiError.NotFound:
-                                throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.GetDescription());
-                            case (int)MtgApiError.ServiceUnavailable:
-                                throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.GetDescription());
-                            default:
-                                response.EnsureSuccessStatusCode();
-                                return default;
-                        }
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Do a Web Get for the given request Uri .
         /// </summary>
@@ -62,6 +26,40 @@
             }
 
             return WebGetAsyncInternal<T>(requestUri);
+        }
+
+        private static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
+        {
+            using (var client = new HttpClient())
+            {
+                using (var response = await client.GetAsync(requestUri).ConfigureAwait(false))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MtgApiController.ParseHeaders(response.Headers);
+                        var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        return await JsonSerializer.DeserializeAsync<T>(stream).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var statusValue = (int)response.StatusCode;
+
+                        if (statusValue == MtgApiError.BadRequest.Id)
+                            throw new MtgApiException<BadRequestException>(MtgApiError.BadRequest.Description);
+                        else if (statusValue == MtgApiError.Forbidden.Id)
+                            throw new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.Description);
+                        else if (statusValue == MtgApiError.InternalServerError.Id)
+                            throw new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.Description);
+                        else if (statusValue == MtgApiError.NotFound.Id)
+                            throw new MtgApiException<NotFoundException>(MtgApiError.NotFound.Description);
+                        else if (statusValue == MtgApiError.ServiceUnavailable.Id)
+                            throw new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.Description);
+
+                        response.EnsureSuccessStatusCode();
+                        return default;
+                    }
+                }
+            }
         }
     }
 }

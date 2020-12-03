@@ -1,50 +1,18 @@
-﻿// <copyright file="ApiEndPoint.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
-namespace MtgApiManager.Lib.Core
+﻿namespace MtgApiManager.Lib.Core
 {
-    using System.ComponentModel;
-
-    /// <summary>
-    /// The MTG API endpoints.
-    /// </summary>
-    public enum ApiEndPoint
+    internal class ApiEndPoint : Enumeration
     {
-        /// <summary>
-        /// No end point.
-        /// </summary>
-        [Description("none")]
-        None = 0,
+        public static readonly ApiEndPoint Cards = new ApiEndPoint(1, nameof(Cards).ToLower());
+        public static readonly ApiEndPoint Formats = new ApiEndPoint(6, nameof(Formats).ToLower());
+        public static readonly ApiEndPoint None = new ApiEndPoint(0, nameof(None).ToLower());
+        public static readonly ApiEndPoint Sets = new ApiEndPoint(2, nameof(Sets).ToLower());
+        public static readonly ApiEndPoint SubTypes = new ApiEndPoint(5, nameof(SubTypes).ToLower());
+        public static readonly ApiEndPoint SuperTypes = new ApiEndPoint(4, nameof(SuperTypes).ToLower());
+        public static readonly ApiEndPoint Types = new ApiEndPoint(3, nameof(Types).ToLower());
 
-        /// <summary>
-        /// The endpoint which handles the cards.
-        /// </summary>
-        [Description("cards")]
-        Cards = 1,
-
-        /// <summary>
-        /// The endpoint which handles the sets.
-        /// </summary>
-        [Description("sets")]
-        Sets = 2,
-
-        /// <summary>
-        /// The endpoint which handles the card types.
-        /// </summary>
-        [Description("types")]
-        CardTypes = 3,
-
-        /// <summary>
-        /// The endpoint which handles the card super types.
-        /// </summary>
-        [Description("supertypes")]
-        CardSuperTypes = 4,
-
-        /// <summary>
-        /// The endpoint which handles the card sub types.
-        /// </summary>
-        [Description("subtypes")]
-        CardSubTypes = 5,
+        private ApiEndPoint(int id, string name)
+            : base(id, name)
+        {
+        }
     }
 }

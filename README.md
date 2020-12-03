@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/pb5y2hxl53yo9lwu?svg=true)](https://ci.appveyor.com/project/adback03/mtg-sdk-dotnet)
 [![codecov](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet)
-[![NuGet](https://img.shields.io/badge/nuget-v2.1.0-blue.svg)](https://www.nuget.org/packages/MtgApiManager.Lib/)
+[![NuGet](https://img.shields.io/badge/nuget-v2.2.0-blue.svg)](https://www.nuget.org/packages/MtgApiManager.Lib/)
 
 This is the Magic: The Gathering SDK C# .NET implementation. It is a wrapper around the MTG API of [magicthegathering.io](http://magicthegathering.io/).
 
@@ -21,7 +21,7 @@ Creating a new service provider used to fetch the different services available.
 ```cs
 IMtgServiceProvider serviceProvider = new MtgServiceProvider();
 ```
-The result of all service calls resturns a generic **Exception Monad** containing the results of the call.
+The result of all service calls resturns a generic **Exception Monad** containing the results of the call. It's also important to note that the active query that were added with the Where method will be cleared after a query is performed with the AllAsync method.
 ```cs
 ICardService service = serviceProvider.GetCardService();
 Exceptional<List<ICard>> result = service.AllAsync();
@@ -77,6 +77,11 @@ var result = await service.GetCardSuperTypesAsync();
 ```cs
 ICardService service = serviceProvider.GetCardService();
 var result = await service.GetCardSubTypesAsync();
+```
+#### Get all game formats
+```cs
+ICardService service = serviceProvider.GetCardService();
+var result = await service.GetFormatsAsync();
 ```
 #### Find a set by code
 ```cs
