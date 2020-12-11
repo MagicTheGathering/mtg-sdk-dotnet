@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Flurl;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Dto.Set;
@@ -28,9 +29,8 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var query = BuildUri(WhereQueries);
-                var rootSetList = await CallWebServiceGet<RootSetListDto>(query).ConfigureAwait(false);
-                Reset();
+                var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl.ToUri()).ConfigureAwait(false);
+                ResetCurrentUrl();
 
                 return Exceptional<List<ISet>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
             }
@@ -45,7 +45,8 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootSet = await CallWebServiceGet<RootSetDto>(BuildUri(code)).ConfigureAwait(false);
+                var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code);
+                var rootSet = await CallWebServiceGet<RootSetDto>(url.ToUri()).ConfigureAwait(false);
                 var model = ModelMapper.MapSet(rootSet.Set);
 
                 return Exceptional<ISet>.Success(model, MtgApiController.CreatePagingInfo());
@@ -61,8 +62,8 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var url = new Uri(Path.Combine(BuildUri(code).AbsoluteUri, "booster"));
-                var rootCardList = await CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
+                var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code, "booster");
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(url.ToUri()).ConfigureAwait(false);
 
                 var cards = rootCardList.Cards
                 .Select(x => ModelMapper.MapCard(x))
@@ -77,7 +78,7 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public void Reset() => WhereQueries.Clear();
+        public void Reset() => ResetCurrentUrl();
 
         /// <inheritdoc />
         public ISetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
@@ -94,7 +95,7 @@ namespace MtgApiManager.Lib.Service
 
             MemberExpression expression = property.Body as MemberExpression;
             var queryName = QueryUtility.GetQueryPropertyName<SetQueryParameter>(expression.Member.Name);
-            WhereQueries[queryName] = Convert.ToString(value);
+            CurrentQueryUrl.SetQueryParam(queryName, Convert.ToString(value));
 
             return this;
         }

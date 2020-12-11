@@ -31,6 +31,7 @@ namespace MtgApiManager.Lib.TestApp
             CardsCollection = new ObservableCollection<ICard>();
             SetsCollection = new ObservableCollection<ISet>();
             TypesCollection = new ObservableCollection<string>();
+            GeneratedBoosterCollection = new ObservableCollection<ICard>();
             _serviceProvider = new MtgServiceProvider();
         }
 

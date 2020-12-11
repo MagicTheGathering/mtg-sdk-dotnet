@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Model;
+using Flurl;
 
 namespace MtgApiManager.Lib.Service
 {
@@ -13,7 +14,6 @@ namespace MtgApiManager.Lib.Service
     {
         private const string BASE_URL = "https://api.magicthegathering.io";
 
-        private readonly ApiEndPoint _endPoint;
         private readonly bool _isRateLimitOn;
 
         protected ServiceBase(
@@ -26,53 +26,23 @@ namespace MtgApiManager.Lib.Service
             Adapter = serviceAdapter;
             ModelMapper = modelMapper;
             Version = version;
-            _endPoint = endpoint;
+            EndPoint = endpoint;
             _isRateLimitOn = rateLimitOn;
-            WhereQueries = new Dictionary<string, string>();
+
+            ResetCurrentUrl();
         }
 
         protected static string BaseMtgUrl => BASE_URL;
         protected IMtgApiServiceAdapter Adapter { get; }
+        protected Url CurrentQueryUrl { get; private set; }
+
+        protected ApiEndPoint EndPoint { get; }
+
         protected IModelMapper ModelMapper { get; }
 
         protected ApiVersion Version { get; }
 
-        protected Dictionary<string, string> WhereQueries { get; }
-
         public abstract Task<Exceptional<List<TModel>>> AllAsync();
-
-        protected Uri BuildUri(Dictionary<string, string> parameters)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
-
-            var urlBuilder = new UriBuilder(
-                new Uri(
-                    new Uri(BaseMtgUrl),
-                    string.Concat(Version.Name, "/", _endPoint.Name)));
-
-            var paramList = parameters
-                .Select(p => $"{p.Key}={p.Value}")
-                .ToList();
-
-            urlBuilder.Query = Uri.EscapeUriString(string.Join("&", paramList));
-
-            return urlBuilder.Uri;
-        }
-
-        protected Uri BuildUri(string parameterValue)
-        {
-            if (string.IsNullOrWhiteSpace(parameterValue))
-            {
-                throw new ArgumentNullException(nameof(parameterValue));
-            }
-
-            return new Uri(
-                new Uri(BaseMtgUrl),
-                string.Concat(Version.Name, "/", _endPoint.Name, "/", parameterValue));
-        }
 
         protected Task<T> CallWebServiceGet<T>(Uri requestUri) where T : IMtgResponse
         {
@@ -93,6 +63,11 @@ namespace MtgApiManager.Lib.Service
             }
 
             return await Adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
+        }
+
+        protected void ResetCurrentUrl()
+        {
+            CurrentQueryUrl = BASE_URL.AppendPathSegments(Version.Name, EndPoint.Name);
         }
     }
 }
