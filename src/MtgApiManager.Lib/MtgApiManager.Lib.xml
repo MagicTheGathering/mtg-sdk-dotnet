@@ -4,84 +4,6 @@
         <name>MtgApiManager.Lib</name>
     </assembly>
     <members>
-        <member name="T:MtgApiManager.Lib.Core.Exceptional`1">
-            <summary>
-            Contains the result of an operation that may or may not succeed. (Exception monad)
-            </summary>
-            <typeparam name="T">The type of success value.</typeparam>
-        </member>
-        <member name="P:MtgApiManager.Lib.Core.Exceptional`1.Exception">
-            <summary>
-            Gets the exception is one was caught.
-            </summary>
-        </member>
-        <member name="P:MtgApiManager.Lib.Core.Exceptional`1.IsSuccess">
-            <summary>
-            Gets a value indicating whether the result is successful.
-            </summary>
-        </member>
-        <member name="P:MtgApiManager.Lib.Core.Exceptional`1.PagingInfo">
-            <summary>
-            Gets the paging information.
-            </summary>
-        </member>
-        <member name="P:MtgApiManager.Lib.Core.Exceptional`1.Value">
-            <summary>
-            Gets the value of the result if it has a value.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.Failure(System.Exception)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> structure in a failure state.
-            </summary>
-            <param name="exception">The exception that was caught.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> with the given exception.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.Success(`0,MtgApiManager.Lib.Core.PagingInfo)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> structure in a success state.
-            </summary>
-            <param name="value">The value.</param>
-            <param name="pagingInfo">The paging information.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> with the given value.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.IfFailure(System.Action{System.Exception})">
-            <summary>
-            Runs the given action if the result is a failure.
-            </summary>
-            <param name="action">The action to perform.</param>
-            <returns>The original result.</returns>
-            <remarks>The result itself is returned to allow function chaining.</remarks>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.IfSuccess(System.Action{`0})">
-            <summary>
-            Runs the given action if the result is a success.
-            </summary>
-            <param name="action">The action to perform.</param>
-            <returns>The original result.</returns>
-            <remarks>The result itself is returned to allow function chaining.</remarks>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.Map``1(System.Func{`0,``0})">
-            <summary>
-            Maps the given function to the contents of the result. If the result is a success, the
-            function will be applied to the success value; otherwise, the function will not be applied.
-            </summary>
-            <typeparam name="TNewValue">The type that the success value will be mapped to.</typeparam>
-            <param name="function">The function to apply to the success value of the result.</param>
-            <returns>A copy of the result with the mapping applied.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptional`1.Then``1(System.Func{`0,MtgApiManager.Lib.Core.Exceptional{``0}})">
-            <summary>
-            Chains two results together by taking the value of the result, and passing it to the
-            given function which returns another result. If the result is a failure, then the
-            function will not be applied.
-            </summary>
-            <typeparam name="TNewValue">
-            The type of the result that the value will be mapped to.
-            </typeparam>
-            <param name="function">The function to apply to the value.</param>
-            <returns>A new result with the mapping applied.</returns>
-        </member>
         <member name="T:MtgApiManager.Lib.Core.Exceptions.BadRequestException">
             <summary>
             An exception representing a bad request.
@@ -161,6 +83,32 @@
             <param name="requestUri">The URL to call.</param>
             <returns>The serialized response.</returns>
         </member>
+        <member name="T:MtgApiManager.Lib.Core.IOperationResult`1">
+            <summary>
+            Represents the result of an operation.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+        </member>
+        <member name="P:MtgApiManager.Lib.Core.IOperationResult`1.Exception">
+            <summary>
+            Gets the exception is one was caught.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Core.IOperationResult`1.IsSuccess">
+            <summary>
+            Gets a value indicating whether the operation was successful.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Core.IOperationResult`1.PagingInfo">
+            <summary>
+            Gets the paging information.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Core.IOperationResult`1.Value">
+            <summary>
+            Gets the value of the result if it has a value.
+            </summary>
+        </member>
         <member name="T:MtgApiManager.Lib.Core.MtgApiException`1">
             <summary>
             Represents an MTG API exception.
@@ -186,78 +134,40 @@
             <param name="requestUri">The URL to call.</param>
             <returns>The serialized response.</returns>
         </member>
-        <member name="T:MtgApiManager.Lib.Core.Option`1">
-            <summary>
-            Contains the result of an operation that may or may not produce a result (option monad).
-            </summary>
-            <typeparam name="T">The type of success value.</typeparam>
+        <member name="T:MtgApiManager.Lib.Core.OperationResult`1">
+            <inheritdoc />
         </member>
-        <member name="P:MtgApiManager.Lib.Core.Option`1.HasValue">
-            <summary>
-            Gets a value indicating whether a value is present.
-            </summary>
+        <member name="P:MtgApiManager.Lib.Core.OperationResult`1.Exception">
+            <inheritdoc />
         </member>
-        <member name="P:MtgApiManager.Lib.Core.Option`1.Value">
-            <summary>
-            Gets the value of the result if it has a value.
-            </summary>
+        <member name="P:MtgApiManager.Lib.Core.OperationResult`1.IsSuccess">
+            <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.None">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Option`1"/> structure without a value.
-            </summary>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Option`1"/> with no value.</returns>
+        <member name="P:MtgApiManager.Lib.Core.OperationResult`1.PagingInfo">
+            <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.Some(`0)">
+        <member name="P:MtgApiManager.Lib.Core.OperationResult`1.Value">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Core.OperationResult`1.Failure(System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Option`1"/> structure with a value.
+            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.OperationResult`1"/> structure in a failure state.
+            </summary>
+            <param name="exception">The exception that was caught.</param>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.OperationResult`1"/> with the given exception.</returns>
+        </member>
+        <member name="M:MtgApiManager.Lib.Core.OperationResult`1.Success(`0,MtgApiManager.Lib.Core.PagingInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.OperationResult`1"/> structure in a success state.
             </summary>
             <param name="value">The value.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Option`1"/> with the given value.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.IfNone(System.Action)">
-            <summary>
-            Runs the given action if the result has no value.
-            </summary>
-            <param name="action">The action to perform.</param>
-            <returns>The original result.</returns>
-            <remarks>The result itself is returned to allow function chaining.</remarks>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.IfSome(System.Action{`0})">
-            <summary>
-            Runs the given action if the result has a value.
-            </summary>
-            <param name="action">The action to perform.</param>
-            <returns>The original result.</returns>
-            <remarks>The result itself is returned to allow function chaining.</remarks>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.Map``1(System.Func{`0,``0})">
-            <summary>
-            Maps the given function to the contents of the result. If the result has a value, the function will be applied to that value; otherwise, the function will not be applied.
-            </summary>
-            <typeparam name="TNewValue">The type that the value will be mapped to.</typeparam>
-            <param name="function">The function to apply to the value.</param>
-            <returns>A copy of the result with the mapping applied.</returns>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Option`1.Then``1(System.Func{`0,MtgApiManager.Lib.Core.Option{``0}})">
-            <summary>
-            Chains two results together by taking the value of the result, and passing it to the given function which returns another result. If the result is nothing, then the function will not be applied.
-            </summary>
-            <typeparam name="TNewValue">The type of the optional that the value will be mapped to.</typeparam>
-            <param name="function">The function to apply to the value.</param>
-            <returns>A new result with the mapping applied.</returns>
+            <param name="pagingInfo">The paging information.</param>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.OperationResult`1"/> with the given value.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Core.PagingInfo">
             <summary>
             Represents paging information
             </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.PagingInfo.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Initialize a new instance of the <see cref="T:MtgApiManager.Lib.Core.PagingInfo"/> class.
-            </summary>
-            <param name="totalCount">The total number of items.</param>
-            <param name="pageSize">The page size for the request.</param>
         </member>
         <member name="P:MtgApiManager.Lib.Core.PagingInfo.PageSize">
             <summary>
@@ -274,33 +184,13 @@
             Gets the total number of pages based on the page size and total number.
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Core.RateLimit">
+        <member name="M:MtgApiManager.Lib.Core.PagingInfo.Create(System.Int32,System.Int32)">
             <summary>
-            Object representing a rate limit which helps spread out the calls to API.
+            Creates a new page info class.
             </summary>
-        </member>
-        <member name="F:MtgApiManager.Lib.Core.RateLimit._webServiceCalls">
-            <summary>
-            The calls that have been made to the web service.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.RateLimit.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.RateLimit"/> class.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.RateLimit.AddApiCall">
-            <summary>
-            Add a new call to the managed collection.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.RateLimit.GetDelay(System.Int32)">
-            <summary>
-            Returns the delay needed to make the next call. The per hour rate will get converted to a per 10 second rate in
-            order to spread out the calls over the hour.
-            </summary>
-            <param name="requestsPerHour">The number of calls permitted per hour.</param>
-            <returns>the delay in milliseconds.</returns>
+            <param name="totalCount">The total number of items.</param>
+            <param name="pageSize">The page size for the request.</param>
+            <returns>A new instance of a paging info.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Model.Card">
             <inheritdoc />
@@ -336,6 +226,9 @@
             <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
+            <inheritdoc />
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.Card.IsColorless">
             <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Card.Layout">
@@ -498,6 +391,11 @@
         <member name="P:MtgApiManager.Lib.Model.ICard.IsMultiColor">
             <summary>
             Gets a value indicating whether the card has more than a single color.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Model.ICard.IsColorless">
+            <summary>
+            Gets a value indicating whether the card has no colors and is colorless.
             </summary>
         </member>
         <member name="P:MtgApiManager.Lib.Model.ICard.Layout">
@@ -1020,21 +918,21 @@
             <summary>
             Gets all the <see cref="T:MtgApiManager.Lib.Model.Card"/> defined by the query parameters.
             </summary>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing all the items.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.Int32)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="multiverseId">The multi verse identifier to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.String)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="id">The identifier to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
+            <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSubTypesAsync">
             <summary>
@@ -1112,21 +1010,21 @@
             <summary>
             Gets all the <see cref="T:MtgApiManager.Lib.Model.Set"/> defined by the query parameters.
             </summary>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing all the items.</returns>
+            <returns>An object representing the result containing all the items.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.ISetService.FindAsync(System.String)">
             <summary>
             Find a specific card by its set code.
             </summary>
             <param name="code">The set code to query for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Set"/> or an exception.</returns>
+            <returns>An object representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Set"/> or an exception.</returns>
         </member>
         <member name="M:MtgApiManager.Lib.Service.ISetService.GenerateBoosterAsync(System.String)">
             <summary>
              Generates a booster pack for a specific set asynchronously.
             </summary>
             <param name="code">The set code to generate a booster for.</param>
-            <returns>A <see cref="T:MtgApiManager.Lib.Core.Exceptional`1"/> representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
+            <returns>An object representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Service.MtgServiceProvider">
             <inheritdoc />
@@ -1184,52 +1082,6 @@
             <typeparam name="T">The type to look for the property in.</typeparam>
             <param name="propertyName">The name of the property to get the query parameter for.</param>
             <returns>A <see cref="T:System.String"/> representing the query name defined in the JSON property</returns>
-        </member>
-        <member name="T:MtgApiController">
-            <summary>
-            Managers MTG API related functionality.
-            </summary>
-        </member>
-        <member name="F:MtgApiController._apiRateLimit">
-            <summary>
-            The rate limit which controls the calls to the API.
-            </summary>
-        </member>
-        <member name="P:MtgApiController.Count">
-            <summary>
-            Gets or sets the number of elements returned.
-            </summary>
-        </member>
-        <member name="P:MtgApiController.Link">
-            <summary>
-            Gets or sets the headers with previous, last, next, first links (when appropriate).
-            </summary>
-        </member>
-        <member name="P:MtgApiController.PageSize">
-            <summary>
-            Gets or sets the page size for the request.
-            </summary>
-        </member>
-        <member name="P:MtgApiController.RatelimitLimit">
-            <summary>
-            Gets or sets the rate limit for a given user.
-            </summary>
-        </member>
-        <member name="P:MtgApiController.RatelimitRemaining">
-            <summary>
-            Gets or sets the number of requests left before the rate limit is exceeded.
-            </summary>
-        </member>
-        <member name="P:MtgApiController.TotalCount">
-            <summary>
-            Gets or sets the total number of elements (across all pages).
-            </summary>
-        </member>
-        <member name="M:MtgApiController.ParseHeaders(System.Net.Http.Headers.HttpResponseHeaders)">
-            <summary>
-            Gets all the related headers from the response.
-            </summary>
-            <param name="headers">The header to parse.</param>
         </member>
     </members>
 </doc>

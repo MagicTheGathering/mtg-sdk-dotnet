@@ -67,7 +67,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetListDto() { Sets = sets });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetSetService();
             service = service.Where(x => x.Name, "name1");
 
@@ -139,7 +144,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootSetDto() { Set = setDto });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetSetService();
 
             var result = await service.FindAsync("code1");
@@ -284,7 +294,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetSetService();
 
             var result = await service.GenerateBoosterAsync("ktk");

@@ -1,46 +1,76 @@
-﻿// <copyright file="RateLimit.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace MtgApiManager.Lib.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    /// <summary>
-    /// Object representing a rate limit which helps spread out the calls to API.
-    /// </summary>
-    internal class RateLimit
+    internal class RateLimit : IRateLimit
     {
-        /// <summary>
-        /// The calls that have been made to the web service.
-        /// </summary>
+        private static readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
         private readonly List<DateTime> _webServiceCalls;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RateLimit"/> class.
-        /// </summary>
-        public RateLimit()
+        public RateLimit(bool isTurnedOn)
         {
+            IsTurnedOn = isTurnedOn;
+
             _webServiceCalls = new List<DateTime>();
         }
 
-        /// <summary>
-        /// Add a new call to the managed collection.
-        /// </summary>
+        public bool IsTurnedOn { get; }
+
         public void AddApiCall()
         {
-            _webServiceCalls.Add(DateTime.Now);
+            if (!IsTurnedOn)
+            {
+                return;
+            }
+
+            _semaphoreSlim.Wait();
+
+            try
+            {
+                _webServiceCalls.Add(DateTime.Now);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
         }
 
-        /// <summary>
-        /// Returns the delay needed to make the next call. The per hour rate will get converted to a per 10 second rate in
-        /// order to spread out the calls over the hour.
-        /// </summary>
-        /// <param name="requestsPerHour">The number of calls permitted per hour.</param>
-        /// <returns>the delay in milliseconds.</returns>
-        public int GetDelay(int requestsPerHour)
+        public async Task<int> Delay(int requestsPerHour)
+        {
+            if (!IsTurnedOn)
+            {
+                return 0;
+            }
+
+            await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+
+            try
+            {
+                int delayInMilliseconds = GetDelay(requestsPerHour);
+
+                if (delayInMilliseconds > 0)
+                {
+                    await Task.Delay(delayInMilliseconds).ConfigureAwait(false);
+                }
+
+                return delayInMilliseconds;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+
+        public void Reset()
+        {
+            _webServiceCalls.Clear();
+        }
+
+        private int GetDelay(int requestsPerHour)
         {
             int delay = 0;
 
@@ -50,7 +80,7 @@ namespace MtgApiManager.Lib.Core
             }
 
             // Figure out the requests per 10 seconds in order to spread out the calls.
-            var requestsPerTenSeconds = (int)Math.Floor((float)requestsPerHour / (3600f / 10f));
+            var requestsPerTenSeconds = (int)Math.Floor((float)requestsPerHour / (TimeSpan.FromHours(1).TotalSeconds / 10f));
 
             if (_webServiceCalls.Any())
             {
@@ -66,7 +96,7 @@ namespace MtgApiManager.Lib.Core
                 // If the limit has been reached then calculate the needed delay.
                 if (lastTenSeconds.Count >= requestsPerTenSeconds)
                 {
-                    TimeSpan diff = lastTenSeconds.First() - DateTime.Now.AddSeconds(-10);
+                    var diff = lastTenSeconds.First() - DateTime.Now.AddSeconds(-10);
                     delay = (int)Math.Abs(diff.TotalMilliseconds);
                 }
             }

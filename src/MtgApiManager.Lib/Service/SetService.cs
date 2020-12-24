@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -17,31 +16,32 @@ namespace MtgApiManager.Lib.Service
     {
         public SetService(
             IMtgApiServiceAdapter serviceAdapter,
+            IHeaderManager headerManager,
             IModelMapper modelMapper,
             ApiVersion version,
-            bool rateLimitOn = true)
-            : base(serviceAdapter, modelMapper, version, ApiEndPoint.Sets, rateLimitOn)
+            IRateLimit rateLimit)
+            : base(serviceAdapter, headerManager, modelMapper, version, ApiEndPoint.Sets, rateLimit)
         {
         }
 
         /// <inheritdoc />
-        public async override Task<Exceptional<List<ISet>>> AllAsync()
+        public async override Task<IOperationResult<List<ISet>>> AllAsync()
         {
             try
             {
                 var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl.ToUri()).ConfigureAwait(false);
                 ResetCurrentUrl();
 
-                return Exceptional<List<ISet>>.Success(MapSetsList(rootSetList), MtgApiController.CreatePagingInfo());
+                return OperationResult<List<ISet>>.Success(MapSetsList(rootSetList), GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<ISet>>.Failure(ex);
+                return OperationResult<List<ISet>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<ISet>> FindAsync(string code)
+        public async Task<IOperationResult<ISet>> FindAsync(string code)
         {
             try
             {
@@ -49,16 +49,16 @@ namespace MtgApiManager.Lib.Service
                 var rootSet = await CallWebServiceGet<RootSetDto>(url.ToUri()).ConfigureAwait(false);
                 var model = ModelMapper.MapSet(rootSet.Set);
 
-                return Exceptional<ISet>.Success(model, MtgApiController.CreatePagingInfo());
+                return OperationResult<ISet>.Success(model, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<ISet>.Failure(ex);
+                return OperationResult<ISet>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<List<ICard>>> GenerateBoosterAsync(string code)
+        public async Task<IOperationResult<List<ICard>>> GenerateBoosterAsync(string code)
         {
             try
             {
@@ -69,11 +69,11 @@ namespace MtgApiManager.Lib.Service
                 .Select(x => ModelMapper.MapCard(x))
                 .ToList();
 
-                return Exceptional<List<ICard>>.Success(cards, MtgApiController.CreatePagingInfo());
+                return OperationResult<List<ICard>>.Success(cards, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<ICard>>.Failure(ex);
+                return OperationResult<List<ICard>>.Failure(ex);
             }
         }
 

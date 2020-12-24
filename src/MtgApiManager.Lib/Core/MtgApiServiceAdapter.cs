@@ -12,6 +12,13 @@ namespace MtgApiManager.Lib.Core
     /// </summary>
     internal class MtgApiServiceAdapter : IMtgApiServiceAdapter
     {
+        private readonly IHeaderManager _headerManager;
+
+        public MtgApiServiceAdapter(IHeaderManager headerManager)
+        {
+            _headerManager = headerManager;
+        }
+
         /// <summary>
         /// Do a Web Get for the given request Uri .
         /// </summary>
@@ -28,7 +35,7 @@ namespace MtgApiManager.Lib.Core
             return WebGetAsyncInternal<T>(requestUri);
         }
 
-        private static async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
+        private async Task<T> WebGetAsyncInternal<T>(Uri requestUri) where T : IMtgResponse
         {
             using (var client = new HttpClient())
             {
@@ -36,7 +43,7 @@ namespace MtgApiManager.Lib.Core
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        MtgApiController.ParseHeaders(response.Headers);
+                        _headerManager.Update(response.Headers);
                         var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                         return await JsonSerializer.DeserializeAsync<T>(stream).ConfigureAwait(false);
                     }

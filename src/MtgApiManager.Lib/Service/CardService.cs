@@ -16,34 +16,35 @@ namespace MtgApiManager.Lib.Service
     {
         public CardService(
             IMtgApiServiceAdapter serviceAdapter,
+            IHeaderManager headerManager,
             IModelMapper modelMapper,
             ApiVersion version,
-            bool rateLimitOn = true)
-            : base(serviceAdapter, modelMapper, version, ApiEndPoint.Cards, rateLimitOn)
+            IRateLimit rateLimit)
+            : base(serviceAdapter, headerManager, modelMapper, version, ApiEndPoint.Cards, rateLimit)
         {
         }
 
         /// <inheritdoc />
-        public async override Task<Exceptional<List<ICard>>> AllAsync()
+        public async override Task<IOperationResult<List<ICard>>> AllAsync()
         {
             try
             {
                 var rootCardList = await CallWebServiceGet<RootCardListDto>(CurrentQueryUrl.ToUri()).ConfigureAwait(false);
                 ResetCurrentUrl();
 
-                return Exceptional<List<ICard>>.Success(MapCardsList(rootCardList), MtgApiController.CreatePagingInfo());
+                return OperationResult<List<ICard>>.Success(MapCardsList(rootCardList), GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<ICard>>.Failure(ex);
+                return OperationResult<List<ICard>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public Task<Exceptional<ICard>> FindAsync(int multiverseId) => FindAsync(multiverseId.ToString());
+        public Task<IOperationResult<ICard>> FindAsync(int multiverseId) => FindAsync(multiverseId.ToString());
 
         /// <inheritdoc />
-        public async Task<Exceptional<ICard>> FindAsync(string id)
+        public async Task<IOperationResult<ICard>> FindAsync(string id)
         {
             try
             {
@@ -51,75 +52,75 @@ namespace MtgApiManager.Lib.Service
                 var rootCard = await CallWebServiceGet<RootCardDto>(url.ToUri()).ConfigureAwait(false);
                 var model = ModelMapper.MapCard(rootCard.Card);
 
-                return Exceptional<ICard>.Success(model, MtgApiController.CreatePagingInfo());
+                return OperationResult<ICard>.Success(model, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<ICard>.Failure(ex);
+                return OperationResult<ICard>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<List<string>>> GetCardSubTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardSubTypesAsync()
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SubTypes.Name);
                 var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url.ToUri()).ConfigureAwait(false);
 
-                return Exceptional<List<string>>.Success(rootTypeList.SubTypes, MtgApiController.CreatePagingInfo());
+                return OperationResult<List<string>>.Success(rootTypeList.SubTypes, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<string>>.Failure(ex);
+                return OperationResult<List<string>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<List<string>>> GetCardSuperTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardSuperTypesAsync()
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SuperTypes.Name);
                 var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url.ToUri()).ConfigureAwait(false);
 
-                return Exceptional<List<string>>.Success(rootTypeList.SuperTypes, MtgApiController.CreatePagingInfo());
+                return OperationResult<List<string>>.Success(rootTypeList.SuperTypes, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<string>>.Failure(ex);
+                return OperationResult<List<string>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<List<string>>> GetCardTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardTypesAsync()
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Types.Name);
                 var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url.ToUri()).ConfigureAwait(false);
 
-                return Exceptional<List<string>>.Success(rootTypeList.Types, MtgApiController.CreatePagingInfo());
+                return OperationResult<List<string>>.Success(rootTypeList.Types, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<string>>.Failure(ex);
+                return OperationResult<List<string>>.Failure(ex);
             }
         }
 
         /// <inheritdoc />
-        public async Task<Exceptional<List<string>>> GetFormatsAsync()
+        public async Task<IOperationResult<List<string>>> GetFormatsAsync()
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Formats.Name);
                 var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url.ToUri()).ConfigureAwait(false);
 
-                return Exceptional<List<string>>.Success(rootFormatsList.Formats, MtgApiController.CreatePagingInfo());
+                return OperationResult<List<string>>.Success(rootFormatsList.Formats, GetPagingInfo());
             }
             catch (Exception ex)
             {
-                return Exceptional<List<string>>.Failure(ex);
+                return OperationResult<List<string>>.Failure(ex);
             }
         }
 

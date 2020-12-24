@@ -13,21 +13,21 @@ namespace MtgApiManager.Lib.Service
         /// <summary>
         /// Gets all the <see cref="Set"/> defined by the query parameters.
         /// </summary>
-        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing all the items.</returns>
-        Task<Exceptional<List<ISet>>> AllAsync();
+        /// <returns>An object representing the result containing all the items.</returns>
+        Task<IOperationResult<List<ISet>>> AllAsync();
 
         /// <summary>
         /// Find a specific card by its set code.
         /// </summary>
         /// <param name="code">The set code to query for.</param>
-        /// <returns>A <see cref="Exceptional{Set}"/> representing the result containing a <see cref="Set"/> or an exception.</returns>
-        Task<Exceptional<ISet>> FindAsync(string code);
+        /// <returns>An object representing the result containing a <see cref="Set"/> or an exception.</returns>
+        Task<IOperationResult<ISet>> FindAsync(string code);
 
         /// <summary>
         ///  Generates a booster pack for a specific set asynchronously.
         /// </summary>
         /// <param name="code">The set code to generate a booster for.</param>
-        /// <returns>A <see cref="Exceptional{T}"/> representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
-        Task<Exceptional<List<ICard>>> GenerateBoosterAsync(string code);
+        /// <returns>An object representing the result containing a <see cref="List{Card}"/> or an exception.</returns>
+        Task<IOperationResult<List<ICard>>> GenerateBoosterAsync(string code);
     }
 }

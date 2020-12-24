@@ -122,7 +122,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardListDto() { Cards = cards });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
             service = service.Where(x => x.Name, "name1");
 
@@ -219,7 +224,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardDto() { Card = cardDto });
 
-            var service = new CardService(moqAdapter.Object, new ModelMapper(), ApiVersion.V1, false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var service = new CardService(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), ApiVersion.V1, moqRateLimit.Object);
 
             var result = await service.FindAsync(1);
             Assert.False(result.IsSuccess);
@@ -325,7 +335,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSubTypeDto() { SubTypes = cardSubTypes });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
 
             var result = await service.GetCardSubTypesAsync();
@@ -391,7 +406,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardSuperTypeDto() { SuperTypes = cardSuperTypes });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
 
             var result = await service.GetCardSuperTypesAsync();
@@ -453,7 +473,12 @@
                 .Throws<Exception>()
                 .ReturnsAsync(new RootCardTypeDto() { Types = cardTypes });
 
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
 
             var result = await service.GetCardTypesAsync();
@@ -499,7 +524,13 @@
             moqAdapter
                 .Setup(x => x.WebGetAsync<RootCardFormatsDto>(new Uri("https://api.magicthegathering.io/v1/formats")))
                 .Throws(new Exception(EXCEPTION_MESSAGE));
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
 
             // When
@@ -525,7 +556,13 @@
             moqAdapter
                 .Setup(x => x.WebGetAsync<RootCardFormatsDto>(new Uri("https://api.magicthegathering.io/v1/formats")))
                 .ReturnsAsync(new RootCardFormatsDto { Formats = formats });
-            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, new ModelMapper(), false);
+
+            var moqHeaderManager = new Mock<IHeaderManager>();
+
+            var moqRateLimit = new Mock<IRateLimit>();
+            moqRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            var serviceProvider = new MtgServiceProvider(moqAdapter.Object, moqHeaderManager.Object, new ModelMapper(), moqRateLimit.Object);
             var service = serviceProvider.GetCardService();
 
             // When

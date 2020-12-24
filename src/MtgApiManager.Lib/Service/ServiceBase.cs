@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
@@ -12,28 +11,33 @@ namespace MtgApiManager.Lib.Service
     internal abstract class ServiceBase<TModel>
         where TModel : class
     {
+        protected IHeaderManager _headerManager;
         private const string BASE_URL = "https://api.magicthegathering.io";
 
-        private readonly bool _isRateLimitOn;
+        private readonly IRateLimit _rateLimit;
 
         protected ServiceBase(
             IMtgApiServiceAdapter serviceAdapter,
+            IHeaderManager headerManager,
             IModelMapper modelMapper,
             ApiVersion version,
             ApiEndPoint endpoint,
-            bool rateLimitOn)
+            IRateLimit rateLimit)
         {
             Adapter = serviceAdapter;
+            _headerManager = headerManager;
             ModelMapper = modelMapper;
             Version = version;
             EndPoint = endpoint;
-            _isRateLimitOn = rateLimitOn;
+            _rateLimit = rateLimit;
 
             ResetCurrentUrl();
         }
 
         protected static string BaseMtgUrl => BASE_URL;
+
         protected IMtgApiServiceAdapter Adapter { get; }
+
         protected Url CurrentQueryUrl { get; private set; }
 
         protected ApiEndPoint EndPoint { get; }
@@ -42,7 +46,7 @@ namespace MtgApiManager.Lib.Service
 
         protected ApiVersion Version { get; }
 
-        public abstract Task<Exceptional<List<TModel>>> AllAsync();
+        public abstract Task<IOperationResult<List<TModel>>> AllAsync();
 
         protected Task<T> CallWebServiceGet<T>(Uri requestUri) where T : IMtgResponse
         {
@@ -54,20 +58,34 @@ namespace MtgApiManager.Lib.Service
             return CallWebServiceGetInternal<T>(requestUri);
         }
 
-        protected async Task<T> CallWebServiceGetInternal<T>(Uri requestUri) where T : IMtgResponse
+        protected PagingInfo GetPagingInfo()
         {
-            // Makes sure that th rate limit is not reached.
-            if (_isRateLimitOn)
-            {
-                await MtgApiController.HandleRateLimit().ConfigureAwait(false);
-            }
+            var totalCount = _headerManager.Get<int>(ResponseHeader.TotalCount);
+            var pageSize = _headerManager.Get<int>(ResponseHeader.PageSize);
 
-            return await Adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
+            return PagingInfo.Create(totalCount, pageSize);
         }
 
         protected void ResetCurrentUrl()
         {
             CurrentQueryUrl = BASE_URL.AppendPathSegments(Version.Name, EndPoint.Name);
+        }
+
+        private async Task<T> CallWebServiceGetInternal<T>(Uri requestUri) where T : IMtgResponse
+        {
+            // Makes sure that th rate limit is not reached.
+            if (_rateLimit.IsTurnedOn)
+            {
+                var rateLimit = _headerManager.Get<int>(ResponseHeader.RatelimitLimit);
+                await _rateLimit.Delay(rateLimit).ConfigureAwait(false);
+
+                var result = await Adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
+                _rateLimit.AddApiCall();
+
+                return result;
+            }
+
+            return await Adapter.WebGetAsync<T>(requestUri).ConfigureAwait(false);
         }
     }
 }

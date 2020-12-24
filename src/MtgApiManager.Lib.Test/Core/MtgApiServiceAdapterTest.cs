@@ -2,6 +2,7 @@
 {
     using Lib.Core;
     using Lib.Dto;
+    using Moq;
     using System;
     using System.Threading.Tasks;
     using Xunit;
@@ -18,7 +19,8 @@
         [Fact]
         public async Task WebGetAsyncTest()
         {
-            MtgApiServiceAdapter adapter = new MtgApiServiceAdapter();
+            var moqHeaderManager = new Mock<IHeaderManager>();
+            MtgApiServiceAdapter adapter = new MtgApiServiceAdapter(moqHeaderManager.Object);
 
             // Test exception is thrown.
             var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => adapter.WebGetAsync<RootCardDto>(null));

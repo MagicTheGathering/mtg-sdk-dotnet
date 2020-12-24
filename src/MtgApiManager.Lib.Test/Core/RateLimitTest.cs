@@ -1,50 +1,64 @@
-﻿// <copyright file="RateLimitTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System.Threading.Tasks;
+using MtgApiManager.Lib.Core;
+using Xunit;
+
 namespace MtgApiManager.Lib.Test.Core
 {
-    using MtgApiManager.Lib.Core;
-    using System.Threading;
-    using Xunit;
-
-    /// <summary>
-    /// Tests the <see cref="RateLimit"/> class.
-    /// </summary>
-
     public class RateLimitTest
     {
-
-        /// <summary>
-        /// Tests the <see cref="RateLimit.GetDelay(int)"/> method.
-        /// </summary>
         [Fact]
-        public void GetDelayTest()
+        public async Task Delay_OverLimit_Delay()
         {
-            var limit = new RateLimit();
+            // arrange
+            const int REQUESTS_PER_HOUR = 1000;
+            var rateLimit = new RateLimit(true);
+            rateLimit.AddApiCall();
+            rateLimit.AddApiCall();
 
-            // Test passing 0 for the request per hour.
-            Assert.Equal(0, limit.GetDelay(0));
+            // act
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
 
-            // No web calls yet.
-            Assert.Equal(0, limit.GetDelay(2000));
+            Assert.NotEqual(0, result);
+        }
 
-            // Test being under the limit.
-            limit.AddApiCall();
-            Thread.Sleep(500);
-            limit.AddApiCall();
-            Assert.Equal(0, limit.GetDelay(2000));
+        [Fact]
+        public async Task Delay_TurnedOff_NoDelay()
+        {
+            // arrange
+            const int REQUESTS_PER_HOUR = 10;
+            var rateLimit = new RateLimit(false);
 
-            // Test being over the limit.
-            Thread.Sleep(500);
-            limit.AddApiCall();
-            Thread.Sleep(500);
-            limit.AddApiCall();
-            Thread.Sleep(500);
-            limit.AddApiCall();
-            Thread.Sleep(500);
-            limit.AddApiCall();
-            Assert.NotEqual(0, limit.GetDelay(2000));
+            // act
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public async Task Delay_UnderLimit_NoDelay()
+        {
+            // arrange
+            const int REQUESTS_PER_HOUR = 2000;
+            var rateLimit = new RateLimit(true);
+            rateLimit.AddApiCall();
+
+            // act
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public async Task Delay_ZeroRequestsPerHour_NoDelay()
+        {
+            // arrange
+            const int REQUESTS_PER_HOUR = 0;
+            var rateLimit = new RateLimit(true);
+
+            // act
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+
+            Assert.Equal(0, result);
         }
     }
 }
