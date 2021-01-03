@@ -15,12 +15,11 @@ namespace MtgApiManager.Lib.Service
     internal class CardService : ServiceBase<ICard>, ICardService
     {
         public CardService(
-            IMtgApiServiceAdapter serviceAdapter,
             IHeaderManager headerManager,
             IModelMapper modelMapper,
             ApiVersion version,
             IRateLimit rateLimit)
-            : base(serviceAdapter, headerManager, modelMapper, version, ApiEndPoint.Cards, rateLimit)
+            : base(headerManager, modelMapper, version, ApiEndPoint.Cards, rateLimit)
         {
         }
 
@@ -29,7 +28,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootCardList = await CallWebServiceGet<RootCardListDto>(CurrentQueryUrl.ToUri()).ConfigureAwait(false);
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(CurrentQueryUrl).ConfigureAwait(false);
                 ResetCurrentUrl();
 
                 return OperationResult<List<ICard>>.Success(MapCardsList(rootCardList), GetPagingInfo());
@@ -49,7 +48,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, id);
-                var rootCard = await CallWebServiceGet<RootCardDto>(url.ToUri()).ConfigureAwait(false);
+                var rootCard = await CallWebServiceGet<RootCardDto>(url).ConfigureAwait(false);
                 var model = ModelMapper.MapCard(rootCard.Card);
 
                 return OperationResult<ICard>.Success(model, GetPagingInfo());
@@ -66,7 +65,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SubTypes.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url.ToUri()).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.SubTypes, GetPagingInfo());
             }
@@ -82,7 +81,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SuperTypes.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url.ToUri()).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.SuperTypes, GetPagingInfo());
             }
@@ -98,7 +97,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Types.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url.ToUri()).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.Types, GetPagingInfo());
             }
@@ -114,7 +113,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Formats.Name);
-                var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url.ToUri()).ConfigureAwait(false);
+                var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootFormatsList.Formats, GetPagingInfo());
             }
@@ -130,28 +129,18 @@ namespace MtgApiManager.Lib.Service
         /// <inheritdoc />
         public ICardService Where<U>(Expression<Func<CardQueryParameter, U>> property, U value)
         {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
             if (EqualityComparer<U>.Default.Equals(value, default))
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var expression = property.Body as MemberExpression;
-            var queryName = QueryUtility.GetQueryPropertyName<CardQueryParameter>(expression.Member.Name);
+            if (!(property.Body is MemberExpression expression))
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
-            var valueType = value.GetType();
-            if (valueType.IsArray)
-            {
-                CurrentQueryUrl.SetQueryParam(queryName, string.Join("|", (IEnumerable<object>)value));
-            }
-            else
-            {
-                CurrentQueryUrl.SetQueryParam(queryName, Convert.ToString(value));
-            }
+            var queryName = QueryUtility.GetQueryPropertyName<CardQueryParameter>(expression.Member.Name);
+            CurrentQueryUrl.SetQueryParam(queryName, Convert.ToString(value));
 
             return this;
         }

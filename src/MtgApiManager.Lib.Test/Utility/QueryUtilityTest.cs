@@ -1,48 +1,51 @@
-﻿// <copyright file="QueryUtilityTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using System;
+using MtgApiManager.Lib.Utility;
+using Xunit;
+
 namespace MtgApiManager.Lib.Test.Utility
 {
-    using Lib.Dto;
-    using MtgApiManager.Lib.Utility;
-    using System;
-    using Xunit;
-
-    /// <summary>
-    /// Tests methods in the <see cref="QueryUtility"/> class.
-    /// </summary>
     public class QueryUtilityTest
     {
-        /// <summary>
-        /// Tests the <see cref="QueryUtility.GetQueryPropertyName{T}(MemberExpression)"/> method.
-        /// </summary>
         [Fact]
-        public void GetQueryPropertyNameTest()
+        public void GetQueryPropertyName_AttributeDoesNotExist_ReturnsNull()
         {
-            try
-            {
-                // Test exception is thrown.
-                var result = QueryUtility.GetQueryPropertyName<CardDto>(null);
-                Assert.True(false);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.Equal("propertyName", ex.ParamName);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
+            // arrange
+            // act
+            var result = QueryUtility.GetQueryPropertyName<DtoTestObject>("Property1");
 
-            // Property doesn't exist.
-            Assert.Null(QueryUtility.GetQueryPropertyName<DtoTestObject>("fakeProperty"));
+            // assert
+            Assert.Null(result);
+        }
 
-            // Attribute doesn't exist.
-            Assert.Null(QueryUtility.GetQueryPropertyName<DtoTestObject>("Property1"));
+        [Fact]
+        public void GetQueryPropertyName_PropertyDoesNotExist_ReturnsNull()
+        {
+            // arrange
+            // act
+            var result = QueryUtility.GetQueryPropertyName<DtoTestObject>("NotAPropertyName");
 
-            // Property exists.
-            Assert.Equal("jsonProperty2", QueryUtility.GetQueryPropertyName<DtoTestObject>("Property2"));
+            // assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetQueryPropertyName_PropertyNameNull_Throws()
+        {
+            // arrange
+            // act
+            // assert
+            Assert.Throws<ArgumentNullException>(() => QueryUtility.GetQueryPropertyName<DtoTestObject>(null));
+        }
+
+        [Fact]
+        public void GetQueryPropertyName_Success()
+        {
+            // arrange
+            // act
+            var result = QueryUtility.GetQueryPropertyName<DtoTestObject>("Property2");
+
+            // assert
+            Assert.Equal("jsonProperty2", result);
         }
     }
 }

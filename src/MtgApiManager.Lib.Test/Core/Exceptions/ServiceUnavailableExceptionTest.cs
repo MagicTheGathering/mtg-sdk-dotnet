@@ -1,29 +1,21 @@
-﻿// <copyright file="ServiceUnavailableExceptionTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using MtgApiManager.Lib.Core.Exceptions;
+using Xunit;
+
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
-    using Lib.Core.Exceptions;
-    using Xunit;
-
-
-    /// <summary>
-    /// Tests the <see cref="ServiceUnavailableException"/> class.
-    /// </summary>
-
     public class ServiceUnavailableExceptionTest
     {
-        /// <summary>
-        /// Tests the <see cref="ServiceUnavailableException.ServiceUnavailableException(string)"/> constructor.
-        /// </summary>
         [Fact]
-        public void ContructorTest()
+        public void Message_Correct()
         {
-            Assert.True(typeof(ServiceUnavailableException).IsSubclassOf(typeof(MtgExceptionBase)));
+            // Given
+            const string MESSAGE = "testing";
 
-            ServiceUnavailableException exception = new ServiceUnavailableException("testing");
-            Assert.Equal("MTG Api Error, testing", exception.Message);
+            // When
+            var exception = new ServiceUnavailableException(MESSAGE);
+
+            // Then
+            Assert.EndsWith(MESSAGE, exception.Message);
         }
     }
 }

@@ -87,7 +87,7 @@ namespace MtgApiManager.Lib.Model
             return new Legality
             {
                 Format = legalityDto.Format,
-                LegalityName = legalityDto.Legality,
+                LegalityName = legalityDto.LegalityName,
             };
         }
 

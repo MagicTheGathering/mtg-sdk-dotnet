@@ -1,27 +1,21 @@
-﻿// <copyright file="BadRequestExceptionTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using MtgApiManager.Lib.Core.Exceptions;
+using Xunit;
+
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
-    using Lib.Core.Exceptions;
-    using Xunit;
-
-    /// <summary>
-    /// Tests the <see cref="BadRequestException"/> class.
-    /// </summary>
     public class BadRequestExceptionTest
     {
-        /// <summary>
-        /// Tests the <see cref="BadRequestException.BadRequestException(string)"/> constructor.
-        /// </summary>
         [Fact]
-        public void ContructorTest()
+        public void Message_Correct()
         {
-            Assert.True(typeof(BadRequestException).IsSubclassOf(typeof(MtgExceptionBase)));
+            // Given
+            const string MESSAGE = "testing";
 
-            BadRequestException exception = new BadRequestException("testing");
-            Assert.Equal("MTG Api Error, testing", exception.Message);
+            // When
+            var exception = new BadRequestException(MESSAGE);
+
+            // Then
+            Assert.EndsWith(MESSAGE, exception.Message);
         }
     }
 }

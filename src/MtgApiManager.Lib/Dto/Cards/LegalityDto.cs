@@ -8,6 +8,6 @@ namespace MtgApiManager.Lib.Dto
         public string Format { get; set; }
 
         [JsonPropertyName("legality")]
-        public string Legality { get; set; }
+        public string LegalityName { get; set; }
     }
 }

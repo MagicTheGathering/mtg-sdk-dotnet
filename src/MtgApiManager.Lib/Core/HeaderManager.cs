@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading;
 
 namespace MtgApiManager.Lib.Core
@@ -29,13 +29,17 @@ namespace MtgApiManager.Lib.Core
 
                 return (T)Convert.ChangeType(value, typeof(T));
             }
+            catch
+            {
+                return default;
+            }
             finally
             {
                 _semaphoreSlim.Release();
             }
         }
 
-        public void Update(HttpResponseHeaders headers)
+        public void Update(IReadOnlyList<(string Name, string Value)> headers)
         {
             if (headers == null)
             {
@@ -47,8 +51,8 @@ namespace MtgApiManager.Lib.Core
             try
             {
                 _headersCache = headers.ToLookup(
-                    k => k.Key,
-                    v => v.Value.FirstOrDefault());
+                    k => k.Name,
+                    v => v.Value);
             }
             finally
             {

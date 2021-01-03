@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 
 namespace MtgApiManager.Lib.Core
 {
@@ -6,6 +6,6 @@ namespace MtgApiManager.Lib.Core
     {
         T Get<T>(ResponseHeader responseHeader);
 
-        void Update(HttpResponseHeaders headers);
+        void Update(IReadOnlyList<(string Name, string Value)> headers);
     }
 }

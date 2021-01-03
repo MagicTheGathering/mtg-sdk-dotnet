@@ -15,12 +15,11 @@ namespace MtgApiManager.Lib.Service
     internal class SetService : ServiceBase<ISet>, ISetService
     {
         public SetService(
-            IMtgApiServiceAdapter serviceAdapter,
             IHeaderManager headerManager,
             IModelMapper modelMapper,
             ApiVersion version,
             IRateLimit rateLimit)
-            : base(serviceAdapter, headerManager, modelMapper, version, ApiEndPoint.Sets, rateLimit)
+            : base(headerManager, modelMapper, version, ApiEndPoint.Sets, rateLimit)
         {
         }
 
@@ -29,7 +28,7 @@ namespace MtgApiManager.Lib.Service
         {
             try
             {
-                var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl.ToUri()).ConfigureAwait(false);
+                var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl).ConfigureAwait(false);
                 ResetCurrentUrl();
 
                 return OperationResult<List<ISet>>.Success(MapSetsList(rootSetList), GetPagingInfo());
@@ -46,7 +45,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code);
-                var rootSet = await CallWebServiceGet<RootSetDto>(url.ToUri()).ConfigureAwait(false);
+                var rootSet = await CallWebServiceGet<RootSetDto>(url).ConfigureAwait(false);
                 var model = ModelMapper.MapSet(rootSet.Set);
 
                 return OperationResult<ISet>.Success(model, GetPagingInfo());
@@ -63,7 +62,7 @@ namespace MtgApiManager.Lib.Service
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code, "booster");
-                var rootCardList = await CallWebServiceGet<RootCardListDto>(url.ToUri()).ConfigureAwait(false);
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
 
                 var cards = rootCardList.Cards
                 .Select(x => ModelMapper.MapCard(x))
@@ -83,17 +82,16 @@ namespace MtgApiManager.Lib.Service
         /// <inheritdoc />
         public ISetService Where<U>(Expression<Func<SetQueryParameter, U>> property, U value)
         {
-            if (property == null)
-            {
-                throw new ArgumentNullException(nameof(property));
-            }
-
             if (EqualityComparer<U>.Default.Equals(value, default))
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            MemberExpression expression = property.Body as MemberExpression;
+            if (!(property.Body is MemberExpression expression))
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             var queryName = QueryUtility.GetQueryPropertyName<SetQueryParameter>(expression.Member.Name);
             CurrentQueryUrl.SetQueryParam(queryName, Convert.ToString(value));
 

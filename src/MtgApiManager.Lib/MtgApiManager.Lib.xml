@@ -70,19 +70,6 @@
             </summary>
             <param name="message">The message of the exception.</param>
         </member>
-        <member name="T:MtgApiManager.Lib.Core.IMtgApiServiceAdapter">
-            <summary>
-            Used to make web service calls.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.IMtgApiServiceAdapter.WebGetAsync``1(System.Uri)">
-            <summary>
-            Do a Web Get for the given request Uri .
-            </summary>
-            <typeparam name="T">The type to serialize into.</typeparam>
-            <param name="requestUri">The URL to call.</param>
-            <returns>The serialized response.</returns>
-        </member>
         <member name="T:MtgApiManager.Lib.Core.IOperationResult`1">
             <summary>
             Represents the result of an operation.
@@ -120,19 +107,6 @@
             Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.MtgApiException`1"/> class.
             </summary>
             <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.MtgApiServiceAdapter">
-            <summary>
-            Used to make web service calls, and can easily be mocked for testing.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.MtgApiServiceAdapter.WebGetAsync``1(System.Uri)">
-            <summary>
-            Do a Web Get for the given request Uri .
-            </summary>
-            <typeparam name="T">The type to serialize into.</typeparam>
-            <param name="requestUri">The URL to call.</param>
-            <returns>The serialized response.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Core.OperationResult`1">
             <inheritdoc />
@@ -191,6 +165,18 @@
             <param name="totalCount">The total number of items.</param>
             <param name="pageSize">The page size for the request.</param>
             <returns>A new instance of a paging info.</returns>
+        </member>
+        <member name="T:MtgApiManager.Lib.Core.SystemTextJsonSerializer">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Core.SystemTextJsonSerializer.Deserialize``1(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Core.SystemTextJsonSerializer.Deserialize``1(System.IO.Stream)">
+            <inheritdoc />
+        </member>
+        <member name="M:MtgApiManager.Lib.Core.SystemTextJsonSerializer.Serialize(System.Object)">
+            <inheritdoc />
         </member>
         <member name="T:MtgApiManager.Lib.Model.Card">
             <inheritdoc />
@@ -1069,19 +1055,6 @@
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Where``1(System.Linq.Expressions.Expression{System.Func{MtgApiManager.Lib.Service.SetQueryParameter,``0}},``0)">
             <inheritdoc />
-        </member>
-        <member name="T:MtgApiManager.Lib.Utility.QueryUtility">
-            <summary>
-            Utility methods dealing with queries.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Utility.QueryUtility.GetQueryPropertyName``1(System.String)">
-            <summary>
-            Gets the property name from a member expression.
-            </summary>
-            <typeparam name="T">The type to look for the property in.</typeparam>
-            <param name="propertyName">The name of the property to get the query parameter for.</param>
-            <returns>A <see cref="T:System.String"/> representing the query name defined in the JSON property</returns>
         </member>
     </members>
 </doc>

@@ -12,11 +12,10 @@ namespace MtgApiManager.Lib.Test.Service
     internal class ServiceBaseTestObject : ServiceBase<Card>
     {
         public ServiceBaseTestObject(
-            IMtgApiServiceAdapter serviceAdapter,
             IHeaderManager headerManager,
             IModelMapper modelMapper,
             IRateLimit rateLimit)
-            : base(serviceAdapter, headerManager, modelMapper, ApiVersion.V1, ApiEndPoint.Cards, rateLimit)
+            : base(headerManager, modelMapper, ApiVersion.V1, ApiEndPoint.Cards, rateLimit)
         {
         }
 

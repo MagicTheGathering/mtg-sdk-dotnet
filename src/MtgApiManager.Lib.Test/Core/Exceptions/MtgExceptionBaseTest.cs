@@ -1,27 +1,21 @@
-﻿// <copyright file="MtgExceptionBaseTest.cs">
-//     Copyright (c) 2014. All rights reserved.
-// </copyright>
-// <author>Jason Regnier</author>
+﻿using MtgApiManager.Lib.Core.Exceptions;
+using Xunit;
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
-    using Lib.Core.Exceptions;
-    using Xunit;
-
-
-    /// <summary>
-    /// Tests the <see cref="MtgExceptionBase"/> class.
-    /// </summary>
-
     public class MtgExceptionBaseTest
     {
-        /// <summary>
-        /// Tests the <see cref="MtgExceptionBase.MtgExceptionBase(string)"/> constructor.
-        /// </summary>
         [Fact]
-        public void ContructorTest()
+        public void Message_Correct()
         {
-            MtgExceptionBase exception = new MtgExceptionBase("testing");
-            Assert.Equal("MTG Api Error, testing", exception.Message);
+            // Given
+            const string MESSAGE = "testing";
+
+            // When
+            var exception = new MtgExceptionBase(MESSAGE);
+
+            // Then
+            Assert.StartsWith(Properties.Resources.MtgError, exception.Message);
+            Assert.EndsWith(MESSAGE, exception.Message);
         }
     }
 }
