@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
@@ -11,7 +9,6 @@ using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -20,8 +17,6 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [ShutdownDotNetAfterServerBuild]
 internal class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.Pack);
-
     [PackageExecutable(
         packageId: "codecov.tool",
         packageExecutable: "codecov.dll",
@@ -37,8 +32,6 @@ internal class Build : NukeBuild
 
     [Solution] private readonly Solution Solution;
 
-    private AbsolutePath SourceDirectory => RootDirectory / "src";
-
     private AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     private Target Clean => _ => _
@@ -46,14 +39,6 @@ internal class Build : NukeBuild
          {
              SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
              EnsureCleanDirectory(ArtifactsDirectory);
-         });
-
-    private Target Restore => _ => _
-         .DependsOn(Clean)
-         .Executes(() =>
-         {
-             DotNetRestore(s => s
-                .SetProjectFile(Solution));
          });
 
     private Target Compile => _ => _
@@ -68,6 +53,38 @@ internal class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
          });
+
+    private Target Pack => _ => _
+        .DependsOn(PublishCodeCoverage)
+        .Requires(() => Configuration == Configuration.Release)
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .EnableNoRestore()
+                .EnableNoBuild()
+                .SetProject(Solution.GetProject("MtgApiManager.Lib"))
+                .SetConfiguration(Configuration)
+                .SetOutputDirectory(ArtifactsDirectory)
+                .SetVersion(GitVersion.NuGetVersionV2));
+        });
+
+    private Target PublishCodeCoverage => _ => _
+        .DependsOn(Test)
+        .Executes(() =>
+        {
+            var filePath = ArtifactsDirectory / "coverage.cobertura.xml";
+            CodeCov($"codecov -f {filePath} -t f7c9d882-99e0-4a44-a651-16ed7cee7bc4");
+        });
+
+    private Target Restore => _ => _
+         .DependsOn(Clean)
+         .Executes(() =>
+         {
+             DotNetRestore(s => s
+                .SetProjectFile(Solution));
+         });
+
+    private AbsolutePath SourceDirectory => RootDirectory / "src";
 
     private Target Test => _ => _
         .DependsOn(Compile)
@@ -86,28 +103,9 @@ internal class Build : NukeBuild
                 .SetTargetSettings(testSetting)
                 .SetAssembly(assemblyPath)
                 .SetOutput(ArtifactsDirectory / "coverage.cobertura.xml")
-                .SetFormat(CoverletOutputFormat.cobertura));
+                .SetFormat(CoverletOutputFormat.cobertura)
+                .SetExcludeByFile("Resource.Designer.cs"));
         });
 
-    private Target PublishCodeCoverage => _ => _
-        .DependsOn(Test)
-        .Executes(() =>
-        {
-            var filePath = ArtifactsDirectory / "coverage.cobertura.xml";
-            CodeCov($"codecov -f {filePath} -t f7c9d882-99e0-4a44-a651-16ed7cee7bc4");
-        });
-
-    private Target Pack => _ => _
-        .DependsOn(PublishCodeCoverage)
-        .Requires(() => Configuration == Configuration.Release)
-        .Executes(() =>
-        {
-            DotNetPack(s => s
-                .EnableNoRestore()
-                .EnableNoBuild()
-                .SetProject(Solution.GetProject("MtgApiManager.Lib"))
-                .SetConfiguration(Configuration)
-                .SetOutputDirectory(ArtifactsDirectory)
-                .SetVersion(GitVersion.NuGetVersionV2));
-        });
+    public static int Main() => Execute<Build>(x => x.Pack);
 }

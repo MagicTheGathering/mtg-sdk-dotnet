@@ -211,10 +211,10 @@
         <member name="P:MtgApiManager.Lib.Model.Card.ImageUrl">
             <inheritdoc />
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
+        <member name="P:MtgApiManager.Lib.Model.Card.IsColorless">
             <inheritdoc />
         </member>
-        <member name="P:MtgApiManager.Lib.Model.Card.IsColorless">
+        <member name="P:MtgApiManager.Lib.Model.Card.IsMultiColor">
             <inheritdoc />
         </member>
         <member name="P:MtgApiManager.Lib.Model.Card.Layout">

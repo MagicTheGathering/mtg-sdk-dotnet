@@ -37,10 +37,10 @@ namespace MtgApiManager.Lib.Model
         public Uri ImageUrl { get; set; }
 
         /// <inheritdoc />
-        public bool IsMultiColor => Colors?.Length > 1;
+        public bool IsColorless => (Colors?.Length ?? 0) < 1;
 
         /// <inheritdoc />
-        public bool IsColorless => Colors?.Length < 1;
+        public bool IsMultiColor => Colors?.Length > 1;
 
         /// <inheritdoc />
         public string Layout { get; set; }

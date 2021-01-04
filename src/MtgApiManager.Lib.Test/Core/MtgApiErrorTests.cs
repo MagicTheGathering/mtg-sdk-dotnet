@@ -6,21 +6,19 @@ using Xunit;
 
 namespace MtgApiManager.Lib.Test.Core
 {
-    public class MtgApiErrorTests
+    public class MtgApiErrorDescriptionTestData : IEnumerable<object[]>
     {
-        [Theory]
-        [ClassData(typeof(MtgApiErrorIdTestData))]
-        public void Id_Correct(int id, int expectedValue)
+        public IEnumerator<object[]> GetEnumerator()
         {
-            Assert.Equal(expectedValue, id);
+            yield return new object[] { MtgApiError.BadRequest.Description, "Your request is not valid" };
+            yield return new object[] { MtgApiError.Forbidden.Description, "You have exceeded the rate limit" };
+            yield return new object[] { MtgApiError.InternalServerError.Description, "We had a problem with our server. Try again later" };
+            yield return new object[] { MtgApiError.None.Description, string.Empty };
+            yield return new object[] { MtgApiError.NotFound.Description, "The specified resource could not be found" };
+            yield return new object[] { MtgApiError.ServiceUnavailable.Description, "We’re temporarily off line for maintenance. Please try again later." };
         }
 
-        [Theory]
-        [ClassData(typeof(MtgApiErrorNameTestData))]
-        public void Name_Correct(string name, string expectedValue)
-        {
-            Assert.Equal(expectedValue, name);
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class MtgApiErrorIdTestData : IEnumerable<object[]>
@@ -51,5 +49,29 @@ namespace MtgApiManager.Lib.Test.Core
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class MtgApiErrorTests
+    {
+        [Theory]
+        [ClassData(typeof(MtgApiErrorIdTestData))]
+        public void Description_Correct(int description, int expectedValue)
+        {
+            Assert.Equal(expectedValue, description);
+        }
+
+        [Theory]
+        [ClassData(typeof(MtgApiErrorIdTestData))]
+        public void Id_Correct(int id, int expectedValue)
+        {
+            Assert.Equal(expectedValue, id);
+        }
+
+        [Theory]
+        [ClassData(typeof(MtgApiErrorNameTestData))]
+        public void Name_Correct(string name, string expectedValue)
+        {
+            Assert.Equal(expectedValue, name);
+        }
     }
 }
