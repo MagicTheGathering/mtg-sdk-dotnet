@@ -1,21 +1,19 @@
-﻿namespace MtgApiManager.Lib.Core
-{
-    using System;
-    using Exceptions;
+﻿using System;
+using System.Globalization;
 
+namespace MtgApiManager.Lib.Core
+{
     /// <summary>
-    /// Represents an MTG API exception.
+    /// Object representing an MTG exception.
     /// </summary>
-    /// <typeparam name="T">The type of exception.</typeparam>
-    public class MtgApiException<T> : Exception
-        where T : MtgExceptionBase
+    public class MtgApiException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MtgApiException{T}"/> class.
+        /// Initializes a new instance of the <see cref="MtgApiException"/> class.
         /// </summary>
         /// <param name="message">The message of the exception.</param>
         public MtgApiException(string message)
-            : base(message)
+            : base(string.Format(CultureInfo.InvariantCulture, "{0}, {1}", Properties.Resources.MtgError, message))
         {
         }
     }

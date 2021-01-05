@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http.Testing;
 using Flurl.Util;
@@ -92,7 +95,7 @@ namespace MtgApiManager.Lib.Test.Service
         }
 
         [Fact]
-        public void Constructor_calls_ResetCurrentUrl()
+        public void Constructor_Calls_ResetCurrentUrl()
         {
             // arrange
             // act
@@ -163,6 +166,68 @@ namespace MtgApiManager.Lib.Test.Service
 
             // assert
             Assert.Equal(2, service.CurrentQueryUrlTestProp.PathSegments.Count);
+        }
+
+        [Theory]
+        [ClassData(typeof(ErrorTestData))]
+        public async Task CallWebServiceGet_ReturnsException_Throws(int id, string description)
+        {
+            // arrange
+            var URL = new Uri("http://fake/url");
+
+            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            using var httpTest = new HttpTest();
+            httpTest.RespondWith("error", id);
+
+            var service = new ServiceBaseTestObject(
+                _mockHeaderManager.Object,
+                _mockModelMapper.Object,
+                _mockRateLimit.Object);
+
+            // act
+            // assert
+            var result = await Assert.ThrowsAsync<MtgApiException>(                
+                () => service.CallWebServiceGetTestMethod(URL));
+            Assert.EndsWith(description, result.Message);
+            _mockRepository.VerifyAll();
+        }
+
+        [Fact]
+        public async Task CallWebServiceGet_ExceptionStatusCodeUnknown_ThrowsBadRequest()
+        {
+            // arrange
+            const string ERROR_MESSAGE = "something bad happened";
+
+            var URL = new Uri("http://fake/url");
+
+            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+
+            using var httpTest = new HttpTest();
+            httpTest.RespondWith(ERROR_MESSAGE, 410);
+
+            var service = new ServiceBaseTestObject(
+                _mockHeaderManager.Object,
+                _mockModelMapper.Object,
+                _mockRateLimit.Object);
+
+            // act
+            // assert
+            var result = await Assert.ThrowsAsync<MtgApiException>(
+                () => service.CallWebServiceGetTestMethod(URL));
+            Assert.EndsWith(ERROR_MESSAGE, result.Message);
+            _mockRepository.VerifyAll();
+        }
+
+        public class ErrorTestData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator() =>
+                Enumeration.GetAll<MtgApiError>()
+                .Where(x => x.Id != MtgApiError.None.Id)
+                .Select(x => new object[] { x.Id, x.Description })
+                .GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

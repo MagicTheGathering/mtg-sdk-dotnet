@@ -6,7 +6,6 @@ using Flurl.Util;
 using Moq;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
-using MtgApiManager.Lib.Dto.Set;
 using MtgApiManager.Lib.Model;
 using MtgApiManager.Lib.Service;
 using Xunit;

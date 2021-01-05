@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using MtgApiManager.Lib.Core;
-using MtgApiManager.Lib.Core.Exceptions;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Model;
 
@@ -13,9 +11,9 @@ namespace MtgApiManager.Lib.Service
     internal abstract class ServiceBase<TModel>
         where TModel : class
     {
-        protected IHeaderManager _headerManager;
         private const string BASE_URL = "https://api.magicthegathering.io";
 
+        private readonly IHeaderManager _headerManager;
         private readonly IRateLimit _rateLimit;
 
         protected ServiceBase(
@@ -46,14 +44,33 @@ namespace MtgApiManager.Lib.Service
 
         public abstract Task<IOperationResult<List<TModel>>> AllAsync();
 
-        protected Task<T> CallWebServiceGet<T>(Url requestUrl) where T : IMtgResponse
+        protected async Task<T> CallWebServiceGet<T>(Url requestUrl) where T : IMtgResponse
         {
-            if (requestUrl == null)
+            // Makes sure that th rate limit is not reached.
+            if (_rateLimit.IsTurnedOn)
             {
-                throw new ArgumentNullException(nameof(requestUrl));
+                var rateLimit = _headerManager.Get<int>(ResponseHeader.RatelimitLimit);
+                await _rateLimit.Delay(rateLimit).ConfigureAwait(false);
+                _rateLimit.AddApiCall();
             }
 
-            return CallWebServiceGetInternal<T>(requestUrl);
+            try
+            {
+                var response = await requestUrl.GetAsync().ConfigureAwait(false);
+                _headerManager.Update(response.Headers);
+                return await response.GetJsonAsync<T>().ConfigureAwait(false);
+            }
+            catch (FlurlHttpException ex)
+            {
+                var message = TranslateExceptionMessage(ex.StatusCode.GetValueOrDefault());
+                if (message == null)
+                {
+                    var error = await ex.GetResponseStringAsync().ConfigureAwait(false);
+                    throw new MtgApiException(error);
+                }
+
+                throw new MtgApiException(message);
+            }
         }
 
         protected PagingInfo GetPagingInfo()
@@ -69,54 +86,18 @@ namespace MtgApiManager.Lib.Service
             CurrentQueryUrl = BASE_URL.AppendPathSegments(Version.Name, EndPoint.Name);
         }
 
-        private async Task<T> CallWebServiceGetInternal<T>(Url requestUrl) where T : IMtgResponse
-        {
-            // Makes sure that th rate limit is not reached.
-            if (_rateLimit.IsTurnedOn)
-            {
-                var rateLimit = _headerManager.Get<int>(ResponseHeader.RatelimitLimit);
-                await _rateLimit.Delay(rateLimit).ConfigureAwait(false);
-                _rateLimit.AddApiCall();
-            }
-
-            IFlurlResponse response = null;
-            try
-            {
-                response = await requestUrl.GetAsync().ConfigureAwait(false);
-                _headerManager.Update(response.Headers);
-                return await response.GetJsonAsync<T>().ConfigureAwait(false);
-            }
-            catch (FlurlHttpException ex)
-            {
-                var error = await ex.GetResponseStringAsync().ConfigureAwait(false);
-
-                if (response == null)
-                {
-                    throw new BadRequestException(error);
-                }
-
-                var mtgException = TranslateException(response.StatusCode);
-                if (mtgException == null)
-                {
-                    throw new BadRequestException(error);
-                }
-
-                throw mtgException;
-            }
-        }
-
-        private Exception TranslateException(int statusCode)
+        private string TranslateExceptionMessage(int statusCode)
         {
             if (statusCode == MtgApiError.BadRequest.Id)
-                return new MtgApiException<BadRequestException>(MtgApiError.BadRequest.Description);
+                return MtgApiError.BadRequest.Description;
             else if (statusCode == MtgApiError.Forbidden.Id)
-                return new MtgApiException<ForbiddenException>(MtgApiError.Forbidden.Description);
+                return MtgApiError.Forbidden.Description;
             else if (statusCode == MtgApiError.InternalServerError.Id)
-                return new MtgApiException<InternalServerErrorException>(MtgApiError.InternalServerError.Description);
+                return MtgApiError.InternalServerError.Description;
             else if (statusCode == MtgApiError.NotFound.Id)
-                return new MtgApiException<NotFoundException>(MtgApiError.NotFound.Description);
+                return MtgApiError.NotFound.Description;
             else if (statusCode == MtgApiError.ServiceUnavailable.Id)
-                return new MtgApiException<ServiceUnavailableException>(MtgApiError.ServiceUnavailable.Description);
+                return MtgApiError.ServiceUnavailable.Description;
             else
                 return null;
         }

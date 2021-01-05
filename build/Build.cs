@@ -104,7 +104,7 @@ internal class Build : NukeBuild
                 .SetAssembly(assemblyPath)
                 .SetOutput(ArtifactsDirectory / "coverage.cobertura.xml")
                 .SetFormat(CoverletOutputFormat.cobertura)
-                .SetExclude("Properties"));
+                .SetExcludeByFile(@"**/Resources.Designer.cs"));
         });
 
     public static int Main() => Execute<Build>(x => x.Pack);

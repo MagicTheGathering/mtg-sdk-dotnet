@@ -4,72 +4,6 @@
         <name>MtgApiManager.Lib</name>
     </assembly>
     <members>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.BadRequestException">
-            <summary>
-            An exception representing a bad request.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.BadRequestException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.BadRequestException"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.ForbiddenException">
-            <summary>
-            An exception representing a forbidden request.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.ForbiddenException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.ForbiddenException"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.InternalServerErrorException">
-            <summary>
-            An exception representing an internal server error.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.InternalServerErrorException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.InternalServerErrorException"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.MtgExceptionBase">
-            <summary>
-            Object representing an MTG exception.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.MtgExceptionBase.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.MtgExceptionBase"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.NotFoundException">
-            <summary>
-            An exception representing a not found request.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.NotFoundException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.NotFoundException"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
-        <member name="T:MtgApiManager.Lib.Core.Exceptions.ServiceUnavailableException">
-            <summary>
-            An exception representing that the service is unavailable.
-            </summary>
-        </member>
-        <member name="M:MtgApiManager.Lib.Core.Exceptions.ServiceUnavailableException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.Exceptions.ServiceUnavailableException"/> class.
-            </summary>
-            <param name="message">The message of the exception.</param>
-        </member>
         <member name="T:MtgApiManager.Lib.Core.IOperationResult`1">
             <summary>
             Represents the result of an operation.
@@ -96,15 +30,14 @@
             Gets the value of the result if it has a value.
             </summary>
         </member>
-        <member name="T:MtgApiManager.Lib.Core.MtgApiException`1">
+        <member name="T:MtgApiManager.Lib.Core.MtgApiException">
             <summary>
-            Represents an MTG API exception.
+            Object representing an MTG exception.
             </summary>
-            <typeparam name="T">The type of exception.</typeparam>
         </member>
-        <member name="M:MtgApiManager.Lib.Core.MtgApiException`1.#ctor(System.String)">
+        <member name="M:MtgApiManager.Lib.Core.MtgApiException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.MtgApiException`1"/> class.
+            Initializes a new instance of the <see cref="T:MtgApiManager.Lib.Core.MtgApiException"/> class.
             </summary>
             <param name="message">The message of the exception.</param>
         </member>

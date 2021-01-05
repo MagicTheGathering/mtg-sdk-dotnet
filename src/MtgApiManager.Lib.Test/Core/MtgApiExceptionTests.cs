@@ -1,9 +1,8 @@
-﻿using MtgApiManager.Lib.Core.Exceptions;
+﻿using MtgApiManager.Lib.Core;
 using Xunit;
-
 namespace MtgApiManager.Lib.Test.Core.Exceptions
 {
-    public class ForbiddenExceptionTest
+    public class MtgExceptionBaseTest
     {
         [Fact]
         public void Message_Correct()
@@ -12,9 +11,10 @@ namespace MtgApiManager.Lib.Test.Core.Exceptions
             const string MESSAGE = "testing";
 
             // When
-            var exception = new ForbiddenException(MESSAGE);
+            var exception = new MtgApiException(MESSAGE);
 
             // Then
+            Assert.StartsWith(Properties.Resources.MtgError, exception.Message);
             Assert.EndsWith(MESSAGE, exception.Message);
         }
     }
