@@ -96,7 +96,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
         /// </summary>
-        int? MultiverseId { get; set; }
+        string MultiverseId { get; set; }
 
         /// <summary>
         /// Gets the card name. For split, double-faced and flip cards, just the name of one side of the card. Basically each ‘sub-card’ has its own record.

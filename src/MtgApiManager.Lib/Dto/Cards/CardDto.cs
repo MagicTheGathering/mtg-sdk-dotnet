@@ -50,7 +50,7 @@ namespace MtgApiManager.Lib.Dto
         public string ManaCost { get; set; }
 
         [JsonPropertyName("multiverseid")]
-        public int? MultiverseId { get; set; }
+        public string MultiverseId { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }

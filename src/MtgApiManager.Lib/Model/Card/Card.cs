@@ -58,7 +58,7 @@ namespace MtgApiManager.Lib.Model
         public string ManaCost { get; set; }
 
         /// <inheritdoc />
-        public int? MultiverseId { get; set; }
+        public string MultiverseId { get; set; }
 
         /// <inheritdoc />
         public string Name { get; set; }
