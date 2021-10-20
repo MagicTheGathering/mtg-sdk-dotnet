@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Flurl.Util;
 
 namespace MtgApiManager.Lib.Core
 {
@@ -6,6 +6,6 @@ namespace MtgApiManager.Lib.Core
     {
         T Get<T>(ResponseHeader responseHeader);
 
-        void Update(IReadOnlyList<(string Name, string Value)> headers);
+        void Update(IReadOnlyNameValueList<string> headers);
     }
 }

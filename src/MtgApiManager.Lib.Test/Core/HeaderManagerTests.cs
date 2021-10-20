@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using MtgApiManager.Lib.Core;
 using Xunit;
+using Flurl.Util;
 
 namespace MtgApiManager.Lib.Test.Core
 {
@@ -24,14 +24,16 @@ namespace MtgApiManager.Lib.Test.Core
         public void Get_FailsConvertion_ReturnsDefault()
         {
             // arrange
-            var items = new List<(string, string)>
+            var items = new []
             {
                 (ResponseHeader.PageSize.Name, "Not an integer"),
                 (ResponseHeader.Count.Name, "100"),
             };
 
+            var headers = new NameValueList<string>(items, false);
+
             var manager = new HeaderManager();
-            manager.Update(items);
+            manager.Update(headers);
 
             // act
             var result = manager.Get<int>(ResponseHeader.PageSize);
@@ -44,14 +46,16 @@ namespace MtgApiManager.Lib.Test.Core
         public void Get_KeyDoesNotExist_ReturnsDefault()
         {
             // arrange
-            var items = new List<(string, string)>
+            var items = new []
             {
                 ("key1", "value1"),
                 ("key2", "value2"),
             };
 
+            var headers = new NameValueList<string>(items, false);
+
             var manager = new HeaderManager();
-            manager.Update(items);
+            manager.Update(headers);
 
             // act
             var result = manager.Get<string>(ResponseHeader.PageSize);
@@ -65,14 +69,16 @@ namespace MtgApiManager.Lib.Test.Core
         {
             // arrange
             const int PAGE_SIZE = 50;
-            var items = new List<(string, string)>
+            var items = new []
             {
                 (ResponseHeader.PageSize.Name, PAGE_SIZE.ToString()),
                 (ResponseHeader.Count.Name, "100"),
             };
 
+            var headers = new NameValueList<string>(items, false);
+
             var manager = new HeaderManager();
-            manager.Update(items);
+            manager.Update(headers);
 
             // act
             var result = manager.Get<int>(ResponseHeader.PageSize);
@@ -85,16 +91,18 @@ namespace MtgApiManager.Lib.Test.Core
         public void Update_CacheUpdated_Success()
         {
             // arrange
-            var items = new List<(string, string)>
+            var items = new []
             {
                 (ResponseHeader.PageSize.Name, "50"),
                 (ResponseHeader.Count.Name, "100"),
             };
 
+            var headers = new NameValueList<string>(items, false);
+
             var manager = new HeaderManager();
 
             // act
-            manager.Update(items);
+            manager.Update(headers);
 
             // assert
             Assert.NotEmpty(manager.Get<string>(ResponseHeader.PageSize));

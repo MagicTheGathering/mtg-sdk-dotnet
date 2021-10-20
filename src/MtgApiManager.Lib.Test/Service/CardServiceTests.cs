@@ -117,6 +117,21 @@ namespace MtgApiManager.Lib.Test.Service
         }
 
         [Fact]
+        public async Task AllAsync_NoMock_EqualPageSize()
+        {
+            const int pageSize = 50;
+            var serviceProvider = new MtgServiceProvider();
+            var service = serviceProvider.GetCardService();
+
+            var result = await service
+                .Where(x => x.Page, 1)
+                .Where(x => x.PageSize, pageSize)
+                .AllAsync();
+
+            Assert.Equal(pageSize, result.PagingInfo.PageSize);
+        }
+
+        [Fact]
         public async Task FindAsync_ById_Success()
         {
             // arrange
