@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Flurl.Util;
 
 namespace MtgApiManager.Lib.Core
 {
@@ -39,7 +39,7 @@ namespace MtgApiManager.Lib.Core
             }
         }
 
-        public void Update(IReadOnlyList<(string Name, string Value)> headers)
+        public void Update(IReadOnlyNameValueList<string> headers)
         {
             if (headers == null)
             {
@@ -50,9 +50,16 @@ namespace MtgApiManager.Lib.Core
 
             try
             {
-                _headersCache = headers.ToLookup(
-                    k => k.Name,
-                    v => v.Value);
+                // nested GetAll is technically O(n^2) instead of the original O(n)
+
+                _headersCache = Enumeration
+                    .GetAll<ResponseHeader>()
+                    .SelectMany(
+                        rh => headers.GetAll(rh.Name),
+                        (rh, Value) => (rh.Name, Value))
+                    .ToLookup(
+                        k => k.Name,
+                        v => v.Value);
             }
             finally
             {
