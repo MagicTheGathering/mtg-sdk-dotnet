@@ -50,6 +50,12 @@ namespace MtgApiManager.Lib.Service
         public string GameFormat { get; set; }
 
         /// <summary>
+        /// Gets or sets the identifier of the card.
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the language the card is printed in. Use this parameter when searching by foreignName.
         /// </summary>
         [JsonPropertyName("language")]
@@ -72,6 +78,12 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         [JsonPropertyName("loyalty")]
         public string Loyalty { get; set; }
+
+        /// <summary>
+        /// Gets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
+        /// </summary>
+        [JsonPropertyName("multiverseid")]
+        public string MultiverseId { get; set; }
 
         /// <summary>
         /// Gets or sets the card name. For split, double-faced and flip cards, just the name of one side of the card. Basically each ‘sub-card’ has its own record.
