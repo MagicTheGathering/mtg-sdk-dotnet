@@ -26,7 +26,7 @@ namespace MtgApiManager.Lib.Dto
         public ForeignNameDto[] ForeignNames { get; set; }
 
         [JsonPropertyName("hand")]
-        public int? Hand { get; set; }
+        public string Hand { get; set; }
 
         [JsonPropertyName("id")]
         public string Id { get; set; }
@@ -41,7 +41,7 @@ namespace MtgApiManager.Lib.Dto
         public LegalityDto[] Legalities { get; set; }
 
         [JsonPropertyName("life")]
-        public int? Life { get; set; }
+        public string Life { get; set; }
 
         [JsonPropertyName("loyalty")]
         public string Loyalty { get; set; }

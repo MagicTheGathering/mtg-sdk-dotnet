@@ -46,7 +46,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the maximum hand size modifier. Only exists for Vanguard cards.
         /// </summary>
-        int? Hand { get; set; }
+        string Hand { get; set; }
 
         /// <summary>
         /// Gets the identifier of the card.
@@ -81,7 +81,7 @@ namespace MtgApiManager.Lib.Model
         /// <summary>
         /// Gets the starting life total modifier. Only exists for Vanguard cards.
         /// </summary>
-        int? Life { get; set; }
+        string Life { get; set; }
 
         /// <summary>
         /// Gets the loyalty of the card. This is only present for planeswalkers.

@@ -706,6 +706,11 @@
             Gets or sets the game format, such as Commander, Standard, Legacy, etc. (when used, legality defaults to Legal unless supplied).
             </summary>
         </member>
+        <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Id">
+            <summary>
+            Gets or sets the identifier of the card.
+            </summary>
+        </member>
         <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Language">
             <summary>
             Gets or sets the language the card is printed in. Use this parameter when searching by foreignName.
@@ -724,6 +729,11 @@
         <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Loyalty">
             <summary>
             Gets or sets the loyalty of the card. This is only present for planeswalkers.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.MultiverseId">
+            <summary>
+            Gets the multiverse identifier of the card on Wizard’s Gatherer web page. Cards from sets that do not exist on Gatherer will NOT have a multiverse identifier. Sets not on Gatherer are: ATH, ITP, DKM, RQS, DPA and all sets with a 4 letter code that starts with a lowercase 'p’.
             </summary>
         </member>
         <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Name">

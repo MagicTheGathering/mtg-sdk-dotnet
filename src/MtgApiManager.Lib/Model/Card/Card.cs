@@ -28,7 +28,7 @@ namespace MtgApiManager.Lib.Model
         public List<IForeignName> ForeignNames { get; set; }
 
         /// <inheritdoc />
-        public int? Hand { get; set; }
+        public string Hand { get; set; }
 
         /// <inheritdoc />
         public string Id { get; set; }
@@ -49,7 +49,7 @@ namespace MtgApiManager.Lib.Model
         public List<ILegality> Legalities { get; set; }
 
         /// <inheritdoc />
-        public int? Life { get; set; }
+        public string Life { get; set; }
 
         /// <inheritdoc />
         public string Loyalty { get; set; }
