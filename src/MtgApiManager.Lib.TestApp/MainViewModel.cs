@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using MtgApiManager.Lib.Model;
 using MtgApiManager.Lib.Service;
 
 namespace MtgApiManager.Lib.TestApp
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableRecipient
     {
         private readonly IMtgServiceProvider _serviceProvider;
         private RelayCommand _cardSearchCommand;
@@ -66,15 +66,14 @@ namespace MtgApiManager.Lib.TestApp
                         }
 
                         IsLoading = false;
-                    },
-                    () => true);
+                    });
             }
         }
 
         public string CardSearchString
         {
             get => _cardSearchString;
-            set => Set(() => CardSearchString, ref _cardSearchString, value);
+            set => SetProperty(ref _cardSearchString, value);
         }
 
         public RelayCommand FindSelectedCardCommand
@@ -100,11 +99,8 @@ namespace MtgApiManager.Lib.TestApp
             }
         }
 
-        public RelayCommand FindSelectedSetCommand
-        {
-            get
-            {
-                return _findSelectedSetCommand ??= new RelayCommand(
+        public RelayCommand FindSelectedSetCommand =>
+            _findSelectedSetCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -120,14 +116,9 @@ namespace MtgApiManager.Lib.TestApp
                         IsLoading = false;
                     },
                     () => !string.IsNullOrWhiteSpace(_selectedSetCode));
-            }
-        }
 
-        public RelayCommand GenerateBoosterCommand
-        {
-            get
-            {
-                return _generateBoosterCommand ??= new RelayCommand(
+        public RelayCommand GenerateBoosterCommand =>
+            _generateBoosterCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -146,17 +137,12 @@ namespace MtgApiManager.Lib.TestApp
 
                         IsLoading = false;
                     },
-                    () => !string.IsNullOrWhiteSpace(SelectedSetCode));
-            }
-        }
+                    () => !string.IsNullOrWhiteSpace(_selectedSetCode));
 
         public ObservableCollection<ICard> GeneratedBoosterCollection { get; }
 
-        public RelayCommand GetCardFormatsCommand
-        {
-            get
-            {
-                return _getCardFormatsCommand ??= new RelayCommand(
+        public RelayCommand GetCardFormatsCommand =>
+            _getCardFormatsCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -175,14 +161,9 @@ namespace MtgApiManager.Lib.TestApp
 
                         IsLoading = false;
                     });
-            }
-        }
 
-        public RelayCommand GetCardSubTypesCommand
-        {
-            get
-            {
-                return _getCardSubTypesCommand ??= new RelayCommand(
+        public RelayCommand GetCardSubTypesCommand =>
+            _getCardSubTypesCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -201,14 +182,9 @@ namespace MtgApiManager.Lib.TestApp
 
                         IsLoading = false;
                     });
-            }
-        }
 
-        public RelayCommand GetCardSuperTypesCommand
-        {
-            get
-            {
-                return _getCardSuperTypesCommand ??= new RelayCommand(
+        public RelayCommand GetCardSuperTypesCommand =>
+            _getCardSuperTypesCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -227,14 +203,9 @@ namespace MtgApiManager.Lib.TestApp
 
                         IsLoading = false;
                     });
-            }
-        }
 
-        public RelayCommand GetCardTypesCommand
-        {
-            get
-            {
-                return _getCardTypesCommand ??= new RelayCommand(
+        public RelayCommand GetCardTypesCommand =>
+            _getCardTypesCommand ??= new RelayCommand(
                     async () =>
                     {
                         IsLoading = true;
@@ -253,46 +224,54 @@ namespace MtgApiManager.Lib.TestApp
 
                         IsLoading = false;
                     });
-            }
-        }
 
         public bool IsLoading
         {
             get => _isLoading;
-            set => Set(() => IsLoading, ref _isLoading, value);
+            set => SetProperty(ref _isLoading, value);
         }
 
         public ICard SelectedCard
         {
             get => _selectedCard;
-            set => Set(() => SelectedCard, ref _selectedCard, value);
+            set => SetProperty(ref _selectedCard, value);
         }
 
         public string SelectedCardId
         {
             get => _selectedCardId;
-            set => Set(() => SelectedCardId, ref _selectedCardId, value);
+            set
+            {
+                if (SetProperty(ref _selectedCardId, value))
+                {
+                    FindSelectedCardCommand.NotifyCanExecuteChanged();
+                }
+            }
         }
 
         public ISet SelectedSet
         {
             get => _selectedSet;
-            set => Set(() => SelectedSet, ref _selectedSet, value);
+            set => SetProperty(ref _selectedSet, value);
         }
 
         public string SelectedSetCode
         {
             get => _selectedSetCode;
-            set => Set(() => SelectedSetCode, ref _selectedSetCode, value);
+            set
+            {
+                if (SetProperty(ref _selectedSetCode, value))
+                {
+                    GenerateBoosterCommand.NotifyCanExecuteChanged();
+                    FindSelectedSetCommand.NotifyCanExecuteChanged();
+                }
+            }
         }
 
         public ObservableCollection<ISet> SetsCollection { get; }
 
-        public RelayCommand SetSearchCommand
-        {
-            get
-            {
-                return _setSearchCommand ??= new RelayCommand(
+        public RelayCommand SetSearchCommand =>
+            _setSearchCommand ??= new RelayCommand(
                     async () =>
                     {
                         ISetService setService = _serviceProvider.GetSetService();
@@ -317,15 +296,12 @@ namespace MtgApiManager.Lib.TestApp
                         }
 
                         IsLoading = false;
-                    },
-                    () => true);
-            }
-        }
+                    });
 
         public string SetSearchString
         {
             get => _setSearchString;
-            set => Set(() => SetSearchString, ref _setSearchString, value);
+            set => SetProperty(ref _setSearchString, value);
         }
 
         public ObservableCollection<string> TypesCollection { get; }
