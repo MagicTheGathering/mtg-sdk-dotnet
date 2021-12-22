@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="5.0.0" />
+    <PackageReference Include="Nuke.Common" Version="5.3.0" />
     <PackageDownload Include="GitVersion.Tool" Version="[5.1.1]" />
-    <PackageReference Include="coverlet.console" Version="1.7.2">
+    <PackageReference Include="coverlet.console" Version="3.1.0">
 		  <ExcludeAssets>all</ExcludeAssets>
 	  </PackageReference>
-    <PackageReference Include="codecov.tool" Version="1.12.3">
+    <PackageReference Include="codecov.tool" Version="1.13.0">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
