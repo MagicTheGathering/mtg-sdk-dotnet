@@ -20,7 +20,7 @@ internal class Build : NukeBuild
     [PackageExecutable(
         packageId: "codecov.tool",
         packageExecutable: "codecov.dll",
-        Framework = "netcoreapp3.0")]
+        Framework = "net5.0")]
     private readonly Tool CodeCov;
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
