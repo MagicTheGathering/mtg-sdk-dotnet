@@ -4,7 +4,7 @@ using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Codecov;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
@@ -17,12 +17,6 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [ShutdownDotNetAfterServerBuild]
 internal class Build : NukeBuild
 {
-    [PackageExecutable(
-        packageId: "codecov.tool",
-        packageExecutable: "codecov.dll",
-        Framework = "net5.0")]
-    private readonly Tool CodeCov;
-
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     private readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
@@ -73,8 +67,10 @@ internal class Build : NukeBuild
         .DependsOn(Test)
         .Executes(() =>
         {
-            var filePath = ArtifactsDirectory / "coverage.cobertura.xml";
-            CodeCov($"codecov -f {filePath} -t f7c9d882-99e0-4a44-a651-16ed7cee7bc4");
+            CodecovTasks.Codecov(s => s
+                .SetFramework("net5.0")
+                .SetFiles(ArtifactsDirectory / "coverage.cobertura.xml")
+                .SetToken("f7c9d882-99e0-4a44-a651-16ed7cee7bc4"));
         });
 
     private Target Restore => _ => _
