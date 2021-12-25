@@ -51,7 +51,8 @@ internal class Build : NukeBuild
                 .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion));
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .EnableNoRestore());
          });
 
     private Target Pack => _ => _
@@ -97,7 +98,7 @@ internal class Build : NukeBuild
                 .SetNoBuild(true);
 
             var testProject = Solution.GetProject("MtgApiManager.Lib.Test");
-            var assemblyPath = SourceDirectory / testProject.Name / $"bin\\{Configuration}\\net5.0\\MtgApiManager.Lib.Test.dll";
+            var assemblyPath = SourceDirectory / testProject.Name / $"bin\\{Configuration}\\net6.0\\MtgApiManager.Lib.Test.dll";
 
             CoverletTasks.Coverlet(s => s
                 .SetTargetSettings(testSetting)
