@@ -20,6 +20,12 @@ namespace MtgApiManager.Lib.Service
         public string Cmc { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to filter cards based on whether or not they have a specific field available (like imageUrl)
+        /// </summary>
+        [JsonPropertyName("contains")]
+        public string Contains { get; set; }
+
+        /// <summary>
         /// Gets or sets the card colors by color code. [“Red”, “Blue”] becomes [“R”, “U”].
         /// </summary>
         [JsonPropertyName("colorIdentity")]
@@ -120,6 +126,12 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         [JsonPropertyName("power")]
         public string Power { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating wether to fetch any number of cards (controlled by pageSize) randomly.
+        /// </summary>
+        [JsonPropertyName("random")]
+        public bool Random { get; set; }
 
         /// <summary>
         /// Gets or sets the rarity of the card. Examples: Common, Uncommon, Rare, Mythic Rare, Special, Basic Land
