@@ -18,5 +18,17 @@ namespace MtgApiManager.Lib.Service
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the page number.
+        /// </summary>
+        [JsonPropertyName("page")]
+        public int Page { get; set; }
+
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
+        [JsonPropertyName("pageSize")]
+        public int PageSize { get; set; }
     }
 }
