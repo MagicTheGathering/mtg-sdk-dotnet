@@ -39,14 +39,14 @@ namespace MtgApiManager.Lib.Core
             }
         }
 
-        public async Task<int> Delay(int requestsPerHour)
+        public async Task<int> Delay(int requestsPerHour, CancellationToken cancellationToken)
         {
             if (!IsTurnedOn)
             {
                 return 0;
             }
 
-            await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+            await _semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
 
             try
             {
@@ -54,7 +54,7 @@ namespace MtgApiManager.Lib.Core
 
                 if (delayInMilliseconds > 0)
                 {
-                    await Task.Delay(delayInMilliseconds).ConfigureAwait(false);
+                    await Task.Delay(delayInMilliseconds, cancellationToken).ConfigureAwait(false);
                 }
 
                 return delayInMilliseconds;

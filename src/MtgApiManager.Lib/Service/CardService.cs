@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
@@ -24,11 +25,11 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async override Task<IOperationResult<List<ICard>>> AllAsync()
+        public async Task<IOperationResult<List<ICard>>> AllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var rootCardList = await CallWebServiceGet<RootCardListDto>(CurrentQueryUrl).ConfigureAwait(false);
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(CurrentQueryUrl, cancellationToken).ConfigureAwait(false);
                 ResetCurrentUrl();
 
                 return OperationResult<List<ICard>>.Success(MapCardsList(rootCardList), GetPagingInfo());
@@ -40,15 +41,16 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public Task<IOperationResult<ICard>> FindAsync(int multiverseId) => FindAsync(multiverseId.ToString());
+        public Task<IOperationResult<ICard>> FindAsync(int multiverseId, CancellationToken cancellationToken = default) =>
+            FindAsync(multiverseId.ToString(), cancellationToken);
 
         /// <inheritdoc />
-        public async Task<IOperationResult<ICard>> FindAsync(string id)
+        public async Task<IOperationResult<ICard>> FindAsync(string id, CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, id);
-                var rootCard = await CallWebServiceGet<RootCardDto>(url).ConfigureAwait(false);
+                var rootCard = await CallWebServiceGet<RootCardDto>(url, cancellationToken).ConfigureAwait(false);
                 var model = ModelMapper.MapCard(rootCard.Card);
 
                 return OperationResult<ICard>.Success(model, GetPagingInfo());
@@ -60,12 +62,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<List<string>>> GetCardSubTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardSubTypesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SubTypes.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardSubTypeDto>(url, cancellationToken).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.SubTypes, GetPagingInfo());
             }
@@ -76,12 +78,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<List<string>>> GetCardSuperTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardSuperTypesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.SuperTypes.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardSuperTypeDto>(url, cancellationToken).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.SuperTypes, GetPagingInfo());
             }
@@ -92,12 +94,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<List<string>>> GetCardTypesAsync()
+        public async Task<IOperationResult<List<string>>> GetCardTypesAsync(CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Types.Name);
-                var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url).ConfigureAwait(false);
+                var rootTypeList = await CallWebServiceGet<RootCardTypeDto>(url, cancellationToken).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootTypeList.Types, GetPagingInfo());
             }
@@ -108,12 +110,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<List<string>>> GetFormatsAsync()
+        public async Task<IOperationResult<List<string>>> GetFormatsAsync(CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, ApiEndPoint.Formats.Name);
-                var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url).ConfigureAwait(false);
+                var rootFormatsList = await CallWebServiceGet<RootCardFormatsDto>(url, cancellationToken).ConfigureAwait(false);
 
                 return OperationResult<List<string>>.Success(rootFormatsList.Formats, GetPagingInfo());
             }

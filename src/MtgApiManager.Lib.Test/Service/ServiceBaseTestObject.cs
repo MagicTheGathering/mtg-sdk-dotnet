@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
 using MtgApiManager.Lib.Core;
@@ -21,14 +22,9 @@ namespace MtgApiManager.Lib.Test.Service
 
         public Url CurrentQueryUrlTestProp => CurrentQueryUrl;
 
-        public override Task<IOperationResult<List<Card>>> AllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<RootCardDto> CallWebServiceGetTestMethod(Uri fakeUri)
         {
-            return CallWebServiceGet<RootCardDto>(fakeUri);
+            return CallWebServiceGet<RootCardDto>(fakeUri, default);
         }
 
         public PagingInfo GetPagingInfoTestMethod()

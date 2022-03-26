@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
 using MtgApiManager.Lib.Core;
@@ -24,11 +25,11 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async override Task<IOperationResult<List<ISet>>> AllAsync()
+        public async Task<IOperationResult<List<ISet>>> AllAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl).ConfigureAwait(false);
+                var rootSetList = await CallWebServiceGet<RootSetListDto>(CurrentQueryUrl, cancellationToken).ConfigureAwait(false);
                 ResetCurrentUrl();
 
                 return OperationResult<List<ISet>>.Success(MapSetsList(rootSetList), GetPagingInfo());
@@ -40,12 +41,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<ISet>> FindAsync(string code)
+        public async Task<IOperationResult<ISet>> FindAsync(string code, CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code);
-                var rootSet = await CallWebServiceGet<RootSetDto>(url).ConfigureAwait(false);
+                var rootSet = await CallWebServiceGet<RootSetDto>(url, cancellationToken).ConfigureAwait(false);
                 var model = ModelMapper.MapSet(rootSet.Set);
 
                 return OperationResult<ISet>.Success(model, GetPagingInfo());
@@ -57,12 +58,12 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public async Task<IOperationResult<List<ICard>>> GenerateBoosterAsync(string code)
+        public async Task<IOperationResult<List<ICard>>> GenerateBoosterAsync(string code, CancellationToken cancellationToken = default)
         {
             try
             {
                 var url = BaseMtgUrl.AppendPathSegments(Version.Name, EndPoint.Name, code, "booster");
-                var rootCardList = await CallWebServiceGet<RootCardListDto>(url).ConfigureAwait(false);
+                var rootCardList = await CallWebServiceGet<RootCardListDto>(url, cancellationToken).ConfigureAwait(false);
 
                 var cards = rootCardList.Cards
                 .Select(x => ModelMapper.MapCard(x))
