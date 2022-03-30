@@ -66,7 +66,7 @@ namespace MtgApiManager.Lib.Test.Service
             var URL = new Uri("http://fake/url");
 
             _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(true);
-            _mockRateLimit.Setup(x => x.Delay(2000)).ReturnsAsync(1);
+            _mockRateLimit.Setup(x => x.Delay(2000, default)).ReturnsAsync(1);
             _mockRateLimit.Setup(x => x.AddApiCall());
 
             var card = new CardDto() { Id = "12345" };
@@ -132,7 +132,7 @@ namespace MtgApiManager.Lib.Test.Service
         }
 
         [Fact]
-        public void GetPagingInfo_Sucess()
+        public void GetPagingInfo_Success()
         {
             // arrange
             _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(100);

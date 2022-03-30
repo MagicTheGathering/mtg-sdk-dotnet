@@ -16,7 +16,7 @@ namespace MtgApiManager.Lib.Test.Core
             rateLimit.AddApiCall();
 
             // act
-            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR, default);
 
             Assert.NotEqual(0, result);
         }
@@ -29,7 +29,7 @@ namespace MtgApiManager.Lib.Test.Core
             var rateLimit = new RateLimit(false);
 
             // act
-            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR, default);
 
             Assert.Equal(0, result);
         }
@@ -43,7 +43,7 @@ namespace MtgApiManager.Lib.Test.Core
             rateLimit.AddApiCall();
 
             // act
-            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR, default);
 
             Assert.Equal(0, result);
         }
@@ -56,7 +56,7 @@ namespace MtgApiManager.Lib.Test.Core
             var rateLimit = new RateLimit(true);
 
             // act
-            var result = await rateLimit.Delay(REQUESTS_PER_HOUR);
+            var result = await rateLimit.Delay(REQUESTS_PER_HOUR, default);
 
             Assert.Equal(0, result);
         }

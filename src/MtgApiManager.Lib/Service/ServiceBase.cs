@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
@@ -42,23 +44,31 @@ namespace MtgApiManager.Lib.Service
 
         protected ApiVersion Version { get; }
 
-        public abstract Task<IOperationResult<List<TModel>>> AllAsync();
-
-        protected async Task<T> CallWebServiceGet<T>(Url requestUrl) where T : IMtgResponse
+        protected async Task<T> CallWebServiceGet<T>(Url requestUrl, CancellationToken cancellationToken) where T : IMtgResponse
         {
-            // Makes sure that th rate limit is not reached.
-            if (_rateLimit.IsTurnedOn)
-            {
-                var rateLimit = _headerManager.Get<int>(ResponseHeader.RatelimitLimit);
-                await _rateLimit.Delay(rateLimit).ConfigureAwait(false);
-                _rateLimit.AddApiCall();
-            }
-
             try
             {
-                var response = await requestUrl.GetAsync().ConfigureAwait(false);
-                _headerManager.Update(response.Headers);
-                return await response.GetJsonAsync<T>().ConfigureAwait(false);
+                // Makes sure that the rate limit is not reached.
+                if (_rateLimit.IsTurnedOn)
+                {
+                    var rateLimit = _headerManager.Get<int>(ResponseHeader.RatelimitLimit);
+
+                    await _rateLimit.Delay(rateLimit, cancellationToken).ConfigureAwait(false);
+
+                    _rateLimit.AddApiCall();
+                }
+
+                using (var response = await requestUrl.GetAsync(cancellationToken).ConfigureAwait(false))
+                {
+                    _headerManager.Update(response.Headers);
+
+                    return await response.GetJsonAsync<T>().ConfigureAwait(false);
+                }
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new MtgApiException(ex.Message);
             }
             catch (FlurlHttpException ex)
             {

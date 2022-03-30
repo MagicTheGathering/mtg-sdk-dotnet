@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace MtgApiManager.Lib.Core
 {
@@ -8,7 +9,7 @@ namespace MtgApiManager.Lib.Core
 
         void AddApiCall();
 
-        Task<int> Delay(int requestsPerHour);
+        Task<int> Delay(int requestsPerHour, CancellationToken cancellationToken);
 
         void Reset();
     }
