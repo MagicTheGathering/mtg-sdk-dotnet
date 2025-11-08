@@ -10,7 +10,8 @@
       "Bash(dotnet test:*)",
       "Bash(dotnet list:*)",
       "Bash(cat:*)",
-      "Bash(gh secret set:*)"
+      "Bash(gh secret set:*)",
+      "Bash(git check-ignore:*)"
     ],
     "deny": [],
     "ask": []

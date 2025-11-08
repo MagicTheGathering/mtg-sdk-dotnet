@@ -56,31 +56,31 @@ jobs:
       run: dotnet restore src/MtgApiManager.sln
 
     - name: Build
-      run: |
-        dotnet build src/MtgApiManager.sln \
-          --configuration Release \
-          --no-restore \
-          /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }} \
-          /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} \
-          /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+      run: >-
+        dotnet build src/MtgApiManager.sln
+        --configuration Release
+        --no-restore
+        /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }}
+        /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
+        /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
 
     - name: Test with Coverage (Ubuntu only)
       if: matrix.os == 'ubuntu-latest'
-      run: |
-        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj \
-          --configuration Release \
-          --no-build \
-          --verbosity normal \
-          --collect:"XPlat Code Coverage" \
-          --results-directory ./coverage
+      run: >-
+        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+        --configuration Release
+        --no-build
+        --verbosity normal
+        --collect:"XPlat Code Coverage"
+        --results-directory ./coverage
 
     - name: Test (Other platforms)
       if: matrix.os != 'ubuntu-latest'
-      run: |
-        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj \
-          --configuration Release \
-          --no-build \
-          --verbosity normal
+      run: >-
+        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+        --configuration Release
+        --no-build
+        --verbosity normal
 
     - name: Upload coverage to Codecov (Ubuntu only)
       if: matrix.os == 'ubuntu-latest'
@@ -94,12 +94,12 @@ jobs:
 
     - name: Pack NuGet package (Ubuntu only)
       if: matrix.os == 'ubuntu-latest'
-      run: |
-        dotnet pack src/MtgApiManager.Lib/MtgApiManager.Lib.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./artifacts \
-          /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+      run: >-
+        dotnet pack src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+        --configuration Release
+        --no-build
+        --output ./artifacts
+        /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
     - name: Upload NuGet package artifact (Ubuntu only)
       if: matrix.os == 'ubuntu-latest'

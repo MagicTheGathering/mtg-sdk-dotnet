@@ -1,6 +1,6 @@
 # Magic: The Gathering SDK
 
-[![Build status](https://ci.appveyor.com/api/projects/status/pb5y2hxl53yo9lwu?svg=true)](https://ci.appveyor.com/project/adback03/mtg-sdk-dotnet)
+[![CI](https://github.com/MagicTheGathering/mtg-sdk-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/MagicTheGathering/mtg-sdk-dotnet/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/MagicTheGathering/mtg-sdk-dotnet)
 [![NuGet](https://img.shields.io/badge/nuget-v2.3.3-blue.svg)](https://www.nuget.org/packages/MtgApiManager.Lib/)
 

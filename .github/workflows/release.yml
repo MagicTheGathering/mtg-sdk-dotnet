@@ -53,35 +53,35 @@ jobs:
       run: dotnet restore src/MtgApiManager.sln
 
     - name: Build
-      run: |
-        dotnet build src/MtgApiManager.sln \
-          --configuration Release \
-          --no-restore \
-          /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }} \
-          /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} \
-          /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+      run: >-
+        dotnet build src/MtgApiManager.sln
+        --configuration Release
+        --no-restore
+        /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }}
+        /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
+        /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
 
     - name: Test
-      run: |
-        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj \
-          --configuration Release \
-          --no-build \
-          --verbosity normal
+      run: >-
+        dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+        --configuration Release
+        --no-build
+        --verbosity normal
 
     - name: Pack NuGet package
-      run: |
-        dotnet pack src/MtgApiManager.Lib/MtgApiManager.Lib.csproj \
-          --configuration Release \
-          --no-build \
-          --output ./artifacts \
-          /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+      run: >-
+        dotnet pack src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+        --configuration Release
+        --no-build
+        --output ./artifacts
+        /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
     - name: Publish to NuGet
-      run: |
-        dotnet nuget push ./artifacts/*.nupkg \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json \
-          --skip-duplicate
+      run: >-
+        dotnet nuget push ./artifacts/*.nupkg
+        --api-key ${{ secrets.NUGET_API_KEY }}
+        --source https://api.nuget.org/v3/index.json
+        --skip-duplicate
 
     - name: Upload NuGet package as release artifact
       uses: actions/upload-artifact@v4
