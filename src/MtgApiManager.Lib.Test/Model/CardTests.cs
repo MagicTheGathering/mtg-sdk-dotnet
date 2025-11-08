@@ -11,7 +11,7 @@ namespace MtgApiManager.Lib.Test.Model
             // arrange
             var card = new Card
             {
-                Colors = new[] { "color1" }
+                Colors = ["color1"]
             };
 
             // act
@@ -27,7 +27,7 @@ namespace MtgApiManager.Lib.Test.Model
             // arrange
             var card = new Card
             {
-                Colors = new[] { "color1", "color2" }
+                Colors = ["color1", "color2"]
             };
 
             // act
@@ -56,7 +56,7 @@ namespace MtgApiManager.Lib.Test.Model
             // arrange
             var card = new Card
             {
-                Colors = new[] { "color1" }
+                Colors = ["color1"]
             };
 
             // act
@@ -72,7 +72,7 @@ namespace MtgApiManager.Lib.Test.Model
             // arrange
             var card = new Card
             {
-                Colors = new[] { "color1", "color2" }
+                Colors = ["color1", "color2"]
             };
 
             // act

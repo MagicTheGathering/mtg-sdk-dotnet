@@ -34,14 +34,11 @@ namespace MtgApiManager.Lib.Core
         /// </summary>
         /// <param name="exception">The exception that was caught.</param>
         /// <returns>A <see cref="OperationResult{T}"/> with the given exception.</returns>
-        public static OperationResult<T> Failure(Exception exception)
-        {
-            return new OperationResult<T>(
+        public static OperationResult<T> Failure(Exception exception) => new OperationResult<T>(
                 false,
                 null,
                 null,
                 exception);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationResult{T}"/> structure in a success state.
@@ -49,13 +46,10 @@ namespace MtgApiManager.Lib.Core
         /// <param name="value">The value.</param>
         /// <param name="pagingInfo">The paging information.</param>
         /// <returns>A <see cref="OperationResult{T}"/> with the given value.</returns>
-        public static OperationResult<T> Success(T value, PagingInfo pagingInfo)
-        {
-            return new OperationResult<T>(
+        public static OperationResult<T> Success(T value, PagingInfo pagingInfo) => new OperationResult<T>(
                 true,
                 value,
                 pagingInfo,
                 null);
-        }
     }
 }

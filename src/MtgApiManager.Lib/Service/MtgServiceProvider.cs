@@ -35,23 +35,17 @@ namespace MtgApiManager.Lib.Service
         }
 
         /// <inheritdoc />
-        public ICardService GetCardService()
-        {
-            return new CardService(
+        public ICardService GetCardService() => new CardService(
                 _headerManager,
                 _modelMapper,
                 _apiVersion,
                 _rateLimit);
-        }
 
         /// <inheritdoc />
-        public ISetService GetSetService()
-        {
-            return new SetService(
+        public ISetService GetSetService() => new SetService(
                 _headerManager,
                 _modelMapper,
                 _apiVersion,
                 _rateLimit);
-        }
     }
 }

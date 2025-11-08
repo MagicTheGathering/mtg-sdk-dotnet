@@ -10,17 +10,11 @@ namespace MtgApiManager.Lib.Test.Core
     {
         [Theory]
         [ClassData(typeof(ApiVersionIdTestData))]
-        public void Id_Correct(int id, int expectedValue)
-        {
-            Assert.Equal(expectedValue, id);
-        }
+        public void Id_Correct(int id, int expectedValue) => Assert.Equal(expectedValue, id);
 
         [Theory]
         [ClassData(typeof(ApiVersionNameTestData))]
-        public void Name_Correct(string name, string expectedValue)
-        {
-            Assert.Equal(expectedValue, name);
-        }
+        public void Name_Correct(string name, string expectedValue) => Assert.Equal(expectedValue, name);
     }
 
     public class ApiVersionIdTestData : IEnumerable<object[]>

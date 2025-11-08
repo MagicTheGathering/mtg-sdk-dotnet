@@ -29,13 +29,11 @@ namespace MtgApiManager.Lib.Test.Utility
         }
 
         [Fact]
-        public void GetQueryPropertyName_PropertyNameNull_Throws()
-        {
+        public void GetQueryPropertyName_PropertyNameNull_Throws() =>
             // arrange
             // act
             // assert
             Assert.Throws<ArgumentNullException>(() => QueryUtility.GetQueryPropertyName<DtoTestObject>(null));
-        }
 
         [Fact]
         public void GetQueryPropertyName_Success()

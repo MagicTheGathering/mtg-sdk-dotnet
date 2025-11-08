@@ -8,10 +8,7 @@ namespace MtgApiManager.Lib.Core
     public class SystemTextJsonSerializer : ISerializer
     {
         /// <inheritdoc />
-        public T Deserialize<T>(string s)
-        {
-            return JsonSerializer.Deserialize<T>(s);
-        }
+        public T Deserialize<T>(string s) => JsonSerializer.Deserialize<T>(s);
 
         /// <inheritdoc />
         public T Deserialize<T>(Stream stream)
@@ -23,9 +20,6 @@ namespace MtgApiManager.Lib.Core
         }
 
         /// <inheritdoc />
-        public string Serialize(object obj)
-        {
-            return JsonSerializer.Serialize(obj);
-        }
+        public string Serialize(object obj) => JsonSerializer.Serialize(obj);
     }
 }

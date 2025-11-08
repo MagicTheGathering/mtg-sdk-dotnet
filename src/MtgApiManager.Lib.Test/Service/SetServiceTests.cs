@@ -95,7 +95,7 @@ namespace MtgApiManager.Lib.Test.Service
             var setDto = new SetDto() { Name = SET_NAME };
             var rootSetList = new RootSetListDto()
             {
-                Sets = new List<SetDto> { setDto },
+                Sets = [setDto],
             };
 
             _mockModelMapper.Setup(x => x.MapSet(It.IsAny<SetDto>())).Returns(new Set() { Name = SET_NAME });
@@ -199,7 +199,7 @@ namespace MtgApiManager.Lib.Test.Service
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { cardDto },
+                Cards = [cardDto],
             };
 
             _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Throws(new Exception());
@@ -235,7 +235,7 @@ namespace MtgApiManager.Lib.Test.Service
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { cardDto },
+                Cards = [cardDto],
             };
 
             _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card() { Name = CARD_NAME });
@@ -306,7 +306,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootSetList = new RootSetListDto()
             {
-                Sets = new List<SetDto> { new SetDto() },
+                Sets = [new SetDto()],
             };
 
             using var httpTest = new HttpTest();

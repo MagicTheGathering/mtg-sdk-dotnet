@@ -91,10 +91,7 @@ namespace MtgApiManager.Lib.Service
             return PagingInfo.Create(totalCount, pageSize);
         }
 
-        protected void ResetCurrentUrl()
-        {
-            CurrentQueryUrl = BASE_URL.AppendPathSegments(Version.Name, EndPoint.Name);
-        }
+        protected void ResetCurrentUrl() => CurrentQueryUrl = BASE_URL.AppendPathSegments(Version.Name, EndPoint.Name);
 
         private string TranslateExceptionMessage(int statusCode)
         {

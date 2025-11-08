@@ -34,9 +34,6 @@ namespace MtgApiManager.Lib.Core
         /// <param name="totalCount">The total number of items.</param>
         /// <param name="pageSize">The page size for the request.</param>
         /// <returns>A new instance of a paging info.</returns>
-        public static PagingInfo Create(int totalCount, int pageSize)
-        {
-            return new PagingInfo(totalCount, pageSize);
-        }
+        public static PagingInfo Create(int totalCount, int pageSize) => new PagingInfo(totalCount, pageSize);
     }
 }

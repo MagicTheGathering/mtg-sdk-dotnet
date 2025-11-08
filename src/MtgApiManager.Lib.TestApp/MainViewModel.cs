@@ -28,10 +28,10 @@ namespace MtgApiManager.Lib.TestApp
 
         public MainViewModel()
         {
-            CardsCollection = new ObservableCollection<ICard>();
-            SetsCollection = new ObservableCollection<ISet>();
-            TypesCollection = new ObservableCollection<string>();
-            GeneratedBoosterCollection = new ObservableCollection<ICard>();
+            CardsCollection = [];
+            SetsCollection = [];
+            TypesCollection = [];
+            GeneratedBoosterCollection = [];
             _serviceProvider = new MtgServiceProvider();
         }
 

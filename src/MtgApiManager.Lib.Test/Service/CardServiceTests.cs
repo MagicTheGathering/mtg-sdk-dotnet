@@ -94,7 +94,7 @@ namespace MtgApiManager.Lib.Test.Service
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { cardDto },
+                Cards = [cardDto],
             };
 
             _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card() { Name = CARD_NAME });
@@ -272,7 +272,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardSubType = new RootCardSubTypeDto()
             {
-                SubTypes = new List<string> { "type1", "type2" },
+                SubTypes = ["type1", "type2"],
             };
 
             using var httpTest = new HttpTest();
@@ -327,7 +327,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardType = new RootCardTypeDto()
             {
-                Types = new List<string> { "type1", "type2" },
+                Types = ["type1", "type2"],
             };
 
             using var httpTest = new HttpTest();
@@ -382,7 +382,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardFormat = new RootCardFormatsDto()
             {
-                Formats = new List<string> { "format1", "format2" },
+                Formats = ["format1", "format2"],
             };
 
             using var httpTest = new HttpTest();
@@ -437,7 +437,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardSuperSubType = new RootCardSuperTypeDto()
             {
-                SuperTypes = new List<string> { "type1", "type2" },
+                SuperTypes = ["type1", "type2"],
             };
 
             using var httpTest = new HttpTest();
@@ -471,7 +471,7 @@ namespace MtgApiManager.Lib.Test.Service
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { cardDto },
+                Cards = [cardDto],
             };
 
             using var httpTest = new HttpTest();
@@ -509,7 +509,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { new CardDto() },
+                Cards = [new CardDto()],
             };
 
             using var httpTest = new HttpTest();
@@ -552,7 +552,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { new CardDto() },
+                Cards = [new CardDto()],
             };
 
             using var httpTest = new HttpTest();
@@ -591,7 +591,7 @@ namespace MtgApiManager.Lib.Test.Service
 
             var rootCardList = new RootCardListDto()
             {
-                Cards = new List<CardDto> { new CardDto() },
+                Cards = [new CardDto()],
             };
 
             using var httpTest = new HttpTest();
