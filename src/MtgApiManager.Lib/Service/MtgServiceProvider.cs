@@ -30,10 +30,8 @@ namespace MtgApiManager.Lib.Service
             _rateLimit = rateLimit;
             _apiVersion = ApiVersion.V1;
 
-            FlurlHttp.Configure(settings =>
-            {
-                settings.JsonSerializer = new SystemTextJsonSerializer();
-            });
+            // Flurl.Http v4 uses System.Text.Json as the default serializer
+            // No explicit configuration needed
         }
 
         /// <inheritdoc />

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
@@ -58,7 +58,7 @@ namespace MtgApiManager.Lib.Service
                     _rateLimit.AddApiCall();
                 }
 
-                using (var response = await requestUrl.GetAsync(cancellationToken).ConfigureAwait(false))
+                using (var response = await requestUrl.GetAsync(HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false))
                 {
                     _headerManager.Update(response.Headers);
 

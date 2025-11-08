@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the Magic: The Gathering SDK for C# .NET - a wrapper around the MTG API (magicthegathering.io). The library is published to NuGet as `MtgApiManager.Lib` and supports .NET Standard 2.0, .NET 6.0, and .NET 8.0 LTS.
+This is the Magic: The Gathering SDK for C# .NET - a wrapper around the MTG API (magicthegathering.io). The library is published to NuGet as `MtgApiManager.Lib` and supports .NET Standard 2.0 and .NET 8.0 LTS.
 
 ## Build System
 
@@ -155,7 +155,11 @@ The main library exposes internals to the test project via `InternalsVisibleTo` 
 - `DynamicProxyGenAssembly2` (for Moq)
 
 ### Multi-Targeting
-The library targets multiple frameworks (netstandard2.0, net6.0, net8.0). When making changes, ensure compatibility across all target frameworks. Note that .NET 6.0 is out of support as of November 2024, but is maintained for backward compatibility.
+The library targets two frameworks:
+- **netstandard2.0** - Provides broad compatibility with .NET Framework 4.6.1+, .NET Core 2.0+, and all modern .NET (5+)
+- **net8.0** - Enables use of modern .NET 8 APIs and optimizations (LTS until November 2026)
+
+When making changes, ensure compatibility across both target frameworks.
 
 ### API Response Handling
 - All API calls return `IOperationResult<T>` - always check `IsSuccess` before accessing `Value`
@@ -164,5 +168,5 @@ The library targets multiple frameworks (netstandard2.0, net6.0, net8.0). When m
 - `ModelMapper` handles conversion from DTOs to Models
 
 ### Dependencies
-- **Flurl.Http 3.2.0** - HTTP client
-- **System.Text.Json 9.0.0** - JSON serialization (upgraded to fix security vulnerabilities)
+- **Flurl.Http 4.0.2** - HTTP client (v4 uses System.Text.Json as default serializer)
+- **System.Text.Json 9.0.10** - JSON serialization
