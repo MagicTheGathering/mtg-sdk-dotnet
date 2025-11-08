@@ -113,9 +113,9 @@ namespace MtgApiManager.Lib.Model
             }
 
             var booster = new List<object>();
-            if (setDto.Booster.ValueKind == JsonValueKind.Array)
+            if (setDto.Booster.HasValue && setDto.Booster.Value.ValueKind == JsonValueKind.Array)
             {
-                booster = setDto.Booster
+                booster = setDto.Booster.Value
                     .EnumerateArray()
                     .Select(x => GetBoosterValue(x))
                     .ToList();

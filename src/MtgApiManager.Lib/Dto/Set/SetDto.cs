@@ -9,7 +9,8 @@ namespace MtgApiManager.Lib.Dto
         public string Block { get; set; }
 
         [JsonPropertyName("booster")]
-        public JsonElement Booster { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public JsonElement? Booster { get; set; }
 
         [JsonPropertyName("border")]
         public string Border { get; set; }
