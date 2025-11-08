@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nul)",
+      "Bash(dir /b /s srcMtgApiManager.Lib*.cs 2)",
+      "Bash(dir:*)",
+      "Bash(dotnet --version:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(dotnet list:*)",
+      "Bash(cat:*)",
+      "Bash(gh secret set:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
