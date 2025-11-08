@@ -12,7 +12,7 @@ namespace MtgApiManager.Lib.Test.Core
         public void Deserialize_Stream_Success()
         {
             // arrange
-            using var stream = File.OpenRead(@"Data\card1.json");
+            using var stream = File.OpenRead(Path.Combine("Data", "card1.json"));
 
             var serializer = new SystemTextJsonSerializer();
 
@@ -27,7 +27,7 @@ namespace MtgApiManager.Lib.Test.Core
         public void Deserialize_String_Success()
         {
             // arrange
-            var jsonString = File.ReadAllText(@"Data\card1.json");
+            var jsonString = File.ReadAllText(Path.Combine("Data", "card1.json"));
 
             var serializer = new SystemTextJsonSerializer();
 
