@@ -50,16 +50,25 @@ jobs:
         echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
 
     - name: Restore dependencies
-      run: dotnet restore src/MtgApiManager.sln
+      run: dotnet restore src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
 
-    - name: Build
+    - name: Restore test dependencies
+      run: dotnet restore src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+
+    - name: Build Library
       run: >-
-        dotnet build src/MtgApiManager.sln
+        dotnet build src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
         --configuration Release
         --no-restore
         /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }}
         /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
         /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+
+    - name: Build Tests
+      run: >-
+        dotnet build src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+        --configuration Release
+        --no-restore
 
     - name: Test
       run: >-
