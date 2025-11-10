@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http.Testing;
 using Flurl.Util;
-using Moq;
+using NSubstitute;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Model;
@@ -15,17 +15,15 @@ namespace MtgApiManager.Lib.Test.Service
 {
     public class ServiceBaseTests
     {
-        private readonly Mock<IHeaderManager> _mockHeaderManager;
-        private readonly Mock<IModelMapper> _mockModelMapper;
-        private readonly Mock<IRateLimit> _mockRateLimit;
-        private readonly MockRepository _mockRepository;
+        private readonly IHeaderManager _mockHeaderManager;
+        private readonly IModelMapper _mockModelMapper;
+        private readonly IRateLimit _mockRateLimit;
 
         public ServiceBaseTests()
         {
-            _mockRepository = new MockRepository(MockBehavior.Strict);
-            _mockHeaderManager = _mockRepository.Create<IHeaderManager>();
-            _mockModelMapper = _mockRepository.Create<IModelMapper>();
-            _mockRateLimit = _mockRepository.Create<IRateLimit>();
+            _mockHeaderManager = Substitute.For<IHeaderManager>();
+            _mockModelMapper = Substitute.For<IModelMapper>();
+            _mockRateLimit = Substitute.For<IRateLimit>();
         }
 
         [Fact]
@@ -34,7 +32,7 @@ namespace MtgApiManager.Lib.Test.Service
             // arrange
             var URL = new Uri("http://fake/url");
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _mockRateLimit.IsTurnedOn.Returns(false);
 
             var card = new CardDto() { Id = "12345" };
             var rootCard = new RootCardDto()
@@ -45,12 +43,10 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCard);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             var result = await service.CallWebServiceGetTestMethod(URL);
@@ -65,9 +61,9 @@ namespace MtgApiManager.Lib.Test.Service
             // arrange
             var URL = new Uri("http://fake/url");
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(true);
-            _mockRateLimit.Setup(x => x.Delay(2000, default)).ReturnsAsync(1);
-            _mockRateLimit.Setup(x => x.AddApiCall());
+            _mockRateLimit.IsTurnedOn.Returns(true);
+            _mockRateLimit.Delay(2000, default).ReturnsForAnyArgs(1);
+            _mockHeaderManager.Get<int>(ResponseHeader.RatelimitLimit).Returns(2000);
 
             var card = new CardDto() { Id = "12345" };
             var rootCard = new RootCardDto()
@@ -78,20 +74,18 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCard);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.RatelimitLimit)).Returns(2000);
-
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             var result = await service.CallWebServiceGetTestMethod(URL);
 
             // assert
             Assert.Equal(card.Id, result.Card.Id);
-            _mockRepository.VerifyAll();
+            await _mockRateLimit.Received(1).Delay(2000, default);
+            _mockRateLimit.Received(1).AddApiCall();
         }
 
         [Fact]
@@ -100,9 +94,9 @@ namespace MtgApiManager.Lib.Test.Service
             // arrange
             // act
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // assert
             Assert.NotNull(service.CurrentQueryUrlTestProp);
@@ -115,13 +109,13 @@ namespace MtgApiManager.Lib.Test.Service
             const int TOTAL_COUNT = 100;
             const int PAGE_SIZE = 10;
 
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(TOTAL_COUNT);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(PAGE_SIZE);
+            _mockHeaderManager.Get<int>(ResponseHeader.TotalCount).Returns(TOTAL_COUNT);
+            _mockHeaderManager.Get<int>(ResponseHeader.PageSize).Returns(PAGE_SIZE);
 
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             var result = service.GetPagingInfoTestMethod();
@@ -135,13 +129,13 @@ namespace MtgApiManager.Lib.Test.Service
         public void GetPagingInfo_Success()
         {
             // arrange
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(100);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(10);
+            _mockHeaderManager.Get<int>(ResponseHeader.TotalCount).Returns(100);
+            _mockHeaderManager.Get<int>(ResponseHeader.PageSize).Returns(10);
 
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             var result = service.GetPagingInfoTestMethod();
@@ -155,9 +149,9 @@ namespace MtgApiManager.Lib.Test.Service
         {
             // arrange
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             service.CurrentQueryUrlTestProp.AppendPathSegments("this", "is", "a", "test");
 
@@ -175,22 +169,21 @@ namespace MtgApiManager.Lib.Test.Service
             // arrange
             var URL = new Uri("http://fake/url");
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _mockRateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.RespondWith("error", id);
 
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             // assert
-            var result = await Assert.ThrowsAsync<MtgApiException>(                
+            var result = await Assert.ThrowsAsync<MtgApiException>(
                 () => service.CallWebServiceGetTestMethod(URL));
             Assert.EndsWith(description, result.Message);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -201,22 +194,21 @@ namespace MtgApiManager.Lib.Test.Service
 
             var URL = new Uri("http://fake/url");
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _mockRateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.RespondWith(ERROR_MESSAGE, 410);
 
             var service = new ServiceBaseTestObject(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
-                _mockRateLimit.Object);
+                _mockHeaderManager,
+                _mockModelMapper,
+                _mockRateLimit);
 
             // act
             // assert
             var result = await Assert.ThrowsAsync<MtgApiException>(
                 () => service.CallWebServiceGetTestMethod(URL));
             Assert.EndsWith(ERROR_MESSAGE, result.Message);
-            _mockRepository.VerifyAll();
         }
 
         public class ErrorTestData : IEnumerable<object[]>

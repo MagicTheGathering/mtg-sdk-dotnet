@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl.Http.Testing;
 using Flurl.Util;
-using Moq;
+using NSubstitute;
 using MtgApiManager.Lib.Core;
 using MtgApiManager.Lib.Dto;
 using MtgApiManager.Lib.Model;
@@ -14,62 +14,57 @@ namespace MtgApiManager.Lib.Test.Service
 {
     public class CardServiceTests
     {
-        private readonly Mock<IHeaderManager> _mockHeaderManager;
-        private readonly Mock<IModelMapper> _mockModelMapper;
-        private readonly Mock<IRateLimit> _mockRateLimit;
-        private readonly MockRepository _mockRepository;
+        private readonly IHeaderManager _headerManager;
+        private readonly IModelMapper _modelMapper;
+        private readonly IRateLimit _rateLimit;
 
         public CardServiceTests()
         {
-            _mockRepository = new MockRepository(MockBehavior.Strict);
-            _mockHeaderManager = _mockRepository.Create<IHeaderManager>();
-            _mockModelMapper = _mockRepository.Create<IModelMapper>();
-            _mockRateLimit = _mockRepository.Create<IRateLimit>();
+            _headerManager = Substitute.For<IHeaderManager>();
+            _modelMapper = Substitute.For<IModelMapper>();
+            _rateLimit = Substitute.For<IRateLimit>();
         }
 
         [Fact]
         public async Task AllAsync_NullCardListDto_Failure()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-
+            
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(null);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.AllAsync();
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task AllAsync_NullCards_SuccessWithEmptyList()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(new RootCardListDto());
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.AllAsync();
@@ -77,7 +72,6 @@ namespace MtgApiManager.Lib.Test.Service
             // assert
             Assert.True(result.IsSuccess);
             Assert.Empty(result.Value);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -85,11 +79,10 @@ namespace MtgApiManager.Lib.Test.Service
         {
             // arrange
             const string CARD_NAME = "cardname1";
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
@@ -97,23 +90,22 @@ namespace MtgApiManager.Lib.Test.Service
                 Cards = [cardDto],
             };
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card() { Name = CARD_NAME });
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card() { Name = CARD_NAME });
 
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.AllAsync();
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -136,11 +128,10 @@ namespace MtgApiManager.Lib.Test.Service
         {
             // arrange
             const string CARD_NAME = "cardname1";
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardDto()
@@ -148,23 +139,22 @@ namespace MtgApiManager.Lib.Test.Service
                 Card = cardDto,
             };
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card() { Name = CARD_NAME });
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card() { Name = CARD_NAME });
 
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.FindAsync("12345");
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -172,11 +162,10 @@ namespace MtgApiManager.Lib.Test.Service
         {
             // arrange
             const string CARD_NAME = "cardname1";
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardDto()
@@ -184,23 +173,22 @@ namespace MtgApiManager.Lib.Test.Service
                 Card = cardDto,
             };
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card() { Name = CARD_NAME });
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card() { Name = CARD_NAME });
 
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.FindAsync(12345);
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -208,67 +196,63 @@ namespace MtgApiManager.Lib.Test.Service
         {
             // arrange
             const string CARD_NAME = "cardname1";
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-
+            
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardDto()
             {
                 Card = cardDto,
             };
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Throws(new Exception());
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(x => { throw new Exception(); });
 
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.FindAsync("12345");
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetCardSubTypesAsync_Exception_Failure()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.SimulateTimeout();
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardSubTypesAsync();
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetCardSubTypesAsync_Success()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardSubType = new RootCardSubTypeDto()
             {
@@ -279,51 +263,48 @@ namespace MtgApiManager.Lib.Test.Service
             httpTest.RespondWithJson(rootCardSubType);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardSubTypesAsync();
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetCardTypesAsync_Exception_Failure()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.SimulateTimeout();
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardTypesAsync();
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetCardTypesAsync_Success()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardType = new RootCardTypeDto()
             {
@@ -334,51 +315,48 @@ namespace MtgApiManager.Lib.Test.Service
             httpTest.RespondWithJson(rootCardType);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardTypesAsync();
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetFormatsAsync_Exception_Failure()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.SimulateTimeout();
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetFormatsAsync();
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetFormatsAsync_Success()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardFormat = new RootCardFormatsDto()
             {
@@ -389,51 +367,48 @@ namespace MtgApiManager.Lib.Test.Service
             httpTest.RespondWithJson(rootCardFormat);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetFormatsAsync();
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetGetCardSuperTypesAsync_Exception_Failure()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
             using var httpTest = new HttpTest();
             httpTest.SimulateTimeout();
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardSuperTypesAsync();
 
             // assert
             Assert.False(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
         public async Task GetGetCardSuperTypesAsync_Success()
         {
             // arrange
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardSuperSubType = new RootCardSuperTypeDto()
             {
@@ -444,17 +419,16 @@ namespace MtgApiManager.Lib.Test.Service
             httpTest.RespondWithJson(rootCardSuperSubType);
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             var result = await service.GetCardSuperTypesAsync();
 
             // assert
             Assert.True(result.IsSuccess);
-            _mockRepository.VerifyAll();
         }
 
         [Fact]
@@ -462,11 +436,10 @@ namespace MtgApiManager.Lib.Test.Service
         {
             const string CARD_NAME = "cardname1";
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var cardDto = new CardDto() { Name = CARD_NAME };
             var rootCardList = new RootCardListDto()
@@ -477,13 +450,13 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card());
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card());
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             service.Where(x => x.Name, "test");
 
@@ -501,11 +474,10 @@ namespace MtgApiManager.Lib.Test.Service
             const string NAME = "name1";
             const string LANGUAGE = "English";
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardList = new RootCardListDto()
             {
@@ -515,13 +487,13 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card());
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card());
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             service
@@ -544,11 +516,10 @@ namespace MtgApiManager.Lib.Test.Service
             
             const string ID_PARAM = "id";
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardList = new RootCardListDto()
             {
@@ -558,13 +529,13 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card());
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card());
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             await service
@@ -583,11 +554,10 @@ namespace MtgApiManager.Lib.Test.Service
             const string MULTIPLE_MULTIS = "3|4";
             const string MULTI_PARAM = "multiverseid";
 
-            _mockRateLimit.Setup(x => x.IsTurnedOn).Returns(false);
+            _rateLimit.IsTurnedOn.Returns(false);
 
-            _mockHeaderManager.Setup(x => x.Update(It.IsAny<IReadOnlyNameValueList<string>>()));
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.TotalCount)).Returns(2000);
-            _mockHeaderManager.Setup(x => x.Get<int>(ResponseHeader.PageSize)).Returns(1000);
+                        _headerManager.Get<int>(ResponseHeader.TotalCount).Returns(2000);
+            _headerManager.Get<int>(ResponseHeader.PageSize).Returns(1000);
 
             var rootCardList = new RootCardListDto()
             {
@@ -597,13 +567,13 @@ namespace MtgApiManager.Lib.Test.Service
             using var httpTest = new HttpTest();
             httpTest.RespondWithJson(rootCardList);
 
-            _mockModelMapper.Setup(x => x.MapCard(It.IsAny<CardDto>())).Returns(new Card());
+            _modelMapper.MapCard(Arg.Any<CardDto>()).Returns(new Card());
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             await service
@@ -620,10 +590,10 @@ namespace MtgApiManager.Lib.Test.Service
         public void Where_DefaultValue_Throws()
         {
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             // assert
@@ -636,10 +606,10 @@ namespace MtgApiManager.Lib.Test.Service
             const string NAME = "name1";
 
             var service = new CardService(
-                _mockHeaderManager.Object,
-                _mockModelMapper.Object,
+                _headerManager,
+                _modelMapper,
                 ApiVersion.V1,
-                _mockRateLimit.Object);
+                _rateLimit);
 
             // act
             // assert
