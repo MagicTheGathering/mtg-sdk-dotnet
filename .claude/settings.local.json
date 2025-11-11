@@ -11,7 +11,9 @@
       "Bash(dotnet list:*)",
       "Bash(cat:*)",
       "Bash(gh secret set:*)",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

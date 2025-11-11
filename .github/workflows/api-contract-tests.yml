@@ -1,0 +1,164 @@
+name: API Contract Tests
+
+# This workflow runs integration tests against the live MTG API
+# to detect breaking changes in the API contract.
+# Tests are run on a schedule and can also be triggered manually.
+
+on:
+  schedule:
+    # Run every Monday at 2 AM UTC (weekly)
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+    inputs:
+      create_issue_on_failure:
+        description: 'Create GitHub issue if tests fail'
+        required: false
+        type: boolean
+        default: true
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_NOLOGO: true
+
+jobs:
+  api-contract-tests:
+    name: Run API Contract Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: |
+        dotnet restore src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+        dotnet restore src/MtgApiManager.Lib.IntegrationTest/MtgApiManager.Lib.IntegrationTest.csproj
+
+    - name: Build Library
+      run: >-
+        dotnet build src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+        --configuration Release
+        --no-restore
+
+    - name: Build Integration Tests
+      run: >-
+        dotnet build src/MtgApiManager.Lib.IntegrationTest/MtgApiManager.Lib.IntegrationTest.csproj
+        --configuration Release
+        --no-restore
+
+    - name: Run Integration Tests
+      id: test
+      continue-on-error: true
+      run: >-
+        dotnet test src/MtgApiManager.Lib.IntegrationTest/MtgApiManager.Lib.IntegrationTest.csproj
+        --configuration Release
+        --no-build
+        --verbosity normal
+        --logger "trx;LogFileName=test-results.trx"
+        --filter "Category=Live"
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-results
+        path: '**/test-results.trx'
+        retention-days: 30
+
+    - name: Check Test Results
+      if: steps.test.outcome == 'failure'
+      run: |
+        echo "::error::Integration tests failed! The MTG API may have changed."
+        echo "Review the test results artifact for details."
+
+    - name: Create Issue on Failure
+      if: |
+        steps.test.outcome == 'failure' &&
+        (github.event_name == 'schedule' || github.event.inputs.create_issue_on_failure == 'true')
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+
+          // Get the workflow run URL
+          const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+          // Create issue body
+          const issueBody = `## 🚨 API Contract Tests Failed
+
+          The integration tests against the live MTG API have failed. This likely indicates a breaking change in the API.
+
+          ### Details
+
+          - **Workflow Run**: [View Details](${runUrl})
+          - **Triggered**: ${new Date().toISOString()}
+          - **Branch**: ${context.ref}
+
+          ### What to do next
+
+          1. Review the [test results artifact](${runUrl}) to see which specific tests failed
+          2. Check if the MTG API documentation has any announced changes
+          3. Investigate whether DTOs need to be updated
+          4. Update the library code if necessary
+          5. Close this issue once the problem is resolved
+
+          ### Common Causes
+
+          - API response structure changed (fields added/removed/renamed)
+          - API endpoint behavior changed
+          - API rate limiting or availability issues
+          - Network/timeout issues (may be transient)
+
+          ### Troubleshooting
+
+          You can run the tests locally to investigate:
+
+          \`\`\`bash
+          dotnet test src/MtgApiManager.Lib.IntegrationTest \\
+            --filter "Category=Live" \\
+            --verbosity detailed
+          \`\`\`
+
+          ---
+
+          *This issue was automatically created by the [API Contract Tests workflow](${runUrl}).*`;
+
+          // Check if there's already an open issue
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            labels: 'api-contract-test-failure'
+          });
+
+          if (issues.data.length === 0) {
+            // Create new issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 API Contract Tests Failed - Potential Breaking Change Detected',
+              body: issueBody,
+              labels: ['api-contract-test-failure', 'bug', 'needs-investigation']
+            });
+            console.log('Created new issue for API contract test failure');
+          } else {
+            // Add comment to existing issue
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issues.data[0].number,
+              body: `### Additional Failure\n\nThe API contract tests failed again.\n\n- **Run**: [View Details](${runUrl})\n- **Time**: ${new Date().toISOString()}`
+            });
+            console.log(`Added comment to existing issue #${issues.data[0].number}`);
+          }
+
+    - name: Fail Workflow if Tests Failed
+      if: steps.test.outcome == 'failure'
+      run: exit 1

@@ -36,6 +36,28 @@ Publishes the NuGet package to NuGet.org when a GitHub release is created.
 - GitHub release published
 - Manual trigger via workflow dispatch
 
+### API Contract Tests Workflow (`api-contract-tests.yml`)
+
+Runs integration tests against the live MTG API to detect breaking changes.
+
+**Features:**
+- Tests against real MTG API endpoints
+- Automatically creates GitHub issues when tests fail
+- Uploads test results as artifacts
+- Runs on a weekly schedule (Mondays at 2 AM UTC)
+- Can be triggered manually with option to disable issue creation
+
+**Triggers:**
+- Scheduled: Weekly on Mondays at 2:00 AM UTC
+- Manual trigger via workflow dispatch
+
+**Purpose:**
+- Early detection of API breaking changes
+- Validation that DTOs match API responses
+- Monitoring API stability over time
+
+**Note:** These tests are NOT run in regular CI to avoid blocking development with external API dependencies.
+
 ## Required Secrets
 
 To use these workflows, you need to configure the following secrets in your GitHub repository settings (Settings → Secrets and variables → Actions):
