@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MtgApiManager.Lib.Model;
-using MtgApiManager.Lib.Service;
+using MtgApiManager.Lib.TestApp.Core;
 
 namespace MtgApiManager.Lib.TestApp
 {
-    public class MainViewModel : ObservableRecipient
+    public class MainViewModel : ObservableObject
     {
-        private readonly IMtgServiceProvider _serviceProvider;
+        private readonly MtgController _controller;
         private RelayCommand _cardSearchCommand;
         private string _cardSearchString = null;
         private RelayCommand _findSelectedCardCommand;
@@ -18,7 +18,6 @@ namespace MtgApiManager.Lib.TestApp
         private RelayCommand _getCardSubTypesCommand;
         private RelayCommand _getCardSuperTypesCommand;
         private RelayCommand _getCardTypesCommand;
-        private bool _isLoading = false;
         private ICard _selectedCard = null;
         private string _selectedCardId = null;
         private ISet _selectedSet = null;
@@ -26,13 +25,20 @@ namespace MtgApiManager.Lib.TestApp
         private RelayCommand _setSearchCommand;
         private string _setSearchString = null;
 
-        public MainViewModel()
+        public MainViewModel(MtgController controller)
         {
+            _controller = controller;
+            
+            // Subscribe to controller's IsSearchingChanged event
+            _controller.IsSearchingChanged += (s, isSearching) =>
+            {
+                OnPropertyChanged(nameof(IsLoading));
+            };
+            
             CardsCollection = [];
             SetsCollection = [];
             TypesCollection = [];
             GeneratedBoosterCollection = [];
-            _serviceProvider = new MtgServiceProvider();
         }
 
         public ObservableCollection<ICard> CardsCollection { get; }
@@ -44,28 +50,13 @@ namespace MtgApiManager.Lib.TestApp
                 return _cardSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        ICardService cardService = _serviceProvider.GetCardService();
-
-                        if (!string.IsNullOrWhiteSpace(_cardSearchString))
-                        {
-                            cardService.Where(c => c.Name, _cardSearchString);
-                        }
-
-                        IsLoading = true;
-
-                        var result = await cardService.AllAsync();
+                        var cards = await _controller.GetCards(_cardSearchString);
 
                         CardsCollection.Clear();
-
-                        if (result.IsSuccess)
+                        foreach (var item in cards)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                CardsCollection.Add(item);
-                            }
+                            CardsCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
             }
         }
@@ -83,17 +74,8 @@ namespace MtgApiManager.Lib.TestApp
                 return _findSelectedCardCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ICardService cardService = _serviceProvider.GetCardService();
-                        var result = await cardService.FindAsync(_selectedCardId);
-
-                        if (result.IsSuccess)
-                        {
-                            SelectedCard = result.Value;
-                        }
-
-                        IsLoading = false;
+                        var card = await _controller.FindCardById(_selectedCardId);
+                        SelectedCard = card;
                     },
                     () => !string.IsNullOrWhiteSpace(_selectedCardId));
             }
@@ -103,17 +85,8 @@ namespace MtgApiManager.Lib.TestApp
             _findSelectedSetCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ISetService setService = _serviceProvider.GetSetService();
-                        var result = await setService.FindAsync(_selectedSetCode);
-
-                        if (result.IsSuccess)
-                        {
-                            SelectedSet = result.Value;
-                        }
-
-                        IsLoading = false;
+                        var set = await _controller.FindSetById(_selectedSetCode);
+                        SelectedSet = set;
                     },
                     () => !string.IsNullOrWhiteSpace(_selectedSetCode));
 
@@ -121,21 +94,13 @@ namespace MtgApiManager.Lib.TestApp
             _generateBoosterCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ISetService setService = _serviceProvider.GetSetService();
-                        var result = await setService.GenerateBoosterAsync(_selectedSetCode);
+                        var cards = await _controller.GenerateBooster(_selectedSetCode);
 
                         GeneratedBoosterCollection.Clear();
-                        if (result.IsSuccess)
+                        foreach (var item in cards)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                GeneratedBoosterCollection.Add(item);
-                            }
+                            GeneratedBoosterCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     },
                     () => !string.IsNullOrWhiteSpace(_selectedSetCode));
 
@@ -145,91 +110,55 @@ namespace MtgApiManager.Lib.TestApp
             _getCardFormatsCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ICardService cardService = _serviceProvider.GetCardService();
-                        var result = await cardService.GetFormatsAsync();
+                        var formats = await _controller.GetCardFormats();
 
                         TypesCollection.Clear();
-                        if (result.IsSuccess)
+                        foreach (var item in formats)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                TypesCollection.Add(item);
-                            }
+                            TypesCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
 
         public RelayCommand GetCardSubTypesCommand =>
             _getCardSubTypesCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ICardService cardService = _serviceProvider.GetCardService();
-                        var result = await cardService.GetCardSubTypesAsync();
+                        var subTypes = await _controller.GetCardSubTypes();
 
                         TypesCollection.Clear();
-                        if (result.IsSuccess)
+                        foreach (var item in subTypes)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                TypesCollection.Add(item);
-                            }
+                            TypesCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
 
         public RelayCommand GetCardSuperTypesCommand =>
             _getCardSuperTypesCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ICardService cardService = _serviceProvider.GetCardService();
-                        var result = await cardService.GetCardSuperTypesAsync();
+                        var superTypes = await _controller.GetCardSuperTypes();
 
                         TypesCollection.Clear();
-                        if (result.IsSuccess)
+                        foreach (var item in superTypes)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                TypesCollection.Add(item);
-                            }
+                            TypesCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
 
         public RelayCommand GetCardTypesCommand =>
             _getCardTypesCommand ??= new RelayCommand(
                     async () =>
                     {
-                        IsLoading = true;
-
-                        ICardService cardService = _serviceProvider.GetCardService();
-                        var result = await cardService.GetCardTypesAsync();
+                        var types = await _controller.GetCardTypes();
 
                         TypesCollection.Clear();
-                        if (result.IsSuccess)
+                        foreach (var item in types)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                TypesCollection.Add(item);
-                            }
+                            TypesCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
 
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
-        }
+        public bool IsLoading => _controller.IsSearching;
 
         public ICard SelectedCard
         {
@@ -274,28 +203,13 @@ namespace MtgApiManager.Lib.TestApp
             _setSearchCommand ??= new RelayCommand(
                     async () =>
                     {
-                        ISetService setService = _serviceProvider.GetSetService();
-
-                        if (!string.IsNullOrWhiteSpace(_setSearchString))
-                        {
-                            setService.Where(c => c.Name, _setSearchString);
-                        }
-
-                        IsLoading = true;
-
-                        var result = await setService.AllAsync();
+                        var sets = await _controller.GetSets(_setSearchString);
 
                         SetsCollection.Clear();
-
-                        if (result.IsSuccess)
+                        foreach (var item in sets)
                         {
-                            foreach (var item in result.Value)
-                            {
-                                SetsCollection.Add(item);
-                            }
+                            SetsCollection.Add(item);
                         }
-
-                        IsLoading = false;
                     });
 
         public string SetSearchString

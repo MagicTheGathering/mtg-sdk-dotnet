@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30709.64
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtgApiManager.Lib", "MtgApiManager.Lib\MtgApiManager.Lib.csproj", "{363A4B72-00F1-494C-9A0B-7BAFAC907C75}"
 EndProject
@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.IntegrationTest", "MtgApiManager.Lib.IntegrationTest\MtgApiManager.Lib.IntegrationTest.csproj", "{6E213668-76DF-45B9-9C39-80FFBA8D616B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.TestApp.Avalonia", "MtgApiManager.Lib.TestApp.Avalonia\MtgApiManager.Lib.TestApp.Avalonia.csproj", "{AF6BC0BB-660A-454D-B4C8-0229732A73B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.TestApp.Core", "Tests\MtgApiManager.Lib.TestApp.Core\MtgApiManager.Lib.TestApp.Core.csproj", "{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,9 +80,40 @@ Global
 		{6E213668-76DF-45B9-9C39-80FFBA8D616B}.Release|x64.Build.0 = Release|Any CPU
 		{6E213668-76DF-45B9-9C39-80FFBA8D616B}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E213668-76DF-45B9-9C39-80FFBA8D616B}.Release|x86.Build.0 = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|x64.Build.0 = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1}.Release|x86.Build.0 = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|x64.Build.0 = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Debug|x86.Build.0 = Debug|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|x64.ActiveCfg = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|x64.Build.0 = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|x86.ActiveCfg = Release|Any CPU
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54FB7544-8072-41B4-A787-00BC74CDFDB5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6C5F645B-CB4E-4460-9862-94CCFE52CF64} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6E213668-76DF-45B9-9C39-80FFBA8D616B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{AF6BC0BB-660A-454D-B4C8-0229732A73B1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {331B38DE-738D-4482-B769-AB7B63750D6D}
