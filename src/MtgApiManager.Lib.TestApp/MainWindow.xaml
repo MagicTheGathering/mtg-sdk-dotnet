@@ -9,9 +9,6 @@
     Width="1000"
     Height="700"
     mc:Ignorable="d">
-    <Window.DataContext>
-        <local:MainViewModel />
-    </Window.DataContext>
     <Grid Margin="0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
