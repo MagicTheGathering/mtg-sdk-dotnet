@@ -33,3 +33,6 @@ msbuild.wrn
 .nuke/temp
 .tmp
 artifacts
+
+# XML documentation files with absolute paths
+**/C:/Dev/**
