@@ -22,8 +22,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Required for GitVersion
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -32,22 +30,18 @@ jobs:
           6.0.x
           8.0.x
 
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v1.1.1
-      with:
-        versionSpec: '5.x'
-
-    - name: Determine Version
-      id: gitversion
-      uses: gittools/actions/gitversion/execute@v1.1.1
-      with:
-        useConfigFile: true
-        configFilePath: GitVersion.yml
-
-    - name: Display Version
+    - name: Extract Version from Tag
+      id: version
       run: |
-        echo "Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
-        echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+        if [ "${{ github.event_name }}" == "release" ]; then
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          VERSION="${VERSION#refs/tags/}"
+        else
+          VERSION="1.0.0-manual"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+      shell: bash
 
     - name: Restore dependencies
       run: dotnet restore src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
@@ -60,9 +54,7 @@ jobs:
         dotnet build src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
         --configuration Release
         --no-restore
-        /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemVer }}
-        /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
-        /p:InformationalVersion=${{ steps.gitversion.outputs.informationalVersion }}
+        /p:Version=${{ steps.version.outputs.version }}
 
     - name: Build Tests
       run: >-
@@ -83,7 +75,7 @@ jobs:
         --configuration Release
         --no-build
         --output ./artifacts
-        /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+        /p:PackageVersion=${{ steps.version.outputs.version }}
 
     - name: Publish to NuGet
       run: >-
