@@ -103,3 +103,32 @@ var result = await service.AllAsync()
 ISetService service = serviceProvider.GetSetService();
 var result = await service.GenerateBoosterAsync("ktk")
 ```
+
+## Release Process (for Maintainers)
+
+This repository uses a manual release workflow that can be triggered when you're ready to publish a new version.
+
+### How to Create a Release
+
+1. Go to the **Actions** tab in the GitHub repository
+2. Select the **Manual Release** workflow
+3. Click **Run workflow**
+4. Choose the version increment type:
+   - **patch** - for bug fixes (e.g., 2.3.3 → 2.3.4)
+   - **minor** - for new features (e.g., 2.3.3 → 2.4.0)
+   - **major** - for breaking changes (e.g., 2.3.3 → 3.0.0)
+5. Optionally add release notes
+6. Click **Run workflow**
+
+The workflow will automatically:
+- Build and test the code
+- Create a Git tag for the new version
+- Create a GitHub Release with the tag
+- Pack the NuGet package
+- Publish the package to NuGet.org
+- Attach the NuGet package to the GitHub Release
+
+### Prerequisites
+
+The workflow requires the following secret to be configured in the repository:
+- `NUGET_API_KEY` - Your NuGet.org API key for publishing packages

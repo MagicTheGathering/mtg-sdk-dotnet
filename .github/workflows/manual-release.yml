@@ -1,0 +1,190 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_increment:
+        description: 'Version increment type'
+        required: true
+        type: choice
+        default: 'patch'
+        options:
+          - patch
+          - minor
+          - major
+      release_notes:
+        description: 'Release notes (optional)'
+        required: false
+        type: string
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_NOLOGO: true
+
+jobs:
+  release:
+    name: Create Release and Publish to NuGet
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for creating releases and tags
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for GitVersion
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v1.1.1
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v1.1.1
+        with:
+          useConfigFile: true
+          configFilePath: GitVersion.yml
+
+      - name: Calculate Release Version
+        id: version
+        run: |
+          VERSION="${{ steps.gitversion.outputs.majorMinorPatch }}"
+          MAJOR="${{ steps.gitversion.outputs.major }}"
+          MINOR="${{ steps.gitversion.outputs.minor }}"
+          PATCH="${{ steps.gitversion.outputs.patch }}"
+
+          case "${{ github.event.inputs.version_increment }}" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "tag=v${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "Release version will be: ${NEW_VERSION}"
+
+      - name: Display Version Information
+        run: |
+          echo "Current GitVersion: ${{ steps.gitversion.outputs.semVer }}"
+          echo "New Release Version: ${{ steps.version.outputs.version }}"
+          echo "Release Tag: ${{ steps.version.outputs.tag }}"
+
+      - name: Restore dependencies
+        run: dotnet restore src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+
+      - name: Restore test dependencies
+        run: dotnet restore src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+
+      - name: Build Library
+        run: >-
+          dotnet build src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+          --configuration Release
+          --no-restore
+          /p:AssemblyVersion=${{ steps.version.outputs.version }}
+          /p:FileVersion=${{ steps.version.outputs.version }}
+          /p:InformationalVersion=${{ steps.version.outputs.version }}
+
+      - name: Build Tests
+        run: >-
+          dotnet build src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+          --configuration Release
+          --no-restore
+
+      - name: Run Tests
+        run: >-
+          dotnet test src/MtgApiManager.Lib.Test/MtgApiManager.Lib.Test.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+
+      - name: Pack NuGet package
+        run: >-
+          dotnet pack src/MtgApiManager.Lib/MtgApiManager.Lib.csproj
+          --configuration Release
+          --no-build
+          --output ./artifacts
+          /p:PackageVersion=${{ steps.version.outputs.version }}
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a ${{ steps.version.outputs.tag }} \
+            -m "Release ${{ steps.version.outputs.tag }}"
+          git push origin ${{ steps.version.outputs.tag }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          body: |
+            ## Release ${{ steps.version.outputs.version }}
+
+            ${{ github.event.inputs.release_notes }}
+
+            ### Installation
+            ```
+            dotnet add package MtgApiManager.Lib --version ${{ steps.version.outputs.version }}
+            ```
+
+            Or via NuGet Package Manager:
+            ```
+            PM> Install-Package MtgApiManager.Lib -Version ${{ steps.version.outputs.version }}
+            ```
+          draft: false
+          prerelease: false
+
+      - name: Upload NuGet Package to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: >-
+            ./artifacts/MtgApiManager.Lib.${{ steps.version.outputs.version }}.nupkg
+          asset_name: >-
+            MtgApiManager.Lib.${{ steps.version.outputs.version }}.nupkg
+          asset_content_type: application/octet-stream
+
+      - name: Publish to NuGet
+        run: >-
+          dotnet nuget push ./artifacts/*.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Summary
+        run: |
+          echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          version="${{ steps.version.outputs.version }}"
+          tag="${{ steps.version.outputs.tag }}"
+          url="${{ steps.create_release.outputs.html_url }}"
+          echo "✅ Successfully released version **${version}**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 🏷️ Tag: \`${tag}\`" >> $GITHUB_STEP_SUMMARY
+          pkgurl="https://www.nuget.org/packages/MtgApiManager.Lib/${version}"
+          echo "- 📦 NuGet: [MtgApiManager.Lib ${version}](${pkgurl})" >> $GITHUB_STEP_SUMMARY
+          echo "- 🚀 Release: [Release ${version}](${url})" >> $GITHUB_STEP_SUMMARY
