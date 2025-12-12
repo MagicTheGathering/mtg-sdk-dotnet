@@ -29,6 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MtgApiManager.Lib\MtgApiManager.Lib.csproj" />
-    <ProjectReference Include="..\Tests\MtgApiManager.Lib.TestApp.Core\MtgApiManager.Lib.TestApp.Core.csproj" />
+    <ProjectReference Include="..\MtgApiManager.Lib.TestApp.Core\MtgApiManager.Lib.TestApp.Core.csproj" />
   </ItemGroup>
 </Project>

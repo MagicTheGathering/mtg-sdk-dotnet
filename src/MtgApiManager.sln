@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.TestApp.Avalonia", "MtgApiManager.Lib.TestApp.Avalonia\MtgApiManager.Lib.TestApp.Avalonia.csproj", "{AF6BC0BB-660A-454D-B4C8-0229732A73B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.TestApp.Core", "Tests\MtgApiManager.Lib.TestApp.Core\MtgApiManager.Lib.TestApp.Core.csproj", "{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtgApiManager.Lib.TestApp.Core", "MtgApiManager.Lib.TestApp.Core\MtgApiManager.Lib.TestApp.Core.csproj", "{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,7 +113,6 @@ Global
 		{6C5F645B-CB4E-4460-9862-94CCFE52CF64} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6E213668-76DF-45B9-9C39-80FFBA8D616B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{AF6BC0BB-660A-454D-B4C8-0229732A73B1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F827330F-CEBE-4F3C-8F19-57D5B9EBC0D2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {331B38DE-738D-4482-B769-AB7B63750D6D}
