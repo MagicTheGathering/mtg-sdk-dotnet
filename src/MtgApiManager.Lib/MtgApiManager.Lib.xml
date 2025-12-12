@@ -681,6 +681,11 @@
             Gets or sets the converted Mana cost.
             </summary>
         </member>
+        <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Contains">
+            <summary>
+            Gets or sets a value indicating whether to filter cards based on whether or not they have a specific field available (like imageUrl)
+            </summary>
+        </member>
         <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.ColorIdentity">
             <summary>
             Gets or sets the card colors by color code. [“Red”, “Blue”] becomes [“R”, “U”].
@@ -766,6 +771,11 @@
             Gets or sets the power of the card. This is only present for creatures.
             </summary>
         </member>
+        <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Random">
+            <summary>
+            Gets or sets a value indicating wether to fetch any number of cards (controlled by pageSize) randomly.
+            </summary>
+        </member>
         <member name="P:MtgApiManager.Lib.Service.CardQueryParameter.Rarity">
             <summary>
             Gets or sets the rarity of the card. Examples: Common, Uncommon, Rare, Mythic Rare, Special, Basic Land
@@ -811,25 +821,25 @@
             Gets or sets the types of the card. These appear to the left of the dash in a card type. Example values: Instant, Sorcery, Artifact, Creature, Enchantment, Land, Planeswalker
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.CardService.AllAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.Int32)">
+        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.CardService.FindAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSubTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSubTypesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSuperTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardSuperTypesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetCardTypesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.CardService.GetFormatsAsync">
+        <member name="M:MtgApiManager.Lib.Service.CardService.GetFormatsAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.CardService.Reset">
@@ -843,48 +853,55 @@
             Object representing a MTG card.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.AllAsync(System.Threading.CancellationToken)">
             <summary>
             Gets all the <see cref="T:MtgApiManager.Lib.Model.Card"/> defined by the query parameters.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing all the items.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.Int32)">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="multiverseId">The multi verse identifier to query for.</param>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.FindAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Find a specific card by its multi verse identifier.
             </summary>
             <param name="id">The identifier to query for.</param>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A <see cref="T:MtgApiManager.Lib.Core.IOperationResult`1"/> representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Card"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSubTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSubTypesAsync(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all the card sub types.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A list of all the card super types.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSuperTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardSuperTypesAsync(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all the card super types.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A list of all the card super types.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardTypesAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetCardTypesAsync(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all the card types.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A list of all the card types.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ICardService.GetFormatsAsync">
+        <member name="M:MtgApiManager.Lib.Service.ICardService.GetFormatsAsync(System.Threading.CancellationToken)">
             <summary>
             Gets a list of all game formats.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>A list of all game formats.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Service.IMtgQueryable`2">
@@ -935,24 +952,27 @@
             Object representing a MTG set.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ISetService.AllAsync">
+        <member name="M:MtgApiManager.Lib.Service.ISetService.AllAsync(System.Threading.CancellationToken)">
             <summary>
             Gets all the <see cref="T:MtgApiManager.Lib.Model.Set"/> defined by the query parameters.
             </summary>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>An object representing the result containing all the items.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ISetService.FindAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ISetService.FindAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Find a specific card by its set code.
             </summary>
             <param name="code">The set code to query for.</param>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>An object representing the result containing a <see cref="T:MtgApiManager.Lib.Model.Set"/> or an exception.</returns>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.ISetService.GenerateBoosterAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.ISetService.GenerateBoosterAsync(System.String,System.Threading.CancellationToken)">
             <summary>
              Generates a booster pack for a specific set asynchronously.
             </summary>
             <param name="code">The set code to generate a booster for.</param>
+            <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
             <returns>An object representing the result containing a <see cref="T:System.Collections.Generic.List`1"/> or an exception.</returns>
         </member>
         <member name="T:MtgApiManager.Lib.Service.MtgServiceProvider">
@@ -984,13 +1004,23 @@
             Gets or sets the name of the set.
             </summary>
         </member>
-        <member name="M:MtgApiManager.Lib.Service.SetService.AllAsync">
+        <member name="P:MtgApiManager.Lib.Service.SetQueryParameter.Page">
+            <summary>
+            Gets or sets the page number.
+            </summary>
+        </member>
+        <member name="P:MtgApiManager.Lib.Service.SetQueryParameter.PageSize">
+            <summary>
+            Gets or sets the page size.
+            </summary>
+        </member>
+        <member name="M:MtgApiManager.Lib.Service.SetService.AllAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.SetService.FindAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.SetService.FindAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:MtgApiManager.Lib.Service.SetService.GenerateBoosterAsync(System.String)">
+        <member name="M:MtgApiManager.Lib.Service.SetService.GenerateBoosterAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:MtgApiManager.Lib.Service.SetService.Reset">

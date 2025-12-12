@@ -21,11 +21,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>C:\Dev\code\mtg-sdk-dotnet\src\MtgApiManager.Lib\MtgApiManager.Lib.xml</DocumentationFile>
+    <DocumentationFile>MtgApiManager.Lib.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Dev\code\mtg-sdk-dotnet\src\MtgApiManager.Lib\MtgApiManager.Lib.xml</DocumentationFile>
+    <DocumentationFile>MtgApiManager.Lib.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
