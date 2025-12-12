@@ -3,18 +3,282 @@
         xmlns:vm="using:MtgApiManager.Lib.TestApp.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
         x:Class="MtgApiManager.Lib.TestApp.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="MtgApiManager.Lib.TestApp.Avalonia">
+        Title="MTG SDK Test App - Avalonia"
+        Width="1000"
+        Height="700">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <Grid Margin="0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        
+        <TabControl Grid.Row="0">
+            <!-- Cards Tab -->
+            <TabItem Header="Cards">
+                <Grid Margin="10,10,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Search section -->
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" 
+                                   Text="Name" 
+                                   VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding CardSearchString}"
+                                 VerticalAlignment="Center" />
+                        <Button Grid.Column="3"
+                                Command="{Binding CardSearchCommand}"
+                                Content="Search" />
+                    </Grid>
+                    
+                    <Button Grid.Row="0" 
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Command="{Binding FindSelectedCardCommand}"
+                            Content="Find Selected" />
+                    
+                    <StackPanel Grid.Row="0" 
+                                Grid.Column="4"
+                                Orientation="Horizontal">
+                        <Button Margin="0,0,5,0"
+                                Command="{Binding GetCardTypesCommand}"
+                                Content="Types" />
+                        <Button Margin="0,0,5,0"
+                                Command="{Binding GetCardSuperTypesCommand}"
+                                Content="Super Types" />
+                        <Button Margin="0,0,5,0"
+                                Command="{Binding GetCardSubTypesCommand}"
+                                Content="Sub Types" />
+                        <Button Command="{Binding GetCardFormatsCommand}"
+                                Content="Formats" />
+                    </StackPanel>
+                    
+                    <!-- Cards list -->
+                    <ListBox Grid.Row="2"
+                             ItemsSource="{Binding CardsCollection}"
+                             SelectedItem="{Binding SelectedCardFromList}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="{Binding MultiverseId}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    <!-- Selected card details -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                Orientation="Vertical">
+                        <Image Width="200"
+                               Height="300"
+                               Source="{Binding SelectedCard.ImageUrl}"
+                               Stretch="Uniform" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Name:" />
+                            <TextBlock Text="{Binding SelectedCard.Name}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Multiverse ID:" />
+                            <TextBlock Text="{Binding SelectedCard.MultiverseId}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Artist:" />
+                            <TextBlock Text="{Binding SelectedCard.Artist}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Layout:" />
+                            <TextBlock Text="{Binding SelectedCard.Layout}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Power:" />
+                            <TextBlock Text="{Binding SelectedCard.Power}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Mana Cost:" />
+                            <TextBlock Text="{Binding SelectedCard.ManaCost}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Rarity:" />
+                            <TextBlock Text="{Binding SelectedCard.Rarity}" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <!-- Types list -->
+                    <ListBox Grid.Row="2"
+                             Grid.Column="4"
+                             ItemsSource="{Binding TypesCollection}" />
+                </Grid>
+            </TabItem>
+            
+            <!-- Set Tab -->
+            <TabItem Header="Set">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Search section -->
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Text="Name"
+                                   VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding SetSearchString}"
+                                 VerticalAlignment="Center" />
+                        <Button Grid.Column="3"
+                                Command="{Binding SetSearchCommand}"
+                                Content="Search" />
+                    </Grid>
+                    
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Command="{Binding FindSelectedSetCommand}"
+                            Content="Find Selected" />
+                    
+                    <Button Grid.Row="0"
+                            Grid.Column="4"
+                            HorizontalAlignment="Left"
+                            Command="{Binding GenerateBoosterCommand}"
+                            Content="Generate Booster" />
+                    
+                    <!-- Sets list -->
+                    <ListBox Grid.Row="2"
+                             Grid.Column="0"
+                             ItemsSource="{Binding SetsCollection}"
+                             SelectedItem="{Binding SelectedSetFromList}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="{Binding Code}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    <!-- Selected set details -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Name:" />
+                            <TextBlock Text="{Binding SelectedSet.Name}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Block:" />
+                            <TextBlock Text="{Binding SelectedSet.Block}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Code:" />
+                            <TextBlock Text="{Binding SelectedSet.Code}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="GathererCode:" />
+                            <TextBlock Text="{Binding SelectedSet.GathererCode}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="OldCode:" />
+                            <TextBlock Text="{Binding SelectedSet.OldCode}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="MagicCardsInfoCode:" />
+                            <TextBlock Text="{Binding SelectedSet.MagicCardsInfoCode}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ReleaseDate:" />
+                            <TextBlock Text="{Binding SelectedSet.ReleaseDate}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Border:" />
+                            <TextBlock Text="{Binding SelectedSet.Border}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Expansion:" />
+                            <TextBlock Text="{Binding SelectedSet.Expansion}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="OnlineOnly:" />
+                            <TextBlock Text="{Binding SelectedSet.OnlineOnly}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Type:" />
+                            <TextBlock Text="{Binding SelectedSet.Type}" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <!-- Generated booster list -->
+                    <ListBox Grid.Row="2"
+                             Grid.Column="4"
+                             ItemsSource="{Binding GeneratedBoosterCollection}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text=", " />
+                                    <TextBlock Text="{Binding MultiverseId}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+        <!-- Progress bar -->
+        <ProgressBar Grid.Row="1"
+                     Width="300"
+                     Height="20"
+                     Margin="0,0,10,0"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Bottom"
+                     IsIndeterminate="{Binding IsLoading}" />
+    </Grid>
 </Window>
