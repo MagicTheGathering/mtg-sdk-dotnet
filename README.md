@@ -103,3 +103,59 @@ var result = await service.AllAsync()
 ISetService service = serviceProvider.GetSetService();
 var result = await service.GenerateBoosterAsync("ktk")
 ```
+
+## Test Application Core Library
+
+The repository includes a reusable core library (`MtgApiManager.Lib.TestApp.Core`) that provides a higher-level abstraction for building UI applications. This library is used by both the WPF and Avalonia test applications.
+
+### Features
+
+- **MtgController**: A controller class that wraps MTG SDK services with simplified async methods
+- **Loading State Management**: Built-in `IsSearching` property and `IsSearchingChanged` event for tracking async operations
+- **Dependency Injection Support**: Extension methods for easy service registration
+
+### Usage with Dependency Injection
+
+```cs
+using Microsoft.Extensions.DependencyInjection;
+using MtgApiManager.Lib.TestApp.Core;
+
+// Configure services
+var services = new ServiceCollection();
+services.AddMtgApiManager();  // Registers MtgServiceProvider and MtgController
+
+var serviceProvider = services.BuildServiceProvider();
+
+// Use the controller
+var controller = serviceProvider.GetRequiredService<MtgController>();
+
+// Subscribe to loading state changes
+controller.IsSearchingChanged += (sender, isSearching) =>
+{
+    // Update UI loading indicator
+};
+
+// Fetch cards
+var cards = await controller.GetCards("Black Lotus");
+
+// Find specific card
+var card = await controller.FindCardById("some-card-id");
+
+// Get card types
+var types = await controller.GetCardTypes();
+```
+
+### Available Methods
+
+The `MtgController` provides the following methods:
+- `GetCards(string searchContent)` - Search for cards by name
+- `FindCardById(string id)` - Find a specific card by ID
+- `GetSets(string searchContent)` - Search for sets by name
+- `FindSetById(string id)` - Find a specific set by code
+- `GenerateBooster(string setCode)` - Generate a booster pack for a set
+- `GetCardTypes()` - Get all card types
+- `GetCardSubTypes()` - Get all card subtypes
+- `GetCardSuperTypes()` - Get all card supertypes
+- `GetCardFormats()` - Get all game formats
+
+All methods automatically handle loading state and return empty collections on failure rather than throwing exceptions.
