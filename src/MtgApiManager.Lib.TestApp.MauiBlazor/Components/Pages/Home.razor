@@ -1,0 +1,280 @@
+﻿@page "/"
+@inject MtgController Controller
+@rendermode InteractiveServer
+
+<PageTitle>MTG SDK Test App</PageTitle>
+
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="Cards">
+        <MudGrid>
+            <!-- Search Section -->
+            <MudItem xs="12">
+                <MudPaper Class="pa-4" Elevation="1">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        <MudTextField @bind-Value="_cardSearchString" 
+                                     Label="Card Name" 
+                                     Variant="Variant.Outlined" 
+                                     Adornment="Adornment.End" 
+                                     AdornmentIcon="@Icons.Material.Filled.Search"
+                                     Style="flex-grow: 1;" />
+                        <MudButton Variant="Variant.Filled" 
+                                  Color="Color.Primary" 
+                                  OnClick="SearchCards" 
+                                  Disabled="_isLoading"
+                                  Style="height: 56px; min-width: 120px;">
+                            Search
+                        </MudButton>
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Cards List -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Search Results</MudText>
+                    <MudList T="string" @bind-SelectedValue="_selectedCardId">
+                        @foreach (var card in _cards)
+                        {
+                            <MudListItem T="string" Value="@card.Id">
+                                <MudText>@card.Name</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">@card.MultiverseId</MudText>
+                            </MudListItem>
+                        }
+                    </MudList>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Card Details -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Card Details</MudText>
+                    <MudButton Variant="Variant.Filled" 
+                              Color="Color.Secondary" 
+                              OnClick="FindSelectedCard" 
+                              Disabled="string.IsNullOrWhiteSpace(_selectedCardId) || _isLoading"
+                              Class="mb-4">
+                        Find Selected
+                    </MudButton>
+                    
+                    @if (_selectedCard != null)
+                    {
+                        <MudStack Spacing="3">
+                            @if (_selectedCard.ImageUrl != null)
+                            {
+                                <MudImage Src="@_selectedCard.ImageUrl.ToString()" Alt="@_selectedCard.Name" Class="rounded-lg" Style="width: 223px; height: 310px; object-fit: contain;" />
+                            }
+                            <MudText><strong>Name:</strong> @_selectedCard.Name</MudText>
+                            <MudText><strong>Multiverse ID:</strong> @_selectedCard.MultiverseId</MudText>
+                            <MudText><strong>Artist:</strong> @_selectedCard.Artist</MudText>
+                            <MudText><strong>Layout:</strong> @_selectedCard.Layout</MudText>
+                            <MudText><strong>Power:</strong> @_selectedCard.Power</MudText>
+                            <MudText><strong>Mana Cost:</strong> @_selectedCard.ManaCost</MudText>
+                            <MudText><strong>Rarity:</strong> @_selectedCard.Rarity</MudText>
+                        </MudStack>
+                    }
+                </MudPaper>
+            </MudItem>
+
+            <!-- Type Queries -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Type Queries</MudText>
+                    <MudStack Spacing="2" Class="mb-4">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCardTypes" Disabled="_isLoading" FullWidth="true">Types</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCardSuperTypes" Disabled="_isLoading" FullWidth="true">Super Types</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCardSubTypes" Disabled="_isLoading" FullWidth="true">Sub Types</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="GetCardFormats" Disabled="_isLoading" FullWidth="true">Formats</MudButton>
+                    </MudStack>
+                    
+                    <MudList T="string">
+                        @foreach (var type in _types)
+                        {
+                            <MudListItem T="string">@type</MudListItem>
+                        }
+                    </MudList>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+
+    <MudTabPanel Text="Sets">
+        <MudGrid>
+            <!-- Search Section -->
+            <MudItem xs="12">
+                <MudPaper Class="pa-4" Elevation="1">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        <MudTextField @bind-Value="_setSearchString" 
+                                     Label="Set Name" 
+                                     Variant="Variant.Outlined" 
+                                     Adornment="Adornment.End" 
+                                     AdornmentIcon="@Icons.Material.Filled.Search"
+                                     Style="flex-grow: 1;" />
+                        <MudButton Variant="Variant.Filled" 
+                                  Color="Color.Primary" 
+                                  OnClick="SearchSets" 
+                                  Disabled="_isLoading"
+                                  Style="height: 56px; min-width: 120px;">
+                            Search
+                        </MudButton>
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Sets List -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Search Results</MudText>
+                    <MudList T="string" @bind-SelectedValue="_selectedSetCode">
+                        @foreach (var set in _sets)
+                        {
+                            <MudListItem T="string" Value="@set.Code">
+                                <MudText>@set.Name</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">@set.Code</MudText>
+                            </MudListItem>
+                        }
+                    </MudList>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Set Details -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Set Details</MudText>
+                    <MudButton Variant="Variant.Filled" 
+                              Color="Color.Secondary" 
+                              OnClick="FindSelectedSet" 
+                              Disabled="string.IsNullOrWhiteSpace(_selectedSetCode) || _isLoading"
+                              Class="mb-4">
+                        Find Selected
+                    </MudButton>
+                    
+                    @if (_selectedSet != null)
+                    {
+                        <MudStack Spacing="2">
+                            <MudText><strong>Name:</strong> @_selectedSet.Name</MudText>
+                            <MudText><strong>Block:</strong> @_selectedSet.Block</MudText>
+                            <MudText><strong>Code:</strong> @_selectedSet.Code</MudText>
+                            <MudText><strong>Gatherer Code:</strong> @_selectedSet.GathererCode</MudText>
+                            <MudText><strong>Old Code:</strong> @_selectedSet.OldCode</MudText>
+                            <MudText><strong>Magic Cards Info Code:</strong> @_selectedSet.MagicCardsInfoCode</MudText>
+                            <MudText><strong>Release Date:</strong> @_selectedSet.ReleaseDate</MudText>
+                            <MudText><strong>Border:</strong> @_selectedSet.Border</MudText>
+                            <MudText><strong>Expansion:</strong> @_selectedSet.Expansion</MudText>
+                            <MudText><strong>Online Only:</strong> @_selectedSet.OnlineOnly</MudText>
+                            <MudText><strong>Type:</strong> @_selectedSet.Type</MudText>
+                        </MudStack>
+                    }
+                </MudPaper>
+            </MudItem>
+
+            <!-- Booster Generation -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="pa-4" Elevation="1" Style="height: 600px; overflow-y: auto;">
+                    <MudText Typo="Typo.h6" Class="mb-4">Booster Pack</MudText>
+                    <MudButton Variant="Variant.Filled" 
+                              Color="Color.Success" 
+                              OnClick="GenerateBooster" 
+                              Disabled="string.IsNullOrWhiteSpace(_selectedSetCode) || _isLoading"
+                              Class="mb-4"
+                              FullWidth="true">
+                        Generate Booster
+                    </MudButton>
+                    
+                    <MudList T="string">
+                        @foreach (var card in _boosterCards)
+                        {
+                            <MudListItem T="string">
+                                <MudText>@card.Name</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">@card.MultiverseId</MudText>
+                            </MudListItem>
+                        }
+                    </MudList>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+</MudTabs>
+
+@if (_isLoading)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-2" />
+}
+
+@code {
+    private string? _cardSearchString;
+    private string? _selectedCardId;
+    private ICard? _selectedCard;
+    private List<ICard> _cards = new();
+    private List<string> _types = new();
+
+    private string? _setSearchString;
+    private string? _selectedSetCode;
+    private ISet? _selectedSet;
+    private List<ISet> _sets = new();
+    private List<ICard> _boosterCards = new();
+
+    private bool _isLoading;
+
+    protected override void OnInitialized()
+    {
+        Controller.IsSearchingChanged += (s, isSearching) =>
+        {
+            _isLoading = isSearching;
+            InvokeAsync(StateHasChanged);
+        };
+    }
+
+    private async Task SearchCards()
+    {
+        _cards = await Controller.GetCards(_cardSearchString ?? string.Empty);
+    }
+
+    private async Task FindSelectedCard()
+    {
+        if (!string.IsNullOrWhiteSpace(_selectedCardId))
+        {
+            _selectedCard = await Controller.FindCardById(_selectedCardId);
+        }
+    }
+
+    private async Task GetCardTypes()
+    {
+        _types = await Controller.GetCardTypes();
+    }
+
+    private async Task GetCardSuperTypes()
+    {
+        _types = await Controller.GetCardSuperTypes();
+    }
+
+    private async Task GetCardSubTypes()
+    {
+        _types = await Controller.GetCardSubTypes();
+    }
+
+    private async Task GetCardFormats()
+    {
+        _types = await Controller.GetCardFormats();
+    }
+
+    private async Task SearchSets()
+    {
+        _sets = await Controller.GetSets(_setSearchString ?? string.Empty);
+    }
+
+    private async Task FindSelectedSet()
+    {
+        if (!string.IsNullOrWhiteSpace(_selectedSetCode))
+        {
+            _selectedSet = await Controller.FindSetById(_selectedSetCode);
+        }
+    }
+
+    private async Task GenerateBooster()
+    {
+        if (!string.IsNullOrWhiteSpace(_selectedSetCode))
+        {
+            _boosterCards = await Controller.GenerateBooster(_selectedSetCode);
+        }
+    }
+}
