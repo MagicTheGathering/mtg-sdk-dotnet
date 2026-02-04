@@ -1,6 +1,8 @@
-# MTG SDK Blazor Hybrid Test Application
+# MTG SDK Blazor Test Application
 
-This is a cross-platform desktop test application for the MTG SDK built with Blazor and MudBlazor UI components, targeting .NET 8.0.
+This is a cross-platform web-based test application for the MTG SDK built with Blazor Server and MudBlazor UI components, targeting .NET 8.0.
+
+**Application Type:** Blazor Server - runs as a web application in your browser rather than a native desktop window. It provides the same functionality as the desktop test apps but through a web interface.
 
 ## Features
 
@@ -40,7 +42,8 @@ The application follows Blazor component architecture:
 
 ### Prerequisites
 - .NET 8.0 SDK or later
-- Any platform supported by Blazor (Windows, macOS, Linux)
+- A web browser (Chrome, Firefox, Edge, Safari, etc.)
+- Any platform supported by ASP.NET Core (Windows, macOS, Linux)
 
 ### Build and Run
 ```bash
@@ -48,7 +51,16 @@ cd src/MtgApiManager.Lib.TestApp.MauiBlazor
 dotnet run
 ```
 
-The application will start a local web server (typically at https://localhost:5001 or http://localhost:5000) and automatically open in your default browser.
+**What to expect:**
+The application will start a local web server and display output similar to:
+```
+Now listening on: https://localhost:7212
+Now listening on: http://localhost:5182
+```
+
+The browser should automatically open to the application. If it doesn't open automatically, manually open your web browser and navigate to one of the URLs shown in the console output (typically **https://localhost:7212** or **http://localhost:5182**).
+
+**Note:** This is a Blazor Server application that runs in your web browser. While it provides the same functionality as the desktop test apps, it operates through a web interface rather than a native desktop window.
 
 ### Build Release Version
 ```bash
