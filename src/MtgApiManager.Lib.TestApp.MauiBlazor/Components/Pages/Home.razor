@@ -10,24 +10,21 @@
             <!-- Search Section -->
             <MudItem xs="12">
                 <MudPaper Class="pa-4" Elevation="1">
-                    <MudGrid>
-                        <MudItem xs="12" md="8">
-                            <MudTextField @bind-Value="_cardSearchString" 
-                                         Label="Card Name" 
-                                         Variant="Variant.Outlined" 
-                                         Adornment="Adornment.End" 
-                                         AdornmentIcon="@Icons.Material.Filled.Search" />
-                        </MudItem>
-                        <MudItem xs="12" md="4">
-                            <MudButton Variant="Variant.Filled" 
-                                      Color="Color.Primary" 
-                                      OnClick="SearchCards" 
-                                      FullWidth="true"
-                                      Disabled="_isLoading">
-                                Search
-                            </MudButton>
-                        </MudItem>
-                    </MudGrid>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        <MudTextField @bind-Value="_cardSearchString" 
+                                     Label="Card Name" 
+                                     Variant="Variant.Outlined" 
+                                     Adornment="Adornment.End" 
+                                     AdornmentIcon="@Icons.Material.Filled.Search"
+                                     Style="flex-grow: 1;" />
+                        <MudButton Variant="Variant.Filled" 
+                                  Color="Color.Primary" 
+                                  OnClick="SearchCards" 
+                                  Disabled="_isLoading"
+                                  Style="height: 56px; min-width: 120px;">
+                            Search
+                        </MudButton>
+                    </MudStack>
                 </MudPaper>
             </MudItem>
 
@@ -64,7 +61,7 @@
                         <MudStack Spacing="3">
                             @if (_selectedCard.ImageUrl != null)
                             {
-                                <MudImage Src="@_selectedCard.ImageUrl.ToString()" Alt="@_selectedCard.Name" Class="rounded-lg" Style="max-width: 100%;" />
+                                <MudImage Src="@_selectedCard.ImageUrl.ToString()" Alt="@_selectedCard.Name" Class="rounded-lg" Style="width: 223px; height: 310px; object-fit: contain;" />
                             }
                             <MudText><strong>Name:</strong> @_selectedCard.Name</MudText>
                             <MudText><strong>Multiverse ID:</strong> @_selectedCard.MultiverseId</MudText>
@@ -105,24 +102,21 @@
             <!-- Search Section -->
             <MudItem xs="12">
                 <MudPaper Class="pa-4" Elevation="1">
-                    <MudGrid>
-                        <MudItem xs="12" md="8">
-                            <MudTextField @bind-Value="_setSearchString" 
-                                         Label="Set Name" 
-                                         Variant="Variant.Outlined" 
-                                         Adornment="Adornment.End" 
-                                         AdornmentIcon="@Icons.Material.Filled.Search" />
-                        </MudItem>
-                        <MudItem xs="12" md="4">
-                            <MudButton Variant="Variant.Filled" 
-                                      Color="Color.Primary" 
-                                      OnClick="SearchSets" 
-                                      FullWidth="true"
-                                      Disabled="_isLoading">
-                                Search
-                            </MudButton>
-                        </MudItem>
-                    </MudGrid>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        <MudTextField @bind-Value="_setSearchString" 
+                                     Label="Set Name" 
+                                     Variant="Variant.Outlined" 
+                                     Adornment="Adornment.End" 
+                                     AdornmentIcon="@Icons.Material.Filled.Search"
+                                     Style="flex-grow: 1;" />
+                        <MudButton Variant="Variant.Filled" 
+                                  Color="Color.Primary" 
+                                  OnClick="SearchSets" 
+                                  Disabled="_isLoading"
+                                  Style="height: 56px; min-width: 120px;">
+                            Search
+                        </MudButton>
+                    </MudStack>
                 </MudPaper>
             </MudItem>
 

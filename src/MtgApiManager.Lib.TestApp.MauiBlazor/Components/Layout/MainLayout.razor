@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" />
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -22,10 +22,12 @@
 </MudLayout>
 
 @code {
+    private MudThemeProvider? _mudThemeProvider;
     private bool _isDarkMode = false;
 
-    private void ToggleDarkMode()
+    private async Task ToggleDarkMode()
     {
         _isDarkMode = !_isDarkMode;
+        await InvokeAsync(StateHasChanged);
     }
 }
